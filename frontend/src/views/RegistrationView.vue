@@ -26,24 +26,35 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 
 export default {
 
 // app.js
   methods: {
     register() {
+      const path = 'http://localhost:5001/register'
+      const registerData = {
+        username: this.username,
+        password: this.password
+      };
       // Perform registration logic
       // Replace the following code with your own registration logic
-      if (this.username && this.password) {
-        // Successful registration
-        this.successMessage = 'Registration successful';
-        this.errorMessage = '';
-        this.username = '';
-        this.password = '';
+      axios.post(path)
+      if (this.username && this.password)  {
+        axios.post(path, { data: registerData })
+          .then(response => {
+            console.log(response.data);
+          })
+          .catch(error => {
+            console.error(error);
+          });
+        // Successful login
+        alert('Register successful');
       } else {
-        // Failed registration
-        this.errorMessage = 'Please provide username and password';
-        this.successMessage = '';
+        // Failed login
+        this.errorMessage = 'please add information';
       }
     }
   }

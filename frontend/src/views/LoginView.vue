@@ -40,12 +40,13 @@ export default {
   },
   methods: {
     login() {
+      const path = 'http://localhost:5001/login'
       const loginData = {
         username: this.username,
         password: this.password
       };
       if (this.username !== '' && this.password !== '') {
-        axios.post('/login', { data: loginData })
+        axios.post(path, { data: loginData })
           .then(response => {
             console.log(response.data);
           })
