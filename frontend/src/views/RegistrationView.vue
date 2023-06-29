@@ -4,7 +4,6 @@
 <html>
 <head>
   <title>Registration Page</title>
-  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 </head>
 <body>
   <div id="app">
@@ -21,17 +20,14 @@
     <p v-if="errorMessage" style="color: red;">{{ errorMessage }}</p>
     <p v-if="successMessage" style="color: green;">{{ successMessage }}</p>
   </div>
-
-  <script src="app.js"></script>
 </body>
 </html>
 
 </template>
 
 <script>
-import { defineComponent } from '@vue/composition-api'
 
-export default defineComponent({
+export default {
 
 // app.js
   methods: {
@@ -51,6 +47,6 @@ export default defineComponent({
       }
     }
   }
-});
+};
 
 </script>

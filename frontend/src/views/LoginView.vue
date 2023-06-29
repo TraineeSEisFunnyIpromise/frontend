@@ -4,7 +4,6 @@
 <html>
 <head>
   <title>Login Page</title>
-  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 </head>
 <body>
   <div id="app">
@@ -16,35 +15,52 @@
       <label for="password">Password:</label>
       <input type="password" id="password" v-model="password" required>
       <br>
-      <button type="submit">Login</button>
+      <button type="submit" >Login</button>
     </form>
+    <button type="check" @click="send">Checj</button>
     <p v-if="errorMessage" style="color: red;">{{ errorMessage }}</p>
   </div>
-
-  <script src="app.js"></script>
 </body>
 </html>
 
-      </template>
+</template>
       
-      <script>
-      export default {
+<script>
+import axios from 'axios'
+export default {
 	name: 'HelloWorld',
 	props: {
 	msg: String,
 	},
+  data() {
+    return {
+      username: '',
+      password: ''
+    };
+  },
   methods: {
     login() {
-      // Perform login authentication
-      // Replace the following code with your own authentication logic
-      if (this.username === 'admin' && this.password === 'password') {
+      const loginData = {
+        username: this.username,
+        password: this.password
+      };
+      if (this.username !== '' && this.password !== '') {
+        axios.post('/login', { data: loginData })
+          .then(response => {
+            console.log(response.data);
+          })
+          .catch(error => {
+            console.error(error);
+          });
         // Successful login
         alert('Login successful');
       } else {
         // Failed login
-        this.errorMessage = 'Invalid username or password';
+        this.errorMessage = 'please add information';
       }
-    }
+    },
+    
+    
   }
       }
       // app.js

@@ -4,7 +4,6 @@
 <html>
 <head>
   <title>User Information</title>
-  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
 </head>
 <body>
   <div id="app">
@@ -16,17 +15,14 @@
     </div>
     <p v-else>No user information available</p>
   </div>
-
-  <script src="app.js"></script>
 </body>
 </html>
 
 </template>
 
 <script>
-import { defineComponent } from '@vue/composition-api'
 
-export default defineComponent({
+export default ({
   created() {
     this.fetchUserInfo();
   },

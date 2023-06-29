@@ -2,6 +2,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 import NotFoundView from '@/views/NotFoundView.vue'
 import EventListView from '@/views/EventListView.vue'
 import NetWorkErrorView from '@/views/NetworkErrorView.vue'
+import LoginView from '@/views/LoginView.vue'
+import RegisterView from '@/views/RegistrationView.vue'
+import UserinfoView from '@/views/UserinfoView.vue'
 // import NProgress from 'nprogress'
 const routes = [
   {
@@ -10,7 +13,21 @@ const routes = [
     component: EventListView,
     props: (route) => ({ page: parseInt(route.query.page) || 1 })
   },
-
+  {
+    path: '/login',
+    name: 'Login',
+    component: LoginView,
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: RegisterView,
+  },
+  {
+    path: '/userinfo',
+    name: 'Userinfo',
+    component: UserinfoView,
+  },
   {
     path: '/404/:resource',
     name: '404Resource',
