@@ -17,7 +17,6 @@
       <br>
       <button type="submit" >Login</button>
     </form>
-    <button type="check" @click="send">Checj</button>
     <p v-if="errorMessage" style="color: red;">{{ errorMessage }}</p>
   </div>
 </body>
@@ -40,7 +39,7 @@ export default {
   },
   methods: {
     login() {
-      const path = 'http://localhost:5001/login'
+      const path = 'http://localhost:5000/login'
       const loginData = {
         username: this.username,
         password: this.password

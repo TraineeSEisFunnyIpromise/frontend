@@ -1,6 +1,8 @@
 <template>
 	<h1>Events For Good</h1>
-
+	<button v-on:click="redirectToUserinfo">
+		person
+  </button>
       </template>
       
       <script>
@@ -12,6 +14,12 @@
 	page: {
 		type: Number,
 		required: true
+	},
+	methods:{
+		redirectToUserinfo(){
+			this.$router.push('/userinfo')
+			console("clicked")
+		}
 	}
 	},
 	data() {
@@ -24,7 +32,7 @@
 	// eslint-disable-next-line no-unused-vars
 }
 
-      </script>
+</script>
       <style scoped>
       .events {
 	display: flex;
@@ -53,5 +61,12 @@
       .search-box {
 	width: 300px;
       }
+	.user-icon {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 9999;
+}
+
       </style>
       

@@ -1,10 +1,4 @@
 <template>
-  <div class="user-icon">
-  <a href="/userinfo">
-    <i class="fas fa-user"></i>
-  </a>
-</div>
-
   <nav>
     <router-link :to="{ name: 'EventList' }">Home</router-link> |
     <router-link :to="{ name: 'Login' }">Login</router-link> |
@@ -33,6 +27,7 @@ export default {
   top: 10px;
   right: 10px;
   z-index: 9999;
+  color: #2c3e50;
 }
 
 </style>
