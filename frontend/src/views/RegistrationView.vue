@@ -41,9 +41,8 @@ export default {
       };
       // Perform registration logic
       // Replace the following code with your own registration logic
-      axios.post(path)
-      if (this.username && this.password)  {
-        axios.post(path, { data: registerData })
+      if (this.username !== '' && this.password !=='')  {
+        axios.post(path, registerData)
           .then(response => {
             console.log(response.data);
           })
@@ -51,7 +50,6 @@ export default {
             console.error(error);
           });
         // Successful login
-        alert('Register successful');
       } else {
         // Failed login
         this.errorMessage = 'please add information';

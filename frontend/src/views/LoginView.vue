@@ -45,15 +45,14 @@ export default {
         password: this.password
       };
       if (this.username !== '' && this.password !== '') {
-        axios.post(path, { data: loginData })
+        axios.post(path, loginData)
           .then(response => {
             console.log(response.data);
           })
           .catch(error => {
-            console.error(error);
+            console.log(error);
           });
         // Successful login
-        alert('Login successful');
       } else {
         // Failed login
         this.errorMessage = 'please add information';
