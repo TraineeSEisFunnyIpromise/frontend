@@ -68,8 +68,12 @@ export default {
       
       <!-- Add "scoped" attribute to limit CSS to this component only -->
       <style scoped>
-      h3 {
+      h2 {
 	margin: 40px 0 0;
+  margin-left: 800px;
+  margin-right: 800px;
+  background-color: rgb(122, 88, 42);
+  color: aliceblue;
       }
       ul {
 	list-style-type: none;
@@ -81,6 +85,11 @@ export default {
       }
       a {
 	color: #42b983;
+      }
+      form {
+        margin-left: 800px;
+        margin-right: 800px;
+        background-color: blanchedalmond;
       }
       </style>
       
