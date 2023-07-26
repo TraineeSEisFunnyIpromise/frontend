@@ -29,6 +29,7 @@
     </div>
 </template>
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
@@ -41,21 +42,25 @@ export default {
     };
   },
   methods: {
-    searchItems() {
-      this.searchResults = [
-        {
-          id: 1,
-          name: 'Item 1',
-          description: 'Description for Item 1',
-          specification: 'Specification for Item 1',
-        },
-        {
-          id: 2,
-          name: 'Item 2',
-          description: 'Description for Item 2',
-          specification: 'Specification for Item 2',
-        },
-      ];
+    search() {
+      const path = 'http://localhost:5000/search'
+      const loginData = {
+        username: this.username,
+        password: this.password
+      };
+      if (this.username !== '' && this.password !== '') {
+        axios.post(path, loginData)
+          .then(response => {
+            console.log(response.data);
+          })
+          .catch(error => {
+            console.log(error);
+          });
+        // Successful login
+      } else {
+        // Failed login
+        this.errorMessage = 'please add information';
+      }
     },
   },
 };
