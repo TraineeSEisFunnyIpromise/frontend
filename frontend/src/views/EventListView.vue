@@ -1,4 +1,5 @@
 <template>
+	  <button @click="$router.push('/')" class="top-left-button">Go to Main Page</button>
 	<h1>Events For Good</h1>
 	<button v-on:click="redirectToUserinfo">
 		person
@@ -66,6 +67,11 @@
   top: 10px;
   right: 10px;
   z-index: 9999;
+}
+.top-left-button {
+  position: fixed;
+  top: 10px;
+  left: 10px;
 }
 
       </style>

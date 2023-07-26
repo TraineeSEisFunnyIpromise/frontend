@@ -2,6 +2,7 @@
 	<!-- register.html -->
 <!DOCTYPE html>
 <html>
+  <button @click="$router.push('/')" class="top-left-button">Go to Main Page</button>
 <head>
   <title>Registration Page</title>
 </head>
@@ -59,3 +60,11 @@ export default {
 };
 
 </script>
+
+<style>
+.top-left-button {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+}
+</style>

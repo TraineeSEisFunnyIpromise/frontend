@@ -2,6 +2,7 @@
 <!-- index.html -->
 <!DOCTYPE html>
 <html>
+  <button @click="$router.push('/')" class="top-left-button">Go to Main Page</button>
 <head>
   <title>Login Page</title>
 </head>
@@ -91,5 +92,10 @@ export default {
         margin-right: 800px;
         background-color: blanchedalmond;
       }
+      .top-left-button {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+}
       </style>
       

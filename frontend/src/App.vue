@@ -1,11 +1,7 @@
 <template>
-  <nav>
-    <router-link :to="{ name: 'EventList' }">Home</router-link> |
-    <router-link :to="{ name: 'Login' }">Login</router-link> |
-    <router-link :to="{ name: 'Register' }">Register</router-link> |
-    <router-link :to="{ name: 'Userinfo' }">User information</router-link> |
-  </nav>
-  <router-view />
+  <html>
+  <button @click="$router.push("/")" class="top-left-button">Go to Main Page</button>
+<head>
 </template>
 
 <script>
