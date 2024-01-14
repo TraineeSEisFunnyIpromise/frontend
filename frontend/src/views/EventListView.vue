@@ -1,5 +1,4 @@
 <template>
-	  <button @click="$router.push('/')" class="top-left-button">Go to Main Page</button>
 	<h1>Events For Good</h1>
 	<button v-on:click="redirectToUserinfo">
 		person

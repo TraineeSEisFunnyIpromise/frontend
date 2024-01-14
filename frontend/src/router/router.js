@@ -5,6 +5,7 @@ import NetWorkErrorView from '@/views/NetworkErrorView.vue'
 import LoginView from '@/views/LoginView.vue'
 import RegisterView from '@/views/RegistrationView.vue'
 import UserinfoView from '@/views/UserinfoView.vue'
+import SearchView from '@/views/SearchView.vue'
 // import NProgress from 'nprogress'
 const routes = [
   {
@@ -27,6 +28,11 @@ const routes = [
     path: '/userinfo',
     name: 'Userinfo',
     component: UserinfoView,
+  },
+  {
+    path: '/search',
+    name: 'Searchview',
+    component: SearchView,
   },
   {
     path: '/404/:resource',

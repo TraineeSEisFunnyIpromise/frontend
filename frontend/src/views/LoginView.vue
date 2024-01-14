@@ -7,7 +7,7 @@
   <title>Login Page</title>
 </head>
 <body>
-  <div id="app">
+  <div id="app" class="login">
     <h2>Login</h2>
     <form @submit.prevent="login">
       <label for="username">Username:</label>
@@ -71,8 +71,6 @@ export default {
       <style scoped>
       h2 {
 	margin: 40px 0 0;
-  margin-left: 800px;
-  margin-right: 800px;
   background-color: rgb(122, 88, 42);
   color: aliceblue;
       }
@@ -88,14 +86,18 @@ export default {
 	color: #42b983;
       }
       form {
-        margin-left: 800px;
-        margin-right: 800px;
+        
+        margin-top: 0%;
+        margin-left: 0%;
         background-color: blanchedalmond;
       }
       .top-left-button {
   position: fixed;
   top: 10px;
   left: 10px;
+}
+body{
+  background-color: deepskyblue ;
 }
       </style>
       
