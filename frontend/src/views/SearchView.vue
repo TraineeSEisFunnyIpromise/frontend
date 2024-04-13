@@ -59,14 +59,18 @@
 <script>
 import axios from 'axios'
 export default {
+  sendData(){
+    return{
+      sendData:"",
+    }
+  },
   data() {
     return {
-      sendData:"",
       searchDataSample: "Car",
       searchResults_Sample: {
-        something:[],
-        gayis:[],
-        idkman:[]
+        something:["Kirine","Kirin"],
+        gayis:["Is","Are"],
+        idkman:["A Giraffe","Giraffe queen"]
       },
       searchResults:{},
       showInfo: true,

@@ -1,13 +1,37 @@
 <template>
-	<h1>Events For Good</h1>
+	<h1>
+		Events For Good
+	</h1>
+	<h1>
 	<button v-on:click="redirectToUserinfo">
 		person
-  </button>
-      </template>
+	</button>
+	</h1>
+	<h1>
+	<div>
+	<VueDropdownMenu menu-title="Vue Dropdown Menu" dark-mode="auto">
+
+	<section class="option">
+	<button @click="sayHello">This is button for method</button>
+	<span class="desc">This is Vue dropdown menu method that says hello for you.</span>
+	</section>
+
+	<section class="option">
+	<span class="desc">Clicking this takes you somewhere else.</span>
+	</section>
+
+	<section class="option">
+	<router-link to="/about">This is Vue router link</router-link>
+	<span class="desc">Clicking this takes you somewhere else.</span>
+	</section>
+</VueDropdownMenu>
+	</div>
+	</h1>
+</template>
       
-      <script>
+<script>
+import VueDropdownMenu from '@/components/vue-dropdown-menu.vue'
       // @ is an alias to /src
-      
       export default {
 	name: 'EventListView',
 	props: {
@@ -22,18 +46,31 @@
 		}
 	}
 	},
+	components: {
+		VueDropdownMenu
+	},
 	data() {
 		return {
 			events: null,
 			totalEvents: 0,
-			keyword: null
+			keyword: null,
+			showDropdown: false // Flag to control dropdown visibility
 		}
 	},
 	// eslint-disable-next-line no-unused-vars
+	methods: {
+	showDropdown1() {
+      // Toggle the visibility of the dropdown on hover
+      this.showDropdown = !this.showDropdown;
+    }
+  }
 }
 
 </script>
       <style scoped>
+      .b-button {
+	margin-bottom: 10px;
+	}
       .events {
 	display: flex;
 	flex-direction: column;
@@ -72,6 +109,10 @@
   top: 10px;
   left: 10px;
 }
-
+.information-button {
+position: fixed;
+top: 10px;
+left: 10px;
+}
       </style>
       
