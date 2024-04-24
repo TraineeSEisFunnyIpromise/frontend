@@ -7,7 +7,7 @@
 		person
 	</button>
 	</h1>
-	<h1>
+	<h5>
 	<div>
 	<VueDropdownMenu menu-title="Vue Dropdown Menu" dark-mode="auto">
 
@@ -26,7 +26,7 @@
 	</section>
 </VueDropdownMenu>
 	</div>
-	</h1>
+	</h5>
 </template>
       
 <script>

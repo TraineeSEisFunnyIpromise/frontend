@@ -6,6 +6,7 @@ import LoginView from '@/views/LoginView.vue'
 import RegisterView from '@/views/RegistrationView.vue'
 import UserinfoView from '@/views/UserinfoView.vue'
 import SearchView from '@/views/SearchView.vue'
+import CompareView from '@/views/CompareItemView.vue'
 // import NProgress from 'nprogress'
 const routes = [
   {
@@ -49,6 +50,11 @@ const routes = [
     path: '/network-error',
     name: 'NetworkError',
     component: NetWorkErrorView
+  },
+  {
+    path: '/compareitemview',
+    name: 'CompareItemview',
+    component: CompareView
   }
 ]
 

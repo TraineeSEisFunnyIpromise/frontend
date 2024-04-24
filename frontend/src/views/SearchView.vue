@@ -13,16 +13,20 @@
 
 <!-- oh boy implement time-->
 
+<!--dropdown menu for select the specific choice-->
+
+<!-- container for show the product from data-->
 <div class="container">
+  <!-- first row -->
   <div class="row">
     <div class="col-12">
       <div id="app">
+        <!-- no clue how this work after i implement it... great --* -->
         <div class="mt-4" v-if="hasScroll">Scroll on the table</div>
         <div class="mt-4" v-else>Resize your window until a scrollbar appears</div>
         <div class="table-holder  mt-4" @wheel.prevent="wheelHorizontal($event)">
           <div class="info" v-if="hasScroll" @touchmove.prevent="scrollHorizontal($event)" :class="{'show' : showInfo}">Scroll for more &rarr;</div>
           <div class="table-responsive" ref="table" @scroll.prevent="scrollHorizontal($event)">
-
             <table class="table" v-for="item in searchDataSample" :key="item" >
               <thead>
                 <tr>
@@ -70,7 +74,10 @@ export default {
       searchResults_Sample: {
         something:["Kirine","Kirin"],
         gayis:["Is","Are"],
-        idkman:["A Giraffe","Giraffe queen"]
+        idkman:["A Giraffe","Giraffe queen"],
+        something1:["Kirine","Kirin"],
+        gayis1:["Is","Are"],
+        idkman1:["A Giraffe","Giraffe queen"]
       },
       searchResults:{},
       showInfo: true,

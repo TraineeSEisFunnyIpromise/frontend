@@ -2,20 +2,25 @@
 <!-- index.html -->
 <!DOCTYPE html>
 <html>
-  <button @click="$router.push('/')" class="top-left-button">Go to Main Page</button>
 <head>
   <title>Login Page</title>
 </head>
 <body>
   <div id="app" class="login">
     <h2>Login</h2>
-    <form @submit.prevent="login">
+    <form @submit.prevent="login" class="">
+      <!--Login neat-->
+      <h5>
       <label for="username">Username:</label>
       <input type="text" id="username" v-model="username" required>
       <br>
+      </h5>
+      <!--Password neat-->
+      <h5>
       <label for="password">Password:</label>
       <input type="password" id="password" v-model="password" required>
       <br>
+      </h5>
       <button type="submit" >Login</button>
     </form>
     <p v-if="errorMessage" style="color: red;">{{ errorMessage }}</p>
@@ -69,11 +74,6 @@ export default {
       
       <!-- Add "scoped" attribute to limit CSS to this component only -->
       <style scoped>
-      h2 {
-	margin: 40px 0 0;
-  background-color: rgb(122, 88, 42);
-  color: aliceblue;
-      }
       ul {
 	list-style-type: none;
 	padding: 0;
@@ -85,19 +85,13 @@ export default {
       a {
 	color: #42b983;
       }
-      form {
-        
-        margin-top: 0%;
-        margin-left: 0%;
-        background-color: blanchedalmond;
-      }
       .top-left-button {
   position: fixed;
   top: 10px;
   left: 10px;
 }
 body{
-  background-color: deepskyblue ;
+  background-color: rgba(255, 255, 255, 0) ;
 }
       </style>
       
