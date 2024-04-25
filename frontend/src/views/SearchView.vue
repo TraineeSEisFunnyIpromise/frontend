@@ -2,65 +2,71 @@
 <form @submit.prevent="searchItems">
       <h2 for="search">Search:</h2>
       <input type="text" id="keyword" v-model="sendData">
-      <button type="submit">Search</button>
+      <button type="submit" @click="search">Search</button>
     </form>
-    <div v-if="searchResults.length > 0">
-      <h2>Search Results:</h2>
-    </div>
-    <div v-else>
-      <p>No search results found.</p>
-    </div>
+    <!--select type dropdown-->
+    <DropdownMenuMK1 menu-title="Vue Dropdown Menu" dark-mode="auto" class="centersomething">
+      <section class="option">
+      <button >This is button for method</button>
+      <span class="desc">This is Vue dropdown menu method that says hello for you.</span>
+      </section>
 
-<!-- oh boy implement time-->
-
-<!--dropdown menu for select the specific choice-->
-
-<!-- container for show the product from data-->
-<div class="container">
-  <!-- first row -->
-  <div class="row">
-    <div class="col-12">
-      <div id="app">
-        <!-- no clue how this work after i implement it... great --* -->
-        <div class="mt-4" v-if="hasScroll">Scroll on the table</div>
-        <div class="mt-4" v-else>Resize your window until a scrollbar appears</div>
-        <div class="table-holder  mt-4" @wheel.prevent="wheelHorizontal($event)">
-          <div class="info" v-if="hasScroll" @touchmove.prevent="scrollHorizontal($event)" :class="{'show' : showInfo}">Scroll for more &rarr;</div>
-          <div class="table-responsive" ref="table" @scroll.prevent="scrollHorizontal($event)">
-            <table class="table" v-for="item in searchDataSample" :key="item" >
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row" class="Pictureset"></th>
-                  <td>Cell</td>
-
-                </tr>
-                <tr>
-                  <th scope="row">Description</th>
-                  <td>Cell</td>
-
-                </tr>
-                <tr>
-                  <th scope="row">Price</th>
-                  <td>Cell</td>
-
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+	</DropdownMenuMK1>
+  <div v-if="clickcount > 0">
+      <div>
+        <h2>Search Results:</h2>
+          
+            <!--a lot of big table-->
+            <div class="container">
+            <div class="row">
+              <!--First column-->
+              <div class="col-12">
+                <div id="app">
+                            <!--first table-->
+                    <table class="table" id="first-app" v-for="item in searchResults_Sample" :key="item" >
+                      <thead style="background-color: beige;">
+                        <tr>
+                          <th scope="col">#Item Number</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th scope="row" class="Pictureset"></th>
+                          <td>name</td>
+                        </tr>
+                        <tr>
+                          <th scope="row" class="Pictureset"></th>
+                          <td>details</td>
+                        </tr>
+                        <tr>
+                          <th scope="row" class="Pictureset"></th>
+                          <td>brand</td>
+                        </tr>
+                        <tr>
+                          <th scope="row" class="Pictureset"></th>
+                          <td>Price</td>
+                        </tr>
+                        <tr>
+                          <th scope="row" class="Pictureset"></th>
+                          <td>Object type</td>
+                        </tr>
+                        <tr>
+                          <th scope="row" id="targetHighlighted"></th>
+                          <td>search keyword</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>	
+            </div>
       </div>
-
-    </div>
   </div>
-</div>
+<!-- oh boy implement time-->
 
 </template>
 <script>
+import DropdownMenuMK1 from '@/components/vue-dropdown-menu.vue';
 import axios from 'axios'
 export default {
   sendData(){
@@ -75,17 +81,23 @@ export default {
         something:["Kirine","Kirin"],
         gayis:["Is","Are"],
         idkman:["A Giraffe","Giraffe queen"],
+      },
+      searchResults:{
         something1:["Kirine","Kirin"],
         gayis1:["Is","Are"],
-        idkman1:["A Giraffe","Giraffe queen"]
-      },
-      searchResults:{},
+        idkman1:["A Giraffe","Giraffe queen"]},
+      clickcount: 0,
       showInfo: true,
       hasScroll: true
     };
   },
+  components:{ 
+    DropdownMenuMK1
+  },
   methods: {
     search() {
+      this.clickcount += 1
+      console.log(this.clickcount)
       const path = 'http://localhost:5000/search'
       const loginData = {
         keyword: this.sendData,
@@ -104,35 +116,7 @@ export default {
         this.errorMessage = 'please add information';
       }
     },
-    wheelHorizontal: function(e) {
-      if (e.deltaY < 0) {
-        this.$refs.table.scrollLeft = this.$refs.table.scrollLeft - 50
-      } else {
-        this.$refs.table.scrollLeft = this.$refs.table.scrollLeft + 50
-      }
-    },
-    scrollHorizontal: function() {
-      if (this.$refs.table.scrollLeft > 0) {
-        this.showInfo = false;
-      }
-      if (this.$refs.table.scrollLeft == 0) {
-        this.showInfo = true;
-      }
-    },
   },
-  mounted: function() {
-    let app = this;
-    let table = this.$refs.table;
-    function verifyScroll() {
-      if (table.scrollWidth-60 > table.clientWidth) {
-        app.hasScroll = true;
-      } else {
-        app.hasScroll = false;
-      }
-    }
-    verifyScroll();
-    window.addEventListener('resize', verifyScroll);
-  }
 };
 </script>
 <style>
@@ -140,6 +124,13 @@ export default {
   position: fixed;
   top: 10px;
   left: 10px;
+}
+
+.centersomething {
+        font-size: small;
+		max-width: 20000px;
+        position: absolute;
+        left: 30%;
 }
 
 

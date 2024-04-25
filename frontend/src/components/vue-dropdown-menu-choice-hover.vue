@@ -2,7 +2,7 @@
 <h1>
     <section class="dropDownMenuWrapper">
 
-<button class="dropDownMenuButton" ref="menu" @mouseover="openClose" @mouseleave="openClose">{{menuTitle}}</button>
+<button class="dropDownMenuButton" ref="menu" @click="openClose">{{menuTitle}}</button>
 
     <div class="iconWrapper">
       <div class="bar1" :class="{ 'bar1--open' : isOpen }" />
@@ -67,7 +67,7 @@ export default {
 <style lang="scss" scoped>
 .dropDownMenuWrapper {
   position: relative;
-  width: 500px;
+  width: 250px;
   height: 80px;
   border-radius: 8px;
   background: white;

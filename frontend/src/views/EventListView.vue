@@ -9,28 +9,42 @@
 	</h1>
 	<h5>
 	<div>
-	<VueDropdownMenu menu-title="Vue Dropdown Menu" dark-mode="auto">
+		<DropdownMenuMK1 menu-title="What is our product?" dark-mode="auto">
+		<section class="option">
+		<button @mouseover="sayHello">This is button for method</button>
+		<span class="desc">This is Vue dropdown menu method that says hello for you.</span>
+		</section>
+		<section class="option">
+		<span class="desc">Clicking this takes you somewhere else.</span>
+		</section>
+		</DropdownMenuMK1>
 
-	<section class="option">
-	<button @click="sayHello">This is button for method</button>
-	<span class="desc">This is Vue dropdown menu method that says hello for you.</span>
-	</section>
+		<DropdownMenuMK1 menu-title="What can it do?" dark-mode="auto">
+		<section class="option">
+		<button @mouseover="sayHello">This is button for method</button>
+		<span class="desc">This is Vue dropdown menu method that says hello for you.</span>
+		</section>
+		<section class="option">
+		<span class="desc">Clicking this takes you somewhere else.</span>
+		</section>
+		</DropdownMenuMK1>
 
-	<section class="option">
-	<span class="desc">Clicking this takes you somewhere else.</span>
-	</section>
-
-	<section class="option">
-	<router-link to="/about">This is Vue router link</router-link>
-	<span class="desc">Clicking this takes you somewhere else.</span>
-	</section>
-</VueDropdownMenu>
+		<DropdownMenuMK1 menu-title="What how it work" dark-mode="auto">
+		<section class="option">
+		<button @mouseover="sayHello">This is button for method</button>
+		<span class="desc">This is Vue dropdown menu method that says hello for you.</span>
+		</section>
+		<section class="option">
+		<span class="desc">Clicking this takes you somewhere else.</span>
+		</section>
+		</DropdownMenuMK1>
+		
 	</div>
 	</h5>
 </template>
       
 <script>
-import VueDropdownMenu from '@/components/vue-dropdown-menu.vue'
+import DropdownMenuMK1 from '@/components/vue-dropdown-menu.vue'
       // @ is an alias to /src
       export default {
 	name: 'EventListView',
@@ -47,7 +61,7 @@ import VueDropdownMenu from '@/components/vue-dropdown-menu.vue'
 	}
 	},
 	components: {
-		VueDropdownMenu
+		DropdownMenuMK1
 	},
 	data() {
 		return {

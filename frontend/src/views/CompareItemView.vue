@@ -1,59 +1,31 @@
 <template>
+	<body>
 	<div v-if="CompareResults !== false">
 		<h2>Search Results:</h2>
 	</div>
 	<div v-else>
 		<p>No search results found.</p>
 	</div>
-		
+	<h8>
+		<DropdownMenuMK1 menu-title="Vue Dropdown Menu" dark-mode="auto" class="centersomething">
+			<section class="option">
+			<span class="desc">This is Vue dropdown menu method that says hello for you.</span>
+			</section>
+
+			<section class="option">
+			<span class="desc">Clicking this takes you somewhere else.</span>
+			</section>
+
+		</DropdownMenuMK1>
+	</h8>
 		<!-- Content display for comparing-->
 		<!--row 1-->
-	<div class="container">
-		<div class="row">
-			<!--First column-->
-			<div class="col-12">
-				<div id="app">
-										<!--first table-->
-						<table class="table" id="first-app" v-for="item in searchResults_Sample" :key="item" >
-							<thead style="background-color: beige;">
-								<tr>
-									<th scope="col">#Item Number</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<th scope="row" class="Pictureset"></th>
-									<td>name</td>
-								</tr>
-								<tr>
-									<th scope="row" class="Pictureset"></th>
-									<td>details</td>
-								</tr>
-								<tr>
-									<th scope="row" class="Pictureset"></th>
-									<td>brand</td>
-								</tr>
-								<tr>
-									<th scope="row" class="Pictureset"></th>
-									<td>Price</td>
-								</tr>
-								<tr>
-									<th scope="row" class="Pictureset"></th>
-									<td>Object type</td>
-								</tr>
-								<tr>
-									<th scope="row" id="targetHighlighted"></th>
-									<td>search keyword</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>	
-		</div>
+	
+	</body>
 </template>
 <script>
-	import axios from 'axios'
+import DropdownMenuMK1 from '@/components/vue-dropdown-menu.vue';
+import axios from 'axios'
 	export default {
 	sendData(){
 	return{
@@ -93,11 +65,20 @@
 		}
 		},
 	},
+	components:{
+		DropdownMenuMK1
+	},
 	mounted: function() {
 		}
 	};
 </script>
 <style>
+.body{
+	position:absolute;
+	top: 10px;
+	left: 40%;
+
+}
 	.top-left-button {
 		position: fixed;
 		top: 10px;
@@ -107,10 +88,16 @@
 		
 	.container {
 		max-width: 20000px;
+        position: absolute;
+        left: 27%;
+        top: 250px;
 }
-	.table{
-		align-self:center;
-	}
+    .centersomething {
+        font-size: small;
+		max-width: 20000px;
+        position: absolute;
+        left: 27%;
+}
 		
 	.table-holder, .table-responsive {
 		position: relative;

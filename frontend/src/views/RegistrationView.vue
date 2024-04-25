@@ -2,7 +2,6 @@
 	<!-- register.html -->
 <!DOCTYPE html>
 <html>
-  <button @click="$router.push('/')" class="top-left-button">Go to Main Page</button>
 <head>
   <title>Registration Page</title>
 </head>
@@ -10,11 +9,14 @@
   <div id="app">
     <h2>Registration</h2>
     <form @submit.prevent="register">
+      <h5>
       <label for="username">Username:</label>
       <input type="text" id="username" v-model="username" required>
-      <br>
+      </h5>
+      <h5>
       <label for="password">Password:</label>
       <input type="password" id="password" v-model="password" required>
+      </h5>
       <br>
       <button type="submit">Register</button>
     </form>

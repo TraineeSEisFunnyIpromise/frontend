@@ -2,7 +2,6 @@
 	<!-- userinfo.html -->
 <!DOCTYPE html>
 <html>
-  <button @click="$router.push('/')" class="top-left-button">Go to Main Page</button>
 <head>
   <title>User Information</title>
 </head>
