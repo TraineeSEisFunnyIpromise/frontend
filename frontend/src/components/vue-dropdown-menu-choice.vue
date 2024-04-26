@@ -67,8 +67,8 @@ export default {
 <style lang="scss" scoped>
 .dropDownMenuWrapper {
   position: relative;
-  width: 250px;
-  height: 80px;
+  width: 210px;
+  height: 50px;
   border-radius: 8px;
   background: white;
   border: 1px solid #eee;
@@ -104,95 +104,7 @@ export default {
     color: #eee;
   }
 
-  .iconWrapper {
-    width: 25px;
-    height: 25px;
-    position: absolute;
-    right: 30px;
-    top: 50%;
-    transform: translate(0,-50%);
-    z-index: 1;
-
-    .bar1 {
-      width: 100%;
-      max-width: 28px;
-      height: 3px;
-      background: blue;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      border-radius: 9999px;
-      transform: translate(-50%, calc(-50% - 8px) );
-      transition: all 0.2s ease;
-    }
-
-    .bar1--dark {
-      background: #eee;
-    }
-
-    .bar1--open {
-      transform: translate(-50%, -50%) rotate(45deg);
-      margin-top: 0;
-      background: red;
-    }
-
-    .bar2 {
-      width: 100%;
-      max-width: 28px;
-      height: 3px;
-      background: blue;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      border-radius: 9999px;
-      opacity: 1;
-      transform: translate(-50%, -50%);
-      transition: all 0.2s ease;
-    }
-
-    .bar2--dark {
-      background: #eee;
-    }
-
-    .bar2--open {
-      opacity: 0;
-    }
-
-    .bar3 {
-      width: 100%;
-      max-width: 28px;
-      height: 3px;
-      background: blue;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      border-radius: 9999px;
-      transform: translate(-50%, calc(-50% + 8px) );
-      transition: all 0.2s ease;
-    }
-
-    .bar3--dark {
-      background: #eee;
-    }
-
-    .bar3--open {
-      top: 50%;
-      transform: translate(-50%, -50% ) rotate(-45deg);
-      background: red;
-    }
-
-  }
-
-  .iconWrapper--noTitle {
-    left: 0;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    width: auto;
-    height: auto;
-    transform: none;
-  }
-
+  
   .dropdownMenu {
     position: absolute;
     top: 100%;
@@ -278,6 +190,9 @@ export default {
     to { transform: translate3d( 0, 20px ,0 ) }
   }
 
+}
+.dropdownMenuWrapper:onClick{
+background: #888;
 }
 
 .dropDownMenuWrapper--noTitle {

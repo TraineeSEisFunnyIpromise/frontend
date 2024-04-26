@@ -5,13 +5,27 @@
       <button type="submit" @click="search">Search</button>
     </form>
     <!--select type dropdown-->
-    <DropdownMenuMK1 menu-title="Vue Dropdown Menu" dark-mode="auto" class="centersomething">
-      <section class="option">
-      <button >This is button for method</button>
-      <span class="desc">This is Vue dropdown menu method that says hello for you.</span>
+    <DropdownMenuMK2 menu-title="Option for seaching" dark-mode="auto" class="centersomething" style="left: 30%; top: 12%;">
+      <section class="column">
+      <button> choice 1</button>
+      <h3>this choice did something</h3>
+      </section>
+      <section class="column">
+      <button> choice 2</button>
+      <h3>this choice is did something but more detail</h3>
+      </section>
+      <section class="column">
+      <button> choice 3</button>
+      <h3>this choice have no idea what are they doing</h3>
+      </section>
+      <section class="column">
+      <button> choice 4</button>
+      <h3>magic</h3>
       </section>
 
-	</DropdownMenuMK1>
+
+
+	</DropdownMenuMK2>
   <div v-if="clickcount > 0">
       <div>
         <h2>Search Results:</h2>
@@ -66,7 +80,7 @@
 
 </template>
 <script>
-import DropdownMenuMK1 from '@/components/vue-dropdown-menu.vue';
+import DropdownMenuMK2 from '@/components/vue-dropdown-menu-choice.vue';
 import axios from 'axios'
 export default {
   sendData(){
@@ -92,7 +106,7 @@ export default {
     };
   },
   components:{ 
-    DropdownMenuMK1
+    DropdownMenuMK2
   },
   methods: {
     search() {
@@ -130,7 +144,6 @@ export default {
         font-size: small;
 		max-width: 20000px;
         position: absolute;
-        left: 30%;
 }
 
 
@@ -187,4 +200,15 @@ tr th:first-child, tr td:first-child {
   background: white;
 }
 
+.column{
+  .column {
+  float: left;
+  width: 33.33%;
+  padding: 50px;
+  text-align: center;
+  font-size: 25px;
+  cursor: pointer;
+  color: white;
+}
+}
 </style>
