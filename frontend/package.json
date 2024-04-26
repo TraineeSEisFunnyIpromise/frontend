@@ -10,9 +10,11 @@
   "dependencies": {
     "@innologica/vue-dropdown-menu": "^0.1.4",
     "axios": "^1.4.0",
+    "bootstrap": "^5.3.3",
+    "bootstrap-vue": "^2.23.1",
     "core-js": "^3.8.3",
     "nprogress": "^0.2.0",
-    "vue": "^3.2.13",
+    "vue": "^3.4.25",
     "vue-router": "^4.2.2"
   },
   "devDependencies": {

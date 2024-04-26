@@ -20,6 +20,54 @@
 	</h8>
 		<!-- Content display for comparing-->
 		<!--row 1-->
+
+		<div>
+			<!--a lot of big table-->
+			<div class="container">
+            <div class="row">
+              <!--First column-->
+              <div class="col-12">
+                <div id="app">
+                            <!--first table-->
+                    <table class="table" id="first-app" v-for="item in searchResults_Sample" :key="item" >
+                      <thead style="background-color: beige;">
+                        <tr>
+                          <th scope="col">#Item Number</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <th scope="row" class="Pictureset"></th>
+                          <td>name</td>
+                        </tr>
+                        <tr>
+                          <th scope="row" class="Pictureset"></th>
+                          <td>details</td>
+                        </tr>
+                        <tr>
+                          <th scope="row" class="Pictureset"></th>
+                          <td>brand</td>
+                        </tr>
+                        <tr>
+                          <th scope="row" class="Pictureset"></th>
+                          <td>Price</td>
+                        </tr>
+                        <tr>
+                          <th scope="row" class="Pictureset"></th>
+                          <td>Object type</td>
+                        </tr>
+                        <tr>
+                          <th scope="row" id="targetHighlighted"></th>
+                          <td>search keyword</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+      </div>
+  </div>
+<!-- oh boy implement time-->
+		</div>
 	
 	</body>
 </template>

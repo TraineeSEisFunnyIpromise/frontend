@@ -1,42 +1,37 @@
 <template>
 	<h1>
-		Events For Good
-	</h1>
-	<h1>
-	<button v-on:click="redirectToUserinfo">
-		person
-	</button>
+		Ptrends Analyzers
 	</h1>
 	<h5>
 	<div>
-		<DropdownMenuMK1 menu-title="What is our product?" dark-mode="auto">
-		<section class="option">
-		<button @mouseover="sayHello">This is button for method</button>
-		<span class="desc">This is Vue dropdown menu method that says hello for you.</span>
-		</section>
-		<section class="option">
-		<span class="desc">Clicking this takes you somewhere else.</span>
-		</section>
+		<DropdownMenuMK1 menu-title="What is our product?" dark-mode="auto" class="buttonArrage" style="left: 15%;">
+            <section class="option">
+            <button @mouseover="sayHello">This is button for method</button>
+            <span class="desc">This is Vue dropdown menu method that says hello for you.</span>
+            </section>
+            <section class="option">
+            <span class="desc">Clicking this takes you somewhere else.</span>
+            </section>
 		</DropdownMenuMK1>
 
-		<DropdownMenuMK1 menu-title="What can it do?" dark-mode="auto">
-		<section class="option">
-		<button @mouseover="sayHello">This is button for method</button>
-		<span class="desc">This is Vue dropdown menu method that says hello for you.</span>
-		</section>
-		<section class="option">
-		<span class="desc">Clicking this takes you somewhere else.</span>
-		</section>
+		<DropdownMenuMK1 menu-title="What can it do?" dark-mode="auto" class="buttonArrage" style="left: 40%;">
+            <section class="option">
+            <button @mouseover="sayHello">This is button for method</button>
+            <span class="desc">This is Vue dropdown menu method that says hello for you.</span>
+            </section>
+            <section class="option">
+            <span class="desc">Clicking this takes you somewhere else.</span>
+            </section>
 		</DropdownMenuMK1>
 
-		<DropdownMenuMK1 menu-title="What how it work" dark-mode="auto">
-		<section class="option">
-		<button @mouseover="sayHello">This is button for method</button>
-		<span class="desc">This is Vue dropdown menu method that says hello for you.</span>
-		</section>
-		<section class="option">
-		<span class="desc">Clicking this takes you somewhere else.</span>
-		</section>
+		<DropdownMenuMK1 menu-title="What how it work" dark-mode="auto" class="buttonArrage" style="left: 65%;" >
+            <section class="option">
+            <button @mouseover="sayHello">This is button for method</button>
+            <span class="desc">This is Vue dropdown menu method that says hello for you.</span>
+            </section>
+            <section class="option">
+            <span class="desc">Clicking this takes you somewhere else.</span>
+            </section>
 		</DropdownMenuMK1>
 		
 	</div>
@@ -82,6 +77,14 @@ import DropdownMenuMK1 from '@/components/vue-dropdown-menu.vue'
 
 </script>
       <style scoped>
+      .buttonArrage{
+        position: absolute;
+        top: 30%;
+      }
+      .column{
+        float: left;
+  width: 33.33%;
+      }
       .b-button {
 	margin-bottom: 10px;
 	}
@@ -127,6 +130,12 @@ import DropdownMenuMK1 from '@/components/vue-dropdown-menu.vue'
 position: fixed;
 top: 10px;
 left: 10px;
+}
+
+.centered {
+  position: fixed; /* or absolute */
+  top: 50%;
+  left: 50%;
 }
       </style>
       

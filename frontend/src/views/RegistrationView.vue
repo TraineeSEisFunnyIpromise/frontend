@@ -17,7 +17,6 @@
       <label for="password">Password:</label>
       <input type="password" id="password" v-model="password" required>
       </h5>
-      <br>
       <button type="submit">Register</button>
     </form>
     <p v-if="errorMessage" style="color: red;">{{ errorMessage }}</p>

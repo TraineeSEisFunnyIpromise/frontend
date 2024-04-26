@@ -67,7 +67,7 @@ export default {
 <style lang="scss" scoped>
 .dropDownMenuWrapper {
   position: relative;
-  width: 500px;
+  width: 300px;
   height: 80px;
   border-radius: 8px;
   background: white;
@@ -194,6 +194,7 @@ export default {
   }
 
   .dropdownMenu {
+    z-index: 10;
     position: absolute;
     top: 100%;
     width: 100%;
