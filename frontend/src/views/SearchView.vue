@@ -2,7 +2,7 @@
 <form @submit.prevent="searchItems">
       <h2 for="search">Search:</h2>
       <input type="text" id="keyword" v-model="sendData">
-      <button type="submit" @click="search">Search</button>
+      <button type="submit" @click="send_search_input">Search</button>
     </form>
     <!--select type dropdown-->
     <DropdownMenuMK1 menu-title="Vue Dropdown Menu" dark-mode="auto" class="centersomething">
@@ -23,39 +23,9 @@
               <div class="col-12">
                 <div id="app">
                             <!--first table-->
-                    <table class="table" id="first-app" v-for="item in searchResults_Sample" :key="item" >
-                      <thead style="background-color: beige;">
-                        <tr>
-                          <th scope="col">#Item Number</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <th scope="row" class="Pictureset"></th>
-                          <td>name</td>
-                        </tr>
-                        <tr>
-                          <th scope="row" class="Pictureset"></th>
-                          <td>details</td>
-                        </tr>
-                        <tr>
-                          <th scope="row" class="Pictureset"></th>
-                          <td>brand</td>
-                        </tr>
-                        <tr>
-                          <th scope="row" class="Pictureset"></th>
-                          <td>Price</td>
-                        </tr>
-                        <tr>
-                          <th scope="row" class="Pictureset"></th>
-                          <td>Object type</td>
-                        </tr>
-                        <tr>
-                          <th scope="row" id="targetHighlighted"></th>
-                          <td>search keyword</td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <div>
+                        output of search which are requirement
+                    </div>
                   </div>
                 </div>
               </div>	
@@ -69,33 +39,19 @@
 import DropdownMenuMK1 from '@/components/vue-dropdown-menu.vue';
 import axios from 'axios'
 export default {
-  sendData(){
-    return{
-      sendData:"",
-    }
-  },
   data() {
     return {
-      searchDataSample: "Car",
-      searchResults_Sample: {
-        something:["Kirine","Kirin"],
-        gayis:["Is","Are"],
-        idkman:["A Giraffe","Giraffe queen"],
-      },
-      searchResults:{
-        something1:["Kirine","Kirin"],
-        gayis1:["Is","Are"],
-        idkman1:["A Giraffe","Giraffe queen"]},
       clickcount: 0,
       showInfo: true,
-      hasScroll: true
+      hasScroll: true,
+      sendData:""
     };
   },
   components:{ 
     DropdownMenuMK1
   },
   methods: {
-    search() {
+    send_search_input() {
       this.clickcount += 1
       console.log(this.clickcount)
       const path = 'http://localhost:5000/search'
@@ -110,9 +66,9 @@ export default {
           .catch(error => {
             console.log(error);
           });
-        // Successful login
+        // Successful 
       } else {
-        // Failed login
+        // Failed 
         this.errorMessage = 'please add information';
       }
     },

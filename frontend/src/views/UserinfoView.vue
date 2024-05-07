@@ -21,24 +21,12 @@
 </template>
 
 <script>
-
 export default ({
   created() {
     this.fetchUserInfo();
   },
   methods: {
     fetchUserInfo() {
-      // Fetch user information from the backend
-      // Replace the following code with your own API request logic
-      // You can use libraries like Axios to make HTTP requests
-      // Here, we simulate a response with hardcoded data
-      const response = {
-        username: 'john_doe',
-        email: 'john@example.com',
-        address: '123 Main St'
-      };
-
-      this.user = response;
     },
   },
 });

@@ -21,7 +21,7 @@
       <input type="password" id="password" v-model="password" required>
       <br>
       </h5>
-      <button type="submit" >Login</button>
+      <button type="submit" onclick="login">Login</button>
     </form>
     <p v-if="errorMessage" style="color: red;">{{ errorMessage }}</p>
   </div>
@@ -44,30 +44,28 @@ export default {
     };
   },
   methods: {
-    login() {
-      const path = 'http://localhost:5000/login'
-      const loginData = {
-        username: this.username,
-        password: this.password
-      };
-      if (this.username !== '' && this.password !== '') {
-        axios.post(path, loginData)
-          .then(response => {
-            console.log(response.data);
-          })
-          .catch(error => {
-            console.log(error);
-          });
-        // Successful login
-      } else {
-        // Failed login
-        this.errorMessage = 'please add information';
+    methods: {
+  login() {
+    const path = 'http://localhost:5000/login';
+    const loginData = {
+      email: this.username,
+      password: this.password,
+    };
+
+    axios.post(path, loginData)
+      .then(response => {
+                // Handle successful login (store token?)
+                console.log(response.data);
+                // You can store the JWT token in localStorage or Vuex for future requests
+              })
+              .catch(error => {
+                console.error(error);
+                this.errorMessage = 'Login failed!'; // Update error message
+              });
+          },
+        },
       }
-    },
-    
-    
-  }
-      }
+    }
       // app.js
 
       </script>
