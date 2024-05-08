@@ -8,7 +8,7 @@
 <body>
   <div id="app" class="login">
     <h2>Login</h2>
-    <form @submit.prevent="login" class="">
+    <form @submit="login_ledata">
       <!--Login neat-->
       <h5>
       <label for="username">Username:</label>
@@ -21,9 +21,8 @@
       <input type="password" id="password" v-model="password" required>
       <br>
       </h5>
-      <button type="submit" onclick="login">Login</button>
+      <button type="submit" @click="login_ledata">Login</button>
     </form>
-    <p v-if="errorMessage" style="color: red;">{{ errorMessage }}</p>
   </div>
 </body>
 </html>
@@ -39,32 +38,30 @@ export default {
 	},
   data() {
     return {
-      username: '',
-      password: ''
+      logindata:{
+        username: '',
+        password: ''
+      }
     };
   },
-  methods: {
     methods: {
-  login() {
-    const path = 'http://localhost:5000/login';
-    const loginData = {
-      email: this.username,
-      password: this.password,
-    };
-
-    axios.post(path, loginData)
-      .then(response => {
-                // Handle successful login (store token?)
-                console.log(response.data);
-                // You can store the JWT token in localStorage or Vuex for future requests
-              })
-              .catch(error => {
-                console.error(error);
-                this.errorMessage = 'Login failed!'; // Update error message
-              });
-          },
+      login_ledata(){
+        const path = 'http://localhost:5000/login';
+        axios.post(path, {
+          name:this.logindata.name,
+          password:this.logindata.password
+          }
+        )
+          .then(response => {
+                    // Handle successful login (store token?)
+                    console.log(response.data);
+                    // You can store the JWT token in localStorage or Vuex for future requests
+                  })
+                  .catch(error => {
+                    console.error(error);
+                  });
         },
-      }
+      },
     }
       // app.js
 

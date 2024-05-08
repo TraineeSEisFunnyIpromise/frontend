@@ -17,10 +17,10 @@
       <label for="password">Password:</label>
       <input type="password" id="password" v-model="password" required>
       </h5>
-      <button type="submit" onclick="register">Register</button>
+      <button type="submit" @click="register">Register</button>
     </form>
-    <p v-if="errorMessage" style="color: red;">{{ errorMessage }}</p>
-    <p v-if="successMessage" style="color: green;">{{ successMessage }}</p>
+<!--    <p v-if="errorMessage" style="color: red;">{{ errorMessage }}</p>
+    <p v-if="successMessage" style="color: green;">{{ successMessage }}</p>-->
   </div>
 </body>
 </html>
