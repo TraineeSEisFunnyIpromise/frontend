@@ -2,9 +2,6 @@
 	<!-- register.html -->
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Registration Page</title>
-</head>
 <body>
   <div id="app">
     <h2>Registration</h2>
@@ -13,10 +10,20 @@
       <label for="username">Username:</label>
       <input type="text" id="username" v-model="username" required>
       </h5>
+
       <h5>
       <label for="password">Password:</label>
       <input type="password" id="password" v-model="password" required>
       </h5>
+
+      <h5>
+      <div>
+        <label for="userinfo">information about anything:</label>
+      </div>
+
+      <input type="text" id="userinfo" v-model="userinfo" required>
+      </h5>
+
       <button type="submit" @click="register">Register</button>
     </form>
 <!--    <p v-if="errorMessage" style="color: red;">{{ errorMessage }}</p>
@@ -32,18 +39,18 @@ import axios from 'axios';
 
 
 export default {
-
 // app.js
   methods: {
     register() {
       const path = 'http://localhost:5000/register'
       const registerData = {
         username: this.username,
-        password: this.password
+        password: this.password,
+        userinfo: this.userinfo
       };
       // Perform registration logic
       // Replace the following code with your own registration logic
-      if (this.username !== '' && this.password !=='')  {
+      if (this.username !== '' && this.password !=='' && this.userinfo !== '')  {
         axios.post(path, registerData)
           .then(response => {
             console.log(response.data);

@@ -12,7 +12,7 @@
       </section>
 
 	</DropdownMenuMK1>
-  <div v-if="clickcount > 0">
+  <div>
       <div>
         <h2>Search Results:</h2>
           
@@ -25,6 +25,7 @@
                             <!--first table-->
                     <div>
                         output of search which are requirement
+                        {{ receiveData }}
                     </div>
                   </div>
                 </div>
@@ -44,7 +45,8 @@ export default {
       clickcount: 0,
       showInfo: true,
       hasScroll: true,
-      sendData:""
+      sendData:"",
+      receiveData:""
     };
   },
   components:{ 
@@ -61,6 +63,7 @@ export default {
       if (this.keyword !== '' ) {
         axios.post(path, loginData)
           .then(response => {
+            this.receiveData = response.data
             console.log(response.data);
           })
           .catch(error => {

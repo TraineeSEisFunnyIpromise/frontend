@@ -8,7 +8,7 @@
 <body>
   <div id="app" class="login">
     <h2>Login</h2>
-    <form @submit="login_ledata">
+    <form @submit.prevent="login_ledata">
       <!--Login neat-->
       <h5>
       <label for="username">Username:</label>
@@ -38,19 +38,18 @@ export default {
 	},
   data() {
     return {
-      logindata:{
         username: '',
         password: ''
-      }
     };
   },
     methods: {
       login_ledata(){
         const path = 'http://localhost:5000/login';
-        axios.post(path, {
-          name:this.logindata.name,
-          password:this.logindata.password
+        const logindata = {
+          username:this.username,
+          password:this.password
           }
+        axios.post(path, logindata
         )
           .then(response => {
                     // Handle successful login (store token?)
