@@ -5,15 +5,15 @@
       <button type="submit" @click="send_search_input">Search</button>
     </form>
     <!--select type dropdown-->
-    <DropdownMenuMK1 menu-title="Vue Dropdown Menu" dark-mode="auto" class="centersomething">
+    <!-- <DropdownMenuMK1 menu-title="Vue Dropdown Menu" dark-mode="auto" class="centersomething">
       <section class="option">
       <button >This is button for method</button>
       <span class="desc">This is Vue dropdown menu method that says hello for you.</span>
       </section>
+	</DropdownMenuMK1> -->
 
-	</DropdownMenuMK1>
   <div>
-      <div>
+      <div v-if="clickcount>0" >
         <h2>Search Results:</h2>
           
             <!--a lot of big table-->
@@ -22,10 +22,30 @@
               <!--First column-->
               <div class="col-12">
                 <div id="app">
-                            <!--first table-->
+                            
                     <div>
                         output of search which are requirement
                         {{ receiveData }}
+                        <!--first table-->
+                        <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col"></th>
+                                        <th v-for="item in searchResults_Sample" :key="item.id">
+                                        {{ item.title }}
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr v-for="property in Object.keys(searchResults_Sample[0])" :key="property">
+                                        <th scope="row">{{ property }}</th>
+                                        <td v-for="item in searchResults_Sample" :key="item.id">
+                                        {{ item[property] }}
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                                
                     </div>
                   </div>
                 </div>
@@ -37,7 +57,7 @@
 
 </template>
 <script>
-import DropdownMenuMK1 from '@/components/vue-dropdown-menu.vue';
+// import DropdownMenuMK1 from '@/components/vue-dropdown-menu.vue';
 import axios from 'axios'
 export default {
   data() {
@@ -45,12 +65,28 @@ export default {
       clickcount: 0,
       showInfo: true,
       hasScroll: true,
+      userInput: "",
       sendData:"",
-      receiveData:""
+      receiveData:"",
+      searchResults_Sample: [
+    {id:1, title:"Test1",description:"do you like",price:"1234",asin:"5125"},
+    {id:2, title:"Test2",description:"watch vtuber",price:"1234",asin:"4214"},
+    {id:3, title:"Test3",description:"while doing",price:"1231",asin:"1242"},
+    {id:4, title:"Test4",description:"a final project?",price:"1234",asin:"6126"},
+        ],
     };
   },
-  components:{ 
-    DropdownMenuMK1
+  // components:{ 
+  //   DropdownMenuMK1
+  // },
+  computed: {
+    filteredResults() {
+      if (!this.userInput) return Object.keys(this.searchResults_Sample[0]);
+
+      return Object.keys(this.searchResults_Sample[0]).filter(key =>
+        key.toLowerCase().includes(this.userInput.toLowerCase())
+      );
+    },
   },
   methods: {
     send_search_input() {
@@ -74,6 +110,10 @@ export default {
         // Failed 
         this.errorMessage = 'please add information';
       }
+    },
+    getHighlightedText(text) {
+      const regex = new RegExp(this.userInput, "gi"); // Case-insensitive global match
+      return text.replace(regex, match => `<mark>${match}</mark>`);
     },
   },
 };

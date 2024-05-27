@@ -24,44 +24,29 @@
 		<div>
 			<!--a lot of big table-->
 			<div class="container">
-            <div class="row">
-              <!--First column-->
-              <div class="col-12">
-                <div id="app">
-                            <!--first table-->
-                    <table class="table" id="first-app" v-for="item in searchResults_Sample" :key="item" >
-                      <thead style="background-color: beige;">
-                        <tr>
-                          <th scope="col">#Item Number</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <th scope="row" class="Pictureset"></th>
-                          <td>name</td>
-                        </tr>
-                        <tr>
-                          <th scope="row" class="Pictureset"></th>
-                          <td>details</td>
-                        </tr>
-                        <tr>
-                          <th scope="row" class="Pictureset"></th>
-                          <td>brand</td>
-                        </tr>
-                        <tr>
-                          <th scope="row" class="Pictureset"></th>
-                          <td>Price</td>
-                        </tr>
-                        <tr>
-                          <th scope="row" class="Pictureset"></th>
-                          <td>Object type</td>
-                        </tr>
-                        <tr>
-                          <th scope="row" id="targetHighlighted"></th>
-                          <td>search keyword</td>
-                        </tr>
-                      </tbody>
-                    </table>
+                <div class="row">
+                <!--First column-->
+                <div class="col-12">
+                    <div id="app">
+                                <!--first table-->
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col"></th>
+                                        <th v-for="item in searchResults_Sample" :key="item.id">
+                                        {{ item.title }}
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr v-for="property in Object.keys(searchResults_Sample[0])" :key="property">
+                                        <th scope="row">{{ property }}</th>
+                                        <td v-for="item in searchResults_Sample" :key="item.id">
+                                        {{ item[property] }}
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                   </div>
                 </div>
       </div>
@@ -75,19 +60,15 @@
 import DropdownMenuMK1 from '@/components/vue-dropdown-menu.vue';
 import axios from 'axios'
 	export default {
-	sendData(){
-	return{
-	sendData:"",
-	}
-	},
 	data() {
 	return {
-	searchDataSample: "Car",
-	searchResults_Sample: {
-		something:["Kirine","Kirin"],
-		gayis:["Is","Are"],
-		idkman:["A Giraffe","Giraffe queen"]
-	},
+	searchResults_Sample: [
+    {id:1, title:"Test1",description:"do you like",price:"1234",asin:"5125"},
+    {id:2, title:"Test2",description:"watch vtuber",price:"1234",asin:"4214"},
+    {id:3, title:"Test3",description:"while doing",price:"1231",asin:"1242"},
+    {id:4, title:"Test4",description:"a final project?",price:"1234",asin:"6126"},
+        ],
+	searchResults:[],
 	CompareResults: false,
 	showInfo: true,
 	};
