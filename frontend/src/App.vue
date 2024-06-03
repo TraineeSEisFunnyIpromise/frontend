@@ -1,11 +1,13 @@
 <template>
   <nav>
-  <router-link :to="{ name: 'EventList' }">Home</router-link> |
-    <router-link :to="{ name: 'Login' }">Login</router-link> |
-    <router-link :to="{ name: 'Register' }">Register</router-link> |
-    <router-link :to="{ name: 'Searchview' }">Search</router-link> |
-    <router-link :to="{ name: 'CompareItemview' }">Compare</router-link> |
-    <router-link :to="{ name: 'Userinfo' }">User information</router-link> 
+    <ul>
+      <li><router-link :to="{ name: 'EventList' }" class="nav-link">Home</router-link></li>
+      <li><router-link :to="{ name: 'Login' }" class="nav-link">Login</router-link></li>
+      <li><router-link :to="{ name: 'Register' }" class="nav-link">Register</router-link></li>
+      <li><router-link :to="{ name: 'Searchview' }" class="nav-link">Search</router-link></li>
+      <li><router-link :to="{ name: 'CompareItemview' }" class="nav-link">Compare</router-link></li>
+      <li><router-link :to="{ name: 'Userinfo' }" class="nav-link">User information</router-link></li>
+    </ul>
   </nav>
   <router-view />
   
@@ -35,4 +37,31 @@ export default {
   color: #2c3e50;
 }
 
+nav {
+  background-color: #41eeba;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+}
+
+li {
+  margin: 0 1rem;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #057aee;
+  font-weight: bold;
+}
+
+.nav-link:hover {
+  color: #60e23f;
+}
 </style>
