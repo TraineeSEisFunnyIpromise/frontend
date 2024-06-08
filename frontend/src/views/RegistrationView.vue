@@ -1,78 +1,152 @@
 <template>
-	<!-- register.html -->
-<!DOCTYPE html>
-<html>
-<body>
-  <div id="app">
-    <h2>Registration</h2>
-    <form @submit.prevent="register">
-      <h5>
-      <label for="username">Username:</label>
-      <input type="text" id="username" v-model="username" required>
-      </h5>
+  <!-- register.html -->
+  <!DOCTYPE html>
+  <html>
 
-      <h5>
-      <label for="password">Password:</label>
-      <input type="password" id="password" v-model="password" required>
-      </h5>
+  <head>
+    <title>Register Page</title>
+  </head>
 
-      <h5>
-      <div>
-        <label for="userinfo">information about anything:</label>
-      </div>
+  <body>
+    <div class="register">
+      <h2>Registration</h2>
+      <form @submit.prevent="register">
+        <div class="input-group">
+          <label for="username">Username:</label>
+          <input type="text" id="username" v-model="username" required>
+        </div>
 
-      <input type="text" id="userinfo" v-model="userinfo" required>
-      </h5>
+        <div class="input-group">
+          <label for="password">Password:</label>
+          <input type="password" id="password" v-model="password" required>
+        </div>
 
-      <button type="submit" @click="register">Register</button>
-    </form>
-<!--    <p v-if="errorMessage" style="color: red;">{{ errorMessage }}</p>
-    <p v-if="successMessage" style="color: green;">{{ successMessage }}</p>-->
-  </div>
-</body>
-</html>
+        <div class="input-group">
+          <label for="confirmPassword">Confirm Password:</label>
+          <input type="password" id="confirmPassword" v-model="confirmPassword" required>
+        </div>
 
+        <div class="input-group">
+          <label for="dateOfBirth">Date of Birth:</label>
+          <input type="date" id="dateOfBirth" v-model="dateOfBirth" required>
+        </div>
+
+        <div class="input-group">
+          <label for="userinfo">Information about anything:</label>
+          <input type="text" id="userinfo" v-model="userinfo" required>
+        </div>
+
+        <button type="submit">Register</button>
+        <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+      </form>
+      <!--    <p v-if="errorMessage" style="color: red;">{{ errorMessage }}</p>
+      <p v-if="successMessage" style="color: green;">{{ successMessage }}</p>-->
+    </div>
+  </body>
+
+  </html>
 </template>
 
 <script>
 import axios from 'axios';
-
-
-export default {
 // app.js
+export default {
+  name: 'RegisterView',
+  data() {
+    return {
+      username: '',
+      password: '',
+      confirmPassword: '',
+      dateOfBirth: '',
+      userinfo: '',
+      errorMessage: ''
+    };
+  },
   methods: {
     register() {
-      const path = 'http://localhost:5000/register'
+      if (this.password !== this.confirmPassword) {
+        this.errorMessage = 'Passwords do not match.';
+        return;
+      }
+
+      const path = 'http://localhost:5000/register';
       const registerData = {
         username: this.username,
         password: this.password,
+        dateOfBirth: this.dateOfBirth,
         userinfo: this.userinfo
       };
       // Perform registration logic
       // Replace the following code with your own registration logic
-      if (this.username !== '' && this.password !=='' && this.userinfo !== '')  {
-        axios.post(path, registerData)
-          .then(response => {
-            console.log(response.data);
-          })
-          .catch(error => {
-            console.error(error);
-          });
-        // Successful login
-      } else {
-        // Failed login
-        this.errorMessage = 'please add information';
-      }
+      axios.post(path, registerData)
+        .then(response => {
+          console.log(response.data);
+          this.errorMessage = ''; // Clear error message on successful registration
+        })
+        .catch(error => {
+          console.error(error);
+          this.errorMessage = 'Registration failed. Please try again.';
+        });
     }
   }
 };
-
 </script>
 
-<style>
-.top-left-button {
-  position: fixed;
-  top: 10px;
-  left: 10px;
+<style scoped>
+.register {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.register h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.input-group input {
+  width: calc(100% - 20px);
+  padding: 8px 10px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #41eeba;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #fff;
+}
+
+button:hover {
+  background-color: #60e23f;
+}
+
+.error-message {
+  color: red;
+  margin-top: 10px;
+  text-align: center;
 }
 </style>
