@@ -22,17 +22,17 @@
         </div>
 
         <div class="input-group">
-          <label for="confirmPassword">Confirm Password:</label>
-          <input type="password" id="confirmPassword" v-model="confirmPassword" required>
+          <label for="userinfo">Information about Yourself:</label>
+          <input type="text" id="userinfo" v-model="userinfo" required>
         </div>
 
         <div class="input-group">
-          <label for="dateOfBirth">Date of Birth:</label>
-          <input type="date" id="dateOfBirth" v-model="dateOfBirth" required>
+          <label for="userinfo">Question when forget password:</label>
+          <input type="text" id="userinfo" v-model="userinfo" required>
         </div>
 
         <div class="input-group">
-          <label for="userinfo">Information about anything:</label>
+          <label for="userinfo">Answer of the Question:</label>
           <input type="text" id="userinfo" v-model="userinfo" required>
         </div>
 
@@ -133,7 +133,7 @@ button {
   padding: 10px;
   border: none;
   border-radius: 5px;
-  background-color: #41eeba;
+  background-color: #57b498;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
@@ -141,7 +141,7 @@ button {
 }
 
 button:hover {
-  background-color: #60e23f;
+  background-color: #36532e;
 }
 
 .error-message {

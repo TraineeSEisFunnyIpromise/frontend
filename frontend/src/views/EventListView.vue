@@ -4,27 +4,25 @@
 	</h1>
 	<h5>
 	<div>
-		<DropdownMenuMK1 menu-title="What is our product?" dark-mode="auto" class="buttonArrage" style="left: 15%;">
+		<DropdownMenuMK1 menu-title="What is this product?" dark-mode="auto" class="buttonArrage" style="left: 15%;">
             <section class="option">
-            <button @mouseover="sayHello">This is button for method</button>
-            <span class="desc">This is Vue dropdown menu method that says hello for you.</span>
-            </section>
-            <section class="option">
-            <span class="desc">Clicking this takes you somewhere else.</span>
-            </section>
-		</DropdownMenuMK1>
-
-		<DropdownMenuMK1 menu-title="What can it do?" dark-mode="auto" class="buttonArrage" style="left: 40%;">
-            <section class="option">
-            <button @mouseover="sayHello">This is button for method</button>
-            <span class="desc">This is Vue dropdown menu method that says hello for you.</span>
-            </section>
-            <section class="option">
-            <span class="desc">Clicking this takes you somewhere else.</span>
+            <span class="desc">
+this is a web application that will look up a eCommerce website and then scrape the product information 
+include review and then show it in infographic and major opinionon that product
+            </span>
             </section>
 		</DropdownMenuMK1>
 
-		<DropdownMenuMK1 menu-title="What how it work" dark-mode="auto" class="buttonArrage" style="left: 65%;" >
+		<DropdownMenuMK1 menu-title="How it work?" dark-mode="auto" class="buttonArrage" style="left: 40%;">
+            <section class="option">
+            <span class="desc">
+it can provide information and reviews from eCommerce web and help you decide about Electric Device 
+according to your Demand!
+            </span>
+            </section>
+		</DropdownMenuMK1>
+
+		<DropdownMenuMK1 menu-title="How do i use it?" dark-mode="auto" class="buttonArrage" style="left: 65%;" >
             <section class="option">
             <button @mouseover="sayHello">This is button for method</button>
             <span class="desc">This is Vue dropdown menu method that says hello for you.</span>
@@ -137,5 +135,9 @@ left: 10px;
   top: 50%;
   left: 50%;
 }
+
+.desc{
+      font-size: medium;
+}
       </style>
-      
+

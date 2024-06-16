@@ -69,6 +69,8 @@ const router = createRouter({
     }
   }
 })
+
+
 // router.beforeEach(() => {
 //   NProgress.start()
 // })

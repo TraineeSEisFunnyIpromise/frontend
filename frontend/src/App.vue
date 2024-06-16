@@ -38,7 +38,7 @@ export default {
 }
 
 nav {
-  background-color: #41eeba;
+  background-color: #618076;
   padding: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
@@ -57,11 +57,11 @@ li {
 
 .nav-link {
   text-decoration: none;
-  color: #057aee;
+  color: #99b6d4;
   font-weight: bold;
 }
 
 .nav-link:hover {
-  color: #60e23f;
+  color: #7fc46e;
 }
 </style>

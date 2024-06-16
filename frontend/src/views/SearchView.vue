@@ -1,9 +1,18 @@
 <template>
+<div>{{ send_search_input }}</div>
 <form @submit.prevent="searchItems">
       <h2 for="search">Search:</h2>
       <input type="text" id="keyword" v-model="sendData">
+      </form>
+      <select>
+        <option value="0" key="0" selected='true'>Do nothing~</option>
+        <option value="1" key="1">Let Algorithm figure out</option>
+        <option value="2" key="2">Indoor Appliance</option>
+        <option value="3" key="3">Outdoor Appliance</option>
+        <option value="4" key="4">Electric Device</option>
+      </select>
       <button type="submit" @click="send_search_input">Search</button>
-    </form>
+      
     <!--select type dropdown-->
     <!-- <DropdownMenuMK1 menu-title="Vue Dropdown Menu" dark-mode="auto" class="centersomething">
       <section class="option">
@@ -62,6 +71,13 @@ import axios from 'axios'
 export default {
   data() {
     return {
+      options:[ 
+      {value: null, text: 'Please select an option'},
+      {value: 1, text: 'Let Algorithm figure out'},
+      {value: 2, text: 'Indoor Appliance'},
+      {value: 3, text: 'Outdoor Appliance'},
+      {value: 4, text: 'Electric Device'}
+      ],
       clickcount: 0,
       showInfo: true,
       hasScroll: true,
@@ -87,8 +103,27 @@ export default {
         key.toLowerCase().includes(this.userInput.toLowerCase())
       );
     },
+      prependedText() {
+      if (this.selectedOption === 0) {
+        return ""; // No prepend text for default option
+      } else if (this.selectedOption === 1) {
+        return "Search for ";//send thing to method to send to backend and return result
+      } else if (this.selectedOption === 2) {
+        return "Indoor";
+      } else if (this.selectedOption === 3) {
+        return "Outdoor";
+      } else if (this.selectedOption === 4) {
+        return "HomeAppliance";
+      } else {
+        return ""; // Default for unexpected options
+      }
+    }
   },
   methods: {
+    handleOptionChange() {
+    console.log("Selected option:", this.selectedOption);
+    // Perform actions based on the selected option here
+  },
     send_search_input() {
       this.clickcount += 1
       console.log(this.clickcount)
@@ -97,6 +132,7 @@ export default {
         keyword: this.sendData,
       };
       if (this.keyword !== '' ) {
+        //
         axios.post(path, loginData)
           .then(response => {
             this.receiveData = response.data
@@ -185,5 +221,25 @@ tr th:first-child, tr td:first-child {
   left: 0;
   background: white;
 }
+
+.button4 {
+  background-color: white;
+  color: black;
+  border: 2px solid #e7e7e7;
+}
+
+.button4:hover {
+  background-color: #cf7272;
+}
+.button4:active {
+  background-color: #e7e7;
+}
+  
+.button5 {
+  background-color: white;
+  color: black;
+  border: 2px solid #555555;
+}
+
 
 </style>
