@@ -24,11 +24,7 @@ according to your Demand!
 
 		<DropdownMenuMK1 menu-title="How do i use it?" dark-mode="auto" class="buttonArrage" style="left: 65%;" >
             <section class="option">
-            <button @mouseover="sayHello">This is button for method</button>
-            <span class="desc">This is Vue dropdown menu method that says hello for you.</span>
-            </section>
-            <section class="option">
-            <span class="desc">Clicking this takes you somewhere else.</span>
+            <span class="desc">Login and you are good to go!.</span>
             </section>
 		</DropdownMenuMK1>
 		

@@ -12,9 +12,14 @@
       <p>Username: {{ user.username }}</p>
       <p>Email: {{ user.email }}</p>
       <p>Address: {{ user.address }}</p>
+      <div>
+        <button> Delete Account </button>
+        <button> Update Account </button>
+      </div>
     </div>
     <p v-else>No user information available</p>
   </div>
+
 </body>
 </html>
 
@@ -23,6 +28,11 @@
 <script>
 import axios from 'axios'
 export default ({
+  data() {
+    return {
+      user: [{username:"something"},{email:"notgood"},{address:"right?"}],
+    }
+  },
   created() {
     this.fetchUserInfo();
   },

@@ -5,7 +5,6 @@
       <li><router-link :to="{ name: 'Login' }" class="nav-link">Login</router-link></li>
       <li><router-link :to="{ name: 'Register' }" class="nav-link">Register</router-link></li>
       <li><router-link :to="{ name: 'Searchview' }" class="nav-link">Search</router-link></li>
-      <li><router-link :to="{ name: 'CompareItemview' }" class="nav-link">Compare</router-link></li>
       <li><router-link :to="{ name: 'Userinfo' }" class="nav-link">User information</router-link></li>
     </ul>
   </nav>

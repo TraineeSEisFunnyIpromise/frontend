@@ -1,15 +1,13 @@
 <template>
-<div>{{ send_search_input }}</div>
 <form @submit.prevent="searchItems">
       <h2 for="search">Search:</h2>
       <input type="text" id="keyword" v-model="sendData">
       </form>
       <select>
         <option value="0" key="0" selected='true'>Do nothing~</option>
-        <option value="1" key="1">Let Algorithm figure out</option>
-        <option value="2" key="2">Indoor Appliance</option>
-        <option value="3" key="3">Outdoor Appliance</option>
-        <option value="4" key="4">Electric Device</option>
+        <option value="1" key="1">Indoor Appliance</option>
+        <option value="2" key="2">Outdoor Appliance</option>
+        <option value="3" key="3">Electric Device</option>
       </select>
       <button type="submit" @click="send_search_input">Search</button>
       
