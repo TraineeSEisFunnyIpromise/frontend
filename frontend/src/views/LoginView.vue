@@ -52,11 +52,19 @@ export default {
         .then(response => {
           // Handle successful login (store token?)
           console.log(response.data);
+
           // You can store the JWT token in localStorage or Vuex for future requests
         })
         .catch(error => {
+          if(error.status == 500 || error.message == "Network Error"){
+            console.log("server is not response")
+          }
+          else{
+          error.message;
           console.error(error);
-        });
+         }
+        }
+      );
     }
     // app.js
   }

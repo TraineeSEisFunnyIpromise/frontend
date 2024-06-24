@@ -84,9 +84,15 @@ export default {
           this.errorMessage = ''; // Clear error message on successful registration
         })
         .catch(error => {
+          if(error.status == 500 || error.message == "Network Error"){
+            console.log("server is not response")
+          }
+          else{
+          error.message;
           console.error(error);
-          this.errorMessage = 'Registration failed. Please try again.';
-        });
+         }
+        }
+      );
     }
   }
 };

@@ -101,25 +101,10 @@ export default {
         key.toLowerCase().includes(this.userInput.toLowerCase())
       );
     },
-      prependedText() {
-      if (this.selectedOption === 0) {
-        return ""; // No prepend text for default option
-      } else if (this.selectedOption === 1) {
-        return "Search for ";//send thing to method to send to backend and return result
-      } else if (this.selectedOption === 2) {
-        return "Indoor";
-      } else if (this.selectedOption === 3) {
-        return "Outdoor";
-      } else if (this.selectedOption === 4) {
-        return "HomeAppliance";
-      } else {
-        return ""; // Default for unexpected options
-      }
-    }
   },
   methods: {
     handleOptionChange() {
-    console.log("Selected option:", this.selectedOption);
+    console.log("Selected option:", this.selectedOption + this.keyword);
     // Perform actions based on the selected option here
   },
     send_search_input() {
@@ -127,7 +112,7 @@ export default {
       console.log(this.clickcount)
       const path = 'http://localhost:5000/search'
       const loginData = {
-        keyword: this.sendData,
+        keyword: this.sendData + this.option,
       };
       if (this.keyword !== '' ) {
         //
@@ -145,10 +130,10 @@ export default {
         this.errorMessage = 'please add information';
       }
     },
-    getHighlightedText(text) {
-      const regex = new RegExp(this.userInput, "gi"); // Case-insensitive global match
-      return text.replace(regex, match => `<mark>${match}</mark>`);
-    },
+    // getHighlightedText(text) {
+    //   const regex = new RegExp(this.userInput, "gi"); // Case-insensitive global match
+    //   return text.replace(regex, match => `<mark>${match}</mark>`);
+    // },
   },
 };
 </script>

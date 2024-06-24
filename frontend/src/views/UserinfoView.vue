@@ -8,7 +8,7 @@
 <body>
   <div id="app">
     <h2>User Information</h2>
-    <div v-if="user">
+    <div v-if="session != false">
       <p>Username: {{ user.username }}</p>
       <p>Email: {{ user.email }}</p>
       <p>Address: {{ user.address }}</p>
@@ -30,7 +30,8 @@ import axios from 'axios'
 export default ({
   data() {
     return {
-      user: [{username:"something"},{email:"notgood"},{address:"right?"}],
+      name:'',
+      AboutMe:''
     }
   },
   created() {
@@ -43,6 +44,8 @@ export default ({
         .then(response => {
           // Handle successful login (store token?)
           console.log(response.data);
+          this.name = response.data
+          this.AboutMe = response.data
           // You can store the JWT token in localStorage or Vuex for future requests
         })
         .catch(error => {
