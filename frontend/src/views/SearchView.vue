@@ -33,8 +33,10 @@
                     <div>
                         output of search which are requirement
                         {{ receiveData }}
+                        input of Search
+                        {{ keyword }}
                         <!--first table-->
-                        <table class="table table-bordered">
+                        <!-- <table class="table table-bordered">
                                     <thead>
                                     <tr>
                                         <th scope="col"></th>
@@ -51,7 +53,7 @@
                                         </td>
                                     </tr>
                                     </tbody>
-                                </table>
+                                </table> -->
                                 
                     </div>
                   </div>

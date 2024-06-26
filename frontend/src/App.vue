@@ -13,8 +13,25 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
-  inject: ['GStore']
+  inject: ['GStore'],
+  methods: {
+    fetchUserInfo() {
+      const path = 'http://localhost:5000/Userinfo';
+      axios.get(path)
+        .then(response => {
+          // Handle successful login (store token?)
+          console.log(response.data);
+          this.name = response.data
+          this.AboutMe = response.data
+          // You can store the JWT token in localStorage or Vuex for future requests
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    },
+  },
 }
 </script>
 

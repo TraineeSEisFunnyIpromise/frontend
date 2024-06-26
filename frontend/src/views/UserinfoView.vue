@@ -13,8 +13,8 @@
       <p>Email: {{ user.email }}</p>
       <p>Address: {{ user.address }}</p>
       <div>
-        <button> Delete Account </button>
-        <button> Update Account </button>
+        <button  type="submit" @click="UpdateUserInfo" > Delete Account </button>
+        <button  type="submit" @click="DeleteUserInfo" > Update Account </button>
       </div>
     </div>
     <p v-else>No user information available</p>
@@ -40,6 +40,34 @@ export default ({
   methods: {
     fetchUserInfo() {
       const path = 'http://localhost:5000/Userinfo';
+      axios.get(path)
+        .then(response => {
+          // Handle successful login (store token?)
+          console.log(response.data);
+          this.name = response.data
+          this.AboutMe = response.data
+          // You can store the JWT token in localStorage or Vuex for future requests
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    },
+    UpdateUserInfo() {
+      const path = 'http://localhost:5000/updateuserinfo';
+      axios.get(path)
+        .then(response => {
+          // Handle successful login (store token?)
+          console.log(response.data);
+          this.name = response.data
+          this.AboutMe = response.data
+          // You can store the JWT token in localStorage or Vuex for future requests
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    },
+    DeleteUserInfo() {
+      const path = 'http://localhost:5000/deleteuserinfo';
       axios.get(path)
         .then(response => {
           // Handle successful login (store token?)

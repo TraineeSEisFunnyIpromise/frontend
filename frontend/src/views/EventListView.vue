@@ -42,12 +42,6 @@ export default {
                   type: Number,
                   required: true
             },
-            methods: {
-                  redirectToUserinfo() {
-                        this.$router.push('/userinfo')
-                        console("clicked")
-                  }
-            }
       },
       components: {
             DropdownMenuMK1
