@@ -1,15 +1,20 @@
 <template>
   <nav>
-    <ul>
-      <li><router-link :to="{ name: 'EventList' }" class="nav-link">Home</router-link></li>
+    <ul class="nav-left">
+      <li class="box-for">
+        <router-link :to="{ name: 'EventList' }" class="nav-link">
+          Home
+        </router-link>
+      </li>
+    </ul>
+    <ul class="nav-right">
       <li><router-link :to="{ name: 'Login' }" class="nav-link">Login</router-link></li>
       <li><router-link :to="{ name: 'Register' }" class="nav-link">Register</router-link></li>
       <li><router-link :to="{ name: 'Searchview' }" class="nav-link">Search</router-link></li>
-      <li><router-link :to="{ name: 'Userinfo' }" class="nav-link">User information</router-link></li>
+      <li><router-link :to="{ name: 'Userinfo' }" class="nav-link">User Information</router-link></li>
     </ul>
   </nav>
   <router-view />
-  
 </template>
 
 <script>
@@ -57,6 +62,18 @@ nav {
   background-color: #618076;
   padding: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-left {
+  margin-right: auto;
+}
+
+.nav-right {
+  display: flex;
+  justify-content: flex-end;
 }
 
 ul {
@@ -64,7 +81,7 @@ ul {
   padding: 0;
   margin: 0;
   display: flex;
-  justify-content: center;
+  align-items: center;
 }
 
 li {
@@ -80,4 +97,17 @@ li {
 .nav-link:hover {
   color: #7fc46e;
 }
+
+
+.box-for {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  padding: 0.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
 </style>
