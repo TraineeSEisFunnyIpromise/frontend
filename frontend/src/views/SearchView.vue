@@ -1,15 +1,21 @@
 <template>
+
+<div>Selected: {{ selected }}</div>
+<select v-model="selected">
+  <option disabled value="">Please select one</option>
+  <option>A</option>
+  <option>B</option>
+  <option>C</option>
+</select>
+
 <form @submit.prevent="searchItems">
       <h2 for="search">Search:</h2>
-      <input type="text" id="keyword" v-model="sendData">
-      </form>
-      <select>
-        <option value="0" key="0" selected='true'>Do nothing~</option>
-        <option value="1" key="1">Indoor Appliance</option>
-        <option value="2" key="2">Outdoor Appliance</option>
-        <option value="3" key="3">Electric Device</option>
-      </select>
-      <button type="submit" @click="send_search_input">Search</button>
+      <input type="text" id="userInput" v-model="sendData">
+
+
+</form>
+      
+    <button type="submit" @click="send_search_input">Search</button>
       
     <!--select type dropdown-->
     <!-- <DropdownMenuMK1 menu-title="Vue Dropdown Menu" dark-mode="auto" class="centersomething">
@@ -19,47 +25,22 @@
       </section>
 	</DropdownMenuMK1> -->
 
+
   <div>
       <div v-if="clickcount>0" >
-        <h2>Search Results:</h2>
+        <h2>Search Results :</h2>
           
-            <!--a lot of big table-->
-            <div class="container">
-            <div class="row">
               <!--First column-->
               <div class="col-12">
-                <div id="app">
-                            
                     <div>
-                        output of search which are requirement
-                        {{ receiveData }}
-                        input of Search
-                        {{ keyword }}
-                        <!--first table-->
-                        <!-- <table class="table table-bordered">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col"></th>
-                                        <th v-for="item in searchResults_Sample" :key="item.id">
-                                        {{ item.title }}
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr v-for="property in Object.keys(searchResults_Sample[0])" :key="property">
-                                        <th scope="row">{{ property }}</th>
-                                        <td v-for="item in searchResults_Sample" :key="item.id">
-                                        {{ item[property] }}
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table> -->
-                                
+                        output of search which are requirement : 
+                        {{ receiveData }}      
+                    </div>
+                    <div>
+                      input of Search : 
+                        {{ userInput }} 
                     </div>
                   </div>
-                </div>
-              </div>	
-            </div>
       </div>
   </div>
 <!-- oh boy implement time-->
@@ -69,27 +50,28 @@
 // import DropdownMenuMK1 from '@/components/vue-dropdown-menu.vue';
 import axios from 'axios'
 export default {
+  props: {
+    choices: {
+      type: Array,
+      required: true,
+    },
+  },
   data() {
     return {
-      options:[ 
-      {value: null, text: 'Please select an option'},
-      {value: 1, text: 'Let Algorithm figure out'},
-      {value: 2, text: 'Indoor Appliance'},
-      {value: 3, text: 'Outdoor Appliance'},
-      {value: 4, text: 'Electric Device'}
-      ],
+      selectedChoice: null, // Store the selected choice value
       clickcount: 0,
       showInfo: true,
       hasScroll: true,
-      userInput: "",
+      userInput: '',
       sendData:"",
-      receiveData:"",
+      receiveData:"no response",
       searchResults_Sample: [
     {id:1, title:"Test1",description:"do you like",price:"1234",asin:"5125"},
     {id:2, title:"Test2",description:"watch vtuber",price:"1234",asin:"4214"},
     {id:3, title:"Test3",description:"while doing",price:"1231",asin:"1242"},
     {id:4, title:"Test4",description:"a final project?",price:"1234",asin:"6126"},
         ],
+        selected:'',
     };
   },
   // components:{ 
@@ -105,31 +87,29 @@ export default {
     },
   },
   methods: {
-    handleOptionChange() {
-    console.log("Selected option:", this.selectedOption + this.keyword);
-    // Perform actions based on the selected option here
-  },
     send_search_input() {
-      this.clickcount += 1
-      console.log(this.clickcount)
       const path = 'http://localhost:5000/search'
-      const loginData = {
-        keyword: this.sendData + this.option,
-      };
-      if (this.keyword !== '' ) {
+      this.userInput= this.selected + this.sendData
+      if (this.userInput !== '' ) {
+        this.clickcount += 1
         //
-        axios.post(path, loginData)
+        console.log(this.userInput)
+        axios.post(path, this.userInput)
           .then(response => {
-            this.receiveData = response.data
+            this.receiveData =  this.selected + response.data
             console.log(response.data);
           })
           .catch(error => {
-            console.log(error);
+          this.userInput= this.selected + this.sendData
+          console.log(this.userInput)
+          console.log(error);
           });
         // Successful 
       } else {
-        // Failed 
-        this.errorMessage = 'please add information';
+        // Failed
+        alert('please add an input');
+        console.log("please add information");
+        
       }
     },
     // getHighlightedText(text) {
