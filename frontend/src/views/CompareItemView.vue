@@ -6,18 +6,6 @@
 	<div v-else>
 		<p>No search results found.</p>
 	</div>
-	<h8>
-		<DropdownMenuMK1 menu-title="Vue Dropdown Menu" dark-mode="auto" class="centersomething">
-			<section class="option">
-			<span class="desc">This is Vue dropdown menu method that says hello for you.</span>
-			</section>
-
-			<section class="option">
-			<span class="desc">Clicking this takes you somewhere else.</span>
-			</section>
-
-		</DropdownMenuMK1>
-	</h8>
 		<!-- Content display for comparing-->
 		<!--row 1-->
 
@@ -57,45 +45,82 @@
 	</body>
 </template>
 <script>
-import DropdownMenuMK1 from '@/components/vue-dropdown-menu.vue';
 import axios from 'axios'
 	export default {
 	data() {
 	return {
 	searchResults_Sample: [
-    {id:1, title:"Test1",description:"do you like",price:"1234",asin:"5125"},
-    {id:2, title:"Test2",description:"watch vtuber",price:"1234",asin:"4214"},
-    {id:3, title:"Test3",description:"while doing",price:"1231",asin:"1242"},
-    {id:4, title:"Test4",description:"a final project?",price:"1234",asin:"6126"},
+    {id:1, title:"Test1",description:["criterialist1","criterialist2","criterialist3"],price:"1234",asin:"5125"},
+    {id:2, title:"Test2",description:["criterialist1","criterialist2","criterialist3"],price:"1234",asin:"4214"},
+    {id:3, title:"Test3",description:["criterialist1","criterialist2","criterialist3"],price:"1231",asin:"1242"},
+    {id:4, title:"Test4",description:["criterialist1","criterialist2","criterialist3"],price:"1234",asin:"6126"},
         ],
 	searchResults:[],
 	CompareResults: false,
 	showInfo: true,
+	datastore:'',
 	};
 	},
 	methods: {
-	search() {
-	const path = 'http://localhost:5000/search'
+	compare_test() {
+	const path = 'http://localhost:5000/compare_test'
 	const loginData = {
 		keyword: this.sendData,
 	};
-	if (this.keyword !== '' ) {
-		axios.post(path, loginData)
-		.then(response => {
-		console.log(response.data);
-		})
-		.catch(error => {
-		console.log(error);
-		});
-		// Successful login
-		} else {
-		// Failed login
-		this.errorMessage = 'please add information';
-		}
+		if (this.keyword !== '' ) {
+				axios.post(path, loginData)
+					.then(response => {
+						console.log(response.data);
+					})
+					.catch(error => {
+						console.log(error);
+					});
+			// Successful login
+			} else {
+			// Failed login
+			this.errorMessage = 'please add information';
+			}
+		},
+		compare() {
+	const path = 'http://localhost:5000/compare_test'
+	const loginData = {
+		keyword: this.sendData,
+	};
+		if (this.keyword !== '' ) {
+				axios.post(path, loginData)
+					.then(response => {
+						console.log(response.data);
+					})
+					.catch(error => {
+						console.log(error);
+					});
+			// Successful login
+			} else {
+			// Failed login
+			this.errorMessage = 'please add information';
+			}
+		},
+		result() {
+	const path = 'http://localhost:5000/result'
+	const loginData = {
+		keyword: this.sendData,
+	};
+		if (this.keyword !== '' ) {
+				axios.post(path, loginData)
+					.then(response => {
+						console.log(response.data);
+					})
+					.catch(error => {
+						console.log(error);
+					});
+			// Successful login
+			} else {
+			// Failed login
+			this.errorMessage = 'please add information';
+			}
 		},
 	},
 	components:{
-		DropdownMenuMK1
 	},
 	mounted: function() {
 		}

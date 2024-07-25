@@ -11,6 +11,7 @@
       <li><router-link :to="{ name: 'Login' }" class="nav-link">Login</router-link></li>
       <li><router-link :to="{ name: 'Register' }" class="nav-link">Register</router-link></li>
       <li><router-link :to="{ name: 'Searchview' }" class="nav-link">Search</router-link></li>
+      <li><router-link :to="{ name: 'CompareItemview' }" class="nav-link">compare</router-link></li>
       <li class="user-dropdown">
         <img src="/frontend/src/assets/Login_Icon.jpg" alt="User Portrait" class="user-icon" @click="toggleDropdown" />
         <ul v-if="dropdownOpen" class="dropdown-menu">
