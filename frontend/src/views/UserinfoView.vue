@@ -13,8 +13,9 @@
       <p>Email: {{ user.email }}</p>
       <p>Address: {{ user.address }}</p>
       <div>
-        <button  type="submit" @click="UpdateUserInfo" > Delete Account </button>
-        <button  type="submit" @click="DeleteUserInfo" > Update Account </button>
+        <a><button  type="submit" @click="UpdateUserInfo" > Delete Account </button></a>
+        
+        <a><button  type="submit" @click="DeleteUserInfo" > Update Account </button></a>
       </div>
     </div>
     <p v-else>No user information available</p>
@@ -39,7 +40,7 @@ export default ({
   },
   methods: {
     fetchUserInfo() {
-      const path = 'http://localhost:5000/Userinfo';
+      const path = 'http://localhost:5000/userinfo/Information';
       axios.get(path)
         .then(response => {
           // Handle successful login (store token?)

@@ -43,7 +43,7 @@ export default {
   },
   methods: {
     login() {
-      const path = 'http://localhost:5000/login';
+      const path = 'http://localhost:5000/auth/login';
       const logindata = {
         username: this.username,
         password: this.password
@@ -52,7 +52,14 @@ export default {
         .then(response => {
           // Handle successful login (store token?)
           console.log(response.data);
-
+          if(response.status === 202){
+            console.log("redirecting"); 
+            this.$router.push('userinfo')
+          }
+          else{
+            console.log("test1")
+          }
+          
           // You can store the JWT token in localStorage or Vuex for future requests
         })
         .catch(error => {

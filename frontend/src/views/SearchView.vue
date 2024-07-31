@@ -41,6 +41,48 @@
                         {{ userInput }} 
                     </div>
                   </div>
+                  
+              <!--row 1-->
+                <div>
+                  <!--a lot of big table-->
+                  <div class="container">
+                          <div class="row">
+                            <!--First column-->
+                              <div class="col-12">
+                                <div id="app">
+                                            <!--first table-->
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th scope="col"></th>
+                                                    <th v-for="item in searchResults_Sample" :key="item.id">
+                                                    {{ item.title }}
+                                                    </th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr v-for="property in Object.keys(searchResults_Sample[0])" :key="property">
+                                                    <th scope="row">{{ property }}</th>
+                                                    <td v-for="item in searchResults_Sample" :key="item.id">
+                                                    {{ item[property] }}
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                              </div>
+                      <div>something</div>
+                      <input
+                        type="checkbox"
+                        v-model="toggle"
+                        true-value="yes"
+                        false-value="no" />
+                      <div>{{ datastore }}</div>
+                    </div>
+                  </div>
+              </div>
+            <!-- oh boy implement time-->
+                </div>
+      
       </div>
   </div>
 <!-- oh boy implement time-->
@@ -66,10 +108,10 @@ export default {
       sendData:"",
       receiveData:"no response",
       searchResults_Sample: [
-    {id:1, title:"Test1",description:"do you like",price:"1234",asin:"5125"},
-    {id:2, title:"Test2",description:"watch vtuber",price:"1234",asin:"4214"},
-    {id:3, title:"Test3",description:"while doing",price:"1231",asin:"1242"},
-    {id:4, title:"Test4",description:"a final project?",price:"1234",asin:"6126"},
+    {id:1, title:"Test1",description:["criterialist1","criterialist2","criterialist3"],price:"1234",asin:"5125"},
+    {id:2, title:"Test2",description:["criterialist1","criterialist2","criterialist3"],price:"1234",asin:"4214"},
+    {id:3, title:"Test3",description:["criterialist1","criterialist2","criterialist3"],price:"1231",asin:"1242"},
+    {id:4, title:"Test4",description:["criterialist1","criterialist2","criterialist3"],price:"1234",asin:"6126"},
         ],
         selected:'',
     };
@@ -112,6 +154,38 @@ export default {
         
       }
     },
+    compare_test() {
+	const path = 'http://localhost:5000/compare_test'
+			axios.post(path)
+				.then(response => {
+						console.log(response.data);
+						this.datastore = response
+				})
+				.catch(error => {
+						console.log(error);
+				});
+		// Successful login
+
+		},
+		compare() {
+	const path = 'http://localhost:5000/compare_test'
+	const loginData = {
+		keyword: this.sendData,
+	};
+		if (this.keyword !== '' ) {
+				axios.post(path, loginData)
+					.then(response => {
+						console.log(response.data);
+					})
+					.catch(error => {
+						console.log(error);
+					});
+			// Successful login
+			} else {
+			// Failed login
+			this.errorMessage = 'please add information';
+			}
+		},
     // getHighlightedText(text) {
     //   const regex = new RegExp(this.userInput, "gi"); // Case-insensitive global match
     //   return text.replace(regex, match => `<mark>${match}</mark>`);

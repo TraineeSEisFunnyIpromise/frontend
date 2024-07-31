@@ -8,7 +8,6 @@
 	</div>
 		<!-- Content display for comparing-->
 		<!--row 1-->
-
 		<div>
 			<!--a lot of big table-->
 			<div class="container">
@@ -36,6 +35,8 @@
                                     </tbody>
                                 </table>
                   </div>
+				<div>something</div>
+				<div>{{ datastore }}</div>
                 </div>
       </div>
   </div>
@@ -64,22 +65,16 @@ import axios from 'axios'
 	methods: {
 	compare_test() {
 	const path = 'http://localhost:5000/compare_test'
-	const loginData = {
-		keyword: this.sendData,
-	};
-		if (this.keyword !== '' ) {
-				axios.post(path, loginData)
-					.then(response => {
+			axios.post(path)
+				.then(response => {
 						console.log(response.data);
-					})
-					.catch(error => {
+						this.datastore = response
+				})
+				.catch(error => {
 						console.log(error);
-					});
-			// Successful login
-			} else {
-			// Failed login
-			this.errorMessage = 'please add information';
-			}
+				});
+		// Successful login
+
 		},
 		compare() {
 	const path = 'http://localhost:5000/compare_test'
