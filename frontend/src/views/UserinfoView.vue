@@ -9,13 +9,14 @@
   <div id="app">
     <h2>User Information</h2>
     <div v-if="session != false">
-      <p>Username: {{ user.username }}</p>
-      <p>Email: {{ user.email }}</p>
-      <p>Address: {{ user.address }}</p>
-      <div>
-        <a><button  type="submit" @click="UpdateUserInfo" > Delete Account </button></a>
-        
-        <a><button  type="submit" @click="DeleteUserInfo" > Update Account </button></a>
+      <div v-if="user != null">
+        <p v-if="user != null">Username: {{ user.username }}</p>
+        <p v-if="user != null">Email: {{ user.email }}</p>
+        <div>
+          <a><button  type="submit" @click="UpdateUserInfo" > Delete Account </button></a>
+          
+          <a><button  type="submit" @click="DeleteUserInfo" > Update Account </button></a>
+        </div>
       </div>
     </div>
     <p v-else>No user information available</p>
@@ -31,8 +32,7 @@ import axios from 'axios'
 export default ({
   data() {
     return {
-      name:'',
-      AboutMe:''
+      user:null
     }
   },
   created() {
@@ -40,13 +40,13 @@ export default ({
   },
   methods: {
     fetchUserInfo() {
+      const sessionId = localStorage.getItem('session_id');
       const path = 'http://localhost:5000/userinfo/Information';
-      axios.get(path)
+      axios.get(path,{ params: { session_id: sessionId } })
         .then(response => {
           // Handle successful login (store token?)
           console.log(response.data);
-          this.name = response.data
-          this.AboutMe = response.data
+          this.user = response.data
           // You can store the JWT token in localStorage or Vuex for future requests
         })
         .catch(error => {
@@ -59,6 +59,7 @@ export default ({
         .then(response => {
           // Handle successful login (store token?)
           console.log(response.data);
+         
           this.name = response.data
           this.AboutMe = response.data
           // You can store the JWT token in localStorage or Vuex for future requests

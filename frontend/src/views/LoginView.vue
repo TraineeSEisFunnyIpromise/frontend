@@ -38,7 +38,8 @@ export default {
   data() {
     return {
       username: '',
-      password: ''
+      password: '',
+      sessionId: null
     };
   },
   methods: {
@@ -54,6 +55,8 @@ export default {
           console.log(response.data);
           if(response.status === 202){
             console.log("redirecting"); 
+            this.sessionId = response.data.session_id;
+            localStorage.setItem('session_id', this.sessionId);  // Store session ID in local storage
             this.$router.push('userinfo')
           }
           else{
