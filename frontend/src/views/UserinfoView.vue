@@ -20,6 +20,10 @@
       <div><input type="text" v-if="deleteUser" ref="deleteInput" v-model="deletepass" /></div>
       <button v-if="!deleteUser" @click="showDeleteForm">Delete</button>
       <button v-if="deleteUser" @click="DeleteUser">Delete user</button>
+
+      <div v-if="!admindeleteUser"><input type="text" v-if="deleteUser" ref="deleteInput" v-model="deletepass" /></div>
+      <button v-if="!admindeleteUser" @click="showAdminDeleteForm">Delete target</button>
+      <button v-if="admindeleteUser" @click="DeleteAdminUser">Delete target user</button>
         </div>
       </div>
     </div>
@@ -39,6 +43,7 @@ export default ({
       user:null,
       showUpdate: false,
       deleteUser: false,
+      admindeleteUser: false,
       updatedAbout: '',
       send:'',
     }
@@ -97,8 +102,16 @@ export default ({
         this.showUpdate = true;
         this.updatedAbout = this.user.about;
       },
+      
       showDeleteForm() {
         this.deleteUser = true;
+      },
+      showAdminDeleteForm() {
+        if(this.user['role'] == 'admin'){
+          this.admindeleteUser = true;
+        }
+        
+
       },
   },
 });
