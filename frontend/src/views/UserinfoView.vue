@@ -10,12 +10,16 @@
     <h2>User Information</h2>
     <div v-if="session != false">
       <div v-if="user != null">
-        <p v-if="user != null">Username: {{ user.username }}</p>
-        <p v-if="user != null">Email: {{ user.email }}</p>
+        <p v-if="user.username != null">Username: {{ user.username }}</p>
+        <p v-if="user.about != null">About me: {{ user.about }}</p>
         <div>
-          <a><button  type="submit" @click="UpdateUserInfo" > Delete Account </button></a>
+      <div><input type="text" v-if="showUpdate" ref="aboutInput" v-model="updatedAbout" /></div>
+      <button v-if="!showUpdate" @click="showUpdateForm">Update</button>
+      <button v-if="showUpdate" @click="updateUserInfo">Save</button>
           
-          <a><button  type="submit" @click="DeleteUserInfo" > Update Account </button></a>
+      <div><input type="text" v-if="deleteUser" ref="deleteInput" v-model="deletepass" /></div>
+      <button v-if="!deleteUser" @click="showDeleteForm">Delete</button>
+      <button v-if="deleteUser" @click="DeleteUser">Delete user</button>
         </div>
       </div>
     </div>
@@ -32,7 +36,11 @@ import axios from 'axios'
 export default ({
   data() {
     return {
-      user:null
+      user:null,
+      showUpdate: false,
+      deleteUser: false,
+      updatedAbout: '',
+      send:'',
     }
   },
   created() {
@@ -40,9 +48,10 @@ export default ({
   },
   methods: {
     fetchUserInfo() {
-      const sessionId = localStorage.getItem('session_id');
-      const path = 'http://localhost:5000/userinfo/Information';
-      axios.post(path,{ params: { session_id: sessionId } })
+      // const sessionId = localStorage.getItem('session_id');
+      // { params: { session_id: sessionId } }
+      const path = 'http://localhost:5000/userinfo/Information_test';
+      axios.post(path)
         .then(response => {
           // Handle successful login (store token?)
           console.log(response.data);
@@ -53,35 +62,44 @@ export default ({
           console.error(error);
         });
     },
-    UpdateUserInfo() {
+    UpdateUser() {
       const path = 'http://localhost:5000/updateuserinfo';
-      axios.get(path)
+      const send_about = this.updatedAbout;
+      // const senddata: 
+      axios.get(path,send_about)
         .then(response => {
           // Handle successful login (store token?)
           console.log(response.data);
-         
           this.name = response.data
           this.AboutMe = response.data
+          this.showUpdate = false;
           // You can store the JWT token in localStorage or Vuex for future requests
         })
         .catch(error => {
           console.error(error);
         });
     },
-    DeleteUserInfo() {
+    DeleteUser() {
       const path = 'http://localhost:5000/deleteuserinfo';
-      axios.get(path)
+      const user = this.deletepass
+      axios.get(path,user)
         .then(response => {
           // Handle successful login (store token?)
+          this.$router.push("/")
           console.log(response.data);
-          this.name = response.data
-          this.AboutMe = response.data
           // You can store the JWT token in localStorage or Vuex for future requests
         })
         .catch(error => {
           console.error(error);
         });
     },
+      showUpdateForm() {
+        this.showUpdate = true;
+        this.updatedAbout = this.user.about;
+      },
+      showDeleteForm() {
+        this.deleteUser = true;
+      },
   },
 });
 

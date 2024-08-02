@@ -18,7 +18,7 @@
 
         <div class="input-group">
           <label for="password">Password:</label>
-          <input type="text" id="password" v-model="password" required>
+          <input type="password" id="password" v-model="password" required>
         </div>
 
         <div class="input-group">
