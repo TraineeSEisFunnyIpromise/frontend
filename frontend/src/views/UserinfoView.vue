@@ -42,7 +42,7 @@ export default ({
     fetchUserInfo() {
       const sessionId = localStorage.getItem('session_id');
       const path = 'http://localhost:5000/userinfo/Information';
-      axios.get(path,{ params: { session_id: sessionId } })
+      axios.post(path,{ params: { session_id: sessionId } })
         .then(response => {
           // Handle successful login (store token?)
           console.log(response.data);

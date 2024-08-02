@@ -18,17 +18,17 @@
 
         <div class="input-group">
           <label for="password">Password:</label>
-          <input type="password" id="password" v-model="password" required>
+          <input type="text" id="password" v-model="password" required>
         </div>
 
         <div class="input-group">
-          <label for="userinfo">Information about Yourself:</label>
-          <input type="text" id="userinfo" v-model="userinfo" required>
+          <label for="info">Information about Yourself:</label>
+          <input type="text" id="info" v-model="info" required>
         </div>
 
         <div class="input-group">
-          <label for="userinfo">Question when forget password:</label>
-          <input type="text" id="userinfo" v-model="userinfo" required>
+          <label for="question">Question when forget password:</label>
+          <input type="text" id="question" v-model="question" required>
         </div>
 
         <div class="input-group">
@@ -64,11 +64,6 @@ export default {
   },
   methods: {
     register() {
-      if (this.password !== this.confirmPassword) {
-        this.errorMessage = 'Passwords do not match.';
-        return;
-      }
-
       const path = 'http://localhost:5000/register';
       const registerData = {
         username: this.username,
