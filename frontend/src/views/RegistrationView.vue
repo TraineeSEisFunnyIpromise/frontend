@@ -64,7 +64,7 @@ export default {
   },
   methods: {
     register() {
-      const path = 'http://localhost:5000/register';
+      const path = 'http://localhost:5000/auth/register';
       const registerData = {
         username: this.username,
         password: this.password,

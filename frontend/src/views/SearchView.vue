@@ -7,7 +7,7 @@
 
 </form>
       
-    <button type="submit" @click="send_search_input">Search your electric's criteria</button>
+    <button type="submit" @click="send_search_test">Search your electric's criteria</button>
       
     <!--select type dropdown-->
     <!-- <DropdownMenuMK1 menu-title="Vue Dropdown Menu" dark-mode="auto" class="centersomething">
@@ -103,19 +103,19 @@ export default {
       clickcount: 0,
       showInfo: true,
       hasScroll: true,
-      userInput: '',
-      sendData:"",
+      sendData:'',
       receiveData:"no response",
       searchResults_Sample: [
-    {id:1, title:"Test1",description:["criterialist1","criterialist2","criterialist3"],price:"1234",asin:"5125"},
-    {id:2, title:"Test2",description:["criterialist1","criterialist2","criterialist3"],price:"1234",asin:"4214"},
-    {id:3, title:"Test3",description:["criterialist1","criterialist2","criterialist3"],price:"1231",asin:"1242"},
-    {id:4, title:"Test4",description:["criterialist1","criterialist2","criterialist3"],price:"1234",asin:"6126"},
+    {id:1, title:"Test1",description:["front end criterialist1","criterialist2","criterialist3"],price:"1234",asin:"5125"},
+    {id:2, title:"Test2",description:["front end criterialist1","criterialist2","criterialist3"],price:"1234",asin:"4214"},
+    {id:3, title:"Test3",description:["front end criterialist1","criterialist2","criterialist3"],price:"1231",asin:"1242"},
+    {id:4, title:"Test4",description:["front end criterialist1","criterialist2","criterialist3"],price:"1234",asin:"6126"},
         ],
         selected:'',
         items: ['test1','test2'],
         checkedItems: [],
         selectedItems:[],
+        userInput:''
     };
   },
   // components:{ 
@@ -137,7 +137,7 @@ export default {
   },
   methods: {
     send_search_input() {
-      const path = 'http://localhost:5000/search'
+      const path = 'http://localhost:5000/search/search'
       this.userInput= this.selectedItems + this.sendData
       if (this.userInput !== '' ) {
         this.clickcount += 1
@@ -161,20 +161,17 @@ export default {
         
       }
     },
-    send_search_prod_input() {
-      const path = 'http://localhost:5000/search_prod'
-      this.userInput= this.selectedItems + this.sendData
-      if (this.userInput !== '' ) {
+    send_search_test() {
+      const path = 'http://localhost:5000/search/search_criteria_test'
+      if (this.yeet !== '' ) {
         this.clickcount += 1
-        //
-        console.log(this.userInput)
-        axios.post(path, this.userInput)
+        axios.post(path)
           .then(response => {
-            this.receiveData =  this.selected + response.data
+            this.receiveData = response.data
             console.log(response.data);
           })
           .catch(error => {
-          this.userInput= this.selected + this.sendData
+          this.userInput= this.sendData
           console.log(this.userInput)
           console.log(error);
           });
@@ -187,7 +184,7 @@ export default {
       }
     },
     compare_test() {
-	const path = 'http://localhost:5000/compare_test'
+	const path = 'http://localhost:5000/compare'
 			axios.post(path)
 				.then(response => {
 						console.log(response.data);
