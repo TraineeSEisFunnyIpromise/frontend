@@ -1,13 +1,5 @@
 <template>
 
-<div>Selected: {{ selected }}</div>
-<select v-model="selected">
-  <option disabled value="">Please select one</option>
-  <option>A</option>
-  <option>B</option>
-  <option>C</option>
-</select>
-
 <form @submit.prevent="searchItems">
       <h2 for="search">Search:</h2>
       <input type="text" id="userInput" v-model="sendData">
@@ -15,7 +7,7 @@
 
 </form>
       
-    <button type="submit" @click="send_search_input">Search</button>
+    <button type="submit" @click="send_search_input">Search your electric's criteria</button>
       
     <!--select type dropdown-->
     <!-- <DropdownMenuMK1 menu-title="Vue Dropdown Menu" dark-mode="auto" class="centersomething">
@@ -45,6 +37,13 @@
               <!--row 1-->
                 <div>
                   <!--a lot of big table-->
+                  <div>
+                                          <div>Selected names: {{ selectedItems }}</div>
+                                              <div v-for="item in items" :key="item">
+                                                <input type="checkbox" :id="item" :value="item" v-model="checkedItems" />
+                                              <label :for="item">{{ item }}</label>
+                                            </div>
+                                           </div>
                   <div class="container">
                           <div class="row">
                             <!--First column-->
@@ -114,6 +113,9 @@ export default {
     {id:4, title:"Test4",description:["criterialist1","criterialist2","criterialist3"],price:"1234",asin:"6126"},
         ],
         selected:'',
+        items: ['test1','test2'],
+        checkedItems: [],
+        selectedItems:[],
     };
   },
   // components:{ 
@@ -128,10 +130,40 @@ export default {
       );
     },
   },
+  watch: {
+    checkedItems(newValue) {
+      this.selectedItems = newValue;
+    }
+  },
   methods: {
     send_search_input() {
       const path = 'http://localhost:5000/search'
-      this.userInput= this.selected + this.sendData
+      this.userInput= this.selectedItems + this.sendData
+      if (this.userInput !== '' ) {
+        this.clickcount += 1
+        //
+        console.log(this.userInput)
+        axios.post(path, this.userInput)
+          .then(response => {
+            this.receiveData =  this.selected + response.data
+            console.log(response.data);
+          })
+          .catch(error => {
+          this.userInput= this.selected + this.sendData
+          console.log(this.userInput)
+          console.log(error);
+          });
+        // Successful 
+      } else {
+        // Failed
+        alert('please add an input');
+        console.log("please add information");
+        
+      }
+    },
+    send_search_prod_input() {
+      const path = 'http://localhost:5000/search_prod'
+      this.userInput= this.selectedItems + this.sendData
       if (this.userInput !== '' ) {
         this.clickcount += 1
         //
