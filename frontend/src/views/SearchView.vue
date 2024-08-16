@@ -1,92 +1,69 @@
 <template>
+  <form @submit.prevent="executeSearchAndScrape">
+    <div class="inputtext" for="search">Search Product</div>
+    <input type="text" id="searchInput" v-model="searchData" required>
 
-<form @submit.prevent="searchItems">
-      <h2 for="search">Search:</h2>
-      <input type="text" id="userInput" v-model="sendData">
+    <div class="inputtext" for="groupsearch">Group target</div>
+    <input type="text" id="peopletargetInput" v-model="usertargetData">
+  </form>
 
-
-</form>
-      
-    <button type="submit" @click="send_search_test">Search your electric's criteria</button>
-      
-    <!--select type dropdown-->
-    <!-- <DropdownMenuMK1 menu-title="Vue Dropdown Menu" dark-mode="auto" class="centersomething">
-      <section class="option">
-      <button >This is button for method</button>
-      <span class="desc">This is Vue dropdown menu method that says hello for you.</span>
-      </section>
-	</DropdownMenuMK1> -->
-
-
-  <div>
-      <div v-if="clickcount>0" >
-        <h2>Search Results :</h2>
-          
-              <!--First column-->
-              <div class="col-12">
-                    <div>
-                        output of search which are requirement : 
-                        {{ receiveData }}      
-                    </div>
-                    <div>
-                      input of Search : 
-                        {{ userInput }} 
-                    </div>
-                  </div>
-                  
-              <!--row 1-->
-                <div>
-                  <!--a lot of big table-->
-                  <div>
-                                          <div>Selected names: {{ selectedItems }}</div>
-                                              <div v-for="item in items" :key="item">
-                                                <input type="checkbox" :id="item" :value="item" v-model="checkedItems" />
-                                              <label :for="item">{{ item }}</label>
-                                            </div>
-                                           </div>
-                  <div class="container">
-                          <div class="row">
-                            <!--First column-->
-                              <div class="col-12">
-                                <div id="app">
-                                            <!--first table-->
-                                            <table class="table table-bordered">
-                                                <thead>
-                                                <tr>
-                                                    <th scope="col"></th>
-                                                    <th v-for="item in searchResults_Sample" :key="item.id">
-                                                    {{ item.title }}
-                                                    </th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-                                                <tr v-for="property in Object.keys(searchResults_Sample[0])" :key="property">
-                                                    <th scope="row">{{ property }}</th>
-                                                    <td v-for="item in searchResults_Sample" :key="item.id">
-                                                    {{ item[property] }}
-                                                    </td>
-                                                </tr>
-                                                </tbody>
-                                            </table>
-                              </div>
-                      <div>something</div>
-                      <input
-                        type="checkbox"
-                        v-model="toggle"
-                        true-value="yes"
-                        false-value="no" />
-                      <div>{{ datastore }}</div>
-                    </div>
-                  </div>
-              </div>
-            <!-- oh boy implement time-->
-                </div>
-      
-      </div>
+  <div style="padding-top: 10px;">
+    <button type="submit" @click="executeSearchAndScrape">Click here to create your electric's criteria</button>
   </div>
-<!-- oh boy implement time-->
 
+  <div v-if="receiveData == True">
+    <h2>Search Results :</h2>
+    <div class="col-12">
+      <div>
+        Output of search which are requirements:
+        {{ receiveData }}
+      </div>
+      <div>
+        Input of Search:
+        {{ userInput }}
+      </div>
+    </div>
+
+    <div>
+      <div>
+        <div>Selected criteria: {{ selectedItems }}</div>
+        <div v-for="item in items" :key="item">
+          <input type="checkbox" :id="item" :value="item" v-model="checkedItems" />
+          <label :for="item">{{ item }}</label>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="row">
+          <div class="col-12">
+            <div id="app">
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col"></th>
+                    <th v-for="item in searchResults" :key="item.title">{{ item.title }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="property in Object.keys(searchResults_Sample[0])" :key="property">
+                    <th scope="row">{{ property }}</th>
+                    <td v-for="item in searchResults_Sample" :key="item.id">{{ item[property] }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div>something</div>
+            <input type="checkbox" v-model="toggle" true-value="yes" false-value="no" />
+            <div>{{ datastore }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
+
+
 <script>
 // import DropdownMenuMK1 from '@/components/vue-dropdown-menu.vue';
 import axios from 'axios'
@@ -103,33 +80,29 @@ export default {
       clickcount: 0,
       showInfo: true,
       hasScroll: true,
-      sendData:'',
+      searchData:'',
+      usertargetData:'',
       receiveData:"no response",
-      searchResults_Sample: [
-    {id:1, title:"Test1",description:["front end criterialist1","criterialist2","criterialist3"],price:"1234",asin:"5125"},
-    {id:2, title:"Test2",description:["front end criterialist1","criterialist2","criterialist3"],price:"1234",asin:"4214"},
-    {id:3, title:"Test3",description:["front end criterialist1","criterialist2","criterialist3"],price:"1231",asin:"1242"},
-    {id:4, title:"Test4",description:["front end criterialist1","criterialist2","criterialist3"],price:"1234",asin:"6126"},
-        ],
-        selected:'',
-        items: ['test1','test2'],
-        checkedItems: [],
-        selectedItems:[],
-        userInput:''
+      selected:'',
+      searchResults: [],
+      items: ['test1','test2'],
+      checkedItems: [],
+      selectedItems:[],
+      userInput:''
     };
   },
   // components:{ 
   //   DropdownMenuMK1
   // },
-  computed: {
-    filteredResults() {
-      if (!this.userInput) return Object.keys(this.searchResults_Sample[0]);
+  // computed: {
+  //   filteredResults() {
+  //     if (!this.userInput) return Object.keys(this.searchResults);
 
-      return Object.keys(this.searchResults_Sample[0]).filter(key =>
-        key.toLowerCase().includes(this.userInput.toLowerCase())
-      );
-    },
-  },
+  //     return Object.keys(this.searchResults).filter(key =>
+  //       key.toLowerCase().includes(this.userInput.toLowerCase())
+  //     );
+  //   },
+  // },
   watch: {
     checkedItems(newValue) {
       this.selectedItems = newValue;
@@ -137,8 +110,10 @@ export default {
   },
   methods: {
     send_search_input() {
-      const path = 'http://localhost:5000/search/search'
-      this.userInput= this.selectedItems + this.sendData
+      console.log("searchtringerred")
+      const path = 'http://localhost:5000/search/search_criteria'
+      this.userInput=  this.searchData+this.usertargetData
+      //an entire stuff happen below here also this is might be the worst refactor i have ever done
       if (this.userInput !== '' ) {
         this.clickcount += 1
         //
@@ -161,64 +136,27 @@ export default {
         
       }
     },
-    send_search_test() {
-      const path = 'http://localhost:5000/search/search_criteria_test'
-      if (this.yeet !== '' ) {
-        this.clickcount += 1
-        axios.post(path)
-          .then(response => {
-            this.receiveData = response.data
-            console.log(response.data);
-          })
-          .catch(error => {
-          this.userInput= this.sendData
-          console.log(this.userInput)
+    scrape() {
+      console.log("scrape tringerred")
+      const path = 'http://localhost:5000/search/search_prod';
+      axios.post(path)
+        .then(response => {
+          console.log(response.data);
+          this.datastore = response.data;
+        })
+        .catch(error => {
           console.log(error);
-          });
-        // Successful 
-      } else {
-        // Failed
-        alert('please add an input');
-        console.log("please add information");
-        
+        });
+    },
+        // Control Method
+    executeSearchAndScrape() {
+      // First, send the search input
+      this.send_search_input();
+      // you can trigger the scrape method.
+      if (this.clickcount > 0 && this.receiveData !== '') {
+        this.scrape();
       }
     },
-    compare_test() {
-	const path = 'http://localhost:5000/compare'
-			axios.post(path)
-				.then(response => {
-						console.log(response.data);
-						this.datastore = response
-				})
-				.catch(error => {
-						console.log(error);
-				});
-		// Successful login
-
-		},
-		compare() {
-	const path = 'http://localhost:5000/compare_test'
-	const loginData = {
-		keyword: this.sendData,
-	};
-		if (this.keyword !== '' ) {
-				axios.post(path, loginData)
-					.then(response => {
-						console.log(response.data);
-					})
-					.catch(error => {
-						console.log(error);
-					});
-			// Successful login
-			} else {
-			// Failed login
-			this.errorMessage = 'please add information';
-			}
-		},
-    // getHighlightedText(text) {
-    //   const regex = new RegExp(this.userInput, "gi"); // Case-insensitive global match
-    //   return text.replace(regex, match => `<mark>${match}</mark>`);
-    // },
   },
 };
 </script>
@@ -309,5 +247,9 @@ tr th:first-child, tr td:first-child {
   border: 2px solid #555555;
 }
 
+.inputtext{
+  font-size: larger;
+
+}
 
 </style>
