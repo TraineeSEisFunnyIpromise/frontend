@@ -1,17 +1,17 @@
 <template>
   <form @submit.prevent="executeSearchAndScrape">
     <div class="inputtext" for="search">Search Product</div>
-    <input type="text" id="searchInput" v-model="searchData" required>
+    <input type="text" id="searchData" v-model="searchData" required>
 
     <div class="inputtext" for="groupsearch">Group target</div>
-    <input type="text" id="peopletargetInput" v-model="usertargetData">
+    <input type="text" id="usertargetData" v-model="usertargetData">
   </form>
 
   <div style="padding-top: 10px;">
     <button type="submit" @click="executeSearchAndScrape">Click here to create your electric's criteria</button>
   </div>
 
-  <div v-if="receiveData == True">
+  <div v-if="receiveData != ''">
     <h2>Search Results :</h2>
     <div class="col-12">
       <div>
@@ -27,38 +27,43 @@
     <div>
       <div>
         <div>Selected criteria: {{ selectedItems }}</div>
-        <div v-for="item in items" :key="item">
+        <div v-for="item in receiveData" :key="item">
           <input type="checkbox" :id="item" :value="item" v-model="checkedItems" />
           <label :for="item">{{ item }}</label>
         </div>
       </div>
 
-      <div class="container">
-        <div class="row">
-          <div class="col-12">
-            <div id="app">
-              <table class="table table-bordered">
-                <thead>
-                  <tr>
-                    <th scope="col"></th>
-                    <th v-for="item in searchResults" :key="item.title">{{ item.title }}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="property in Object.keys(searchResults_Sample[0])" :key="property">
-                    <th scope="row">{{ property }}</th>
-                    <td v-for="item in searchResults_Sample" :key="item.id">{{ item[property] }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+      <!-- a fancy select box -->
+      <input type="checkbox" v-model="toggle" true-value="yes" false-value="no" />
+      <div>{{ datastore }}</div>
 
-            <div>something</div>
-            <input type="checkbox" v-model="toggle" true-value="yes" false-value="no" />
-            <div>{{ datastore }}</div>
+      <!-- A funni table of content -->
+      <!-- this part check if receive data or not if not data not show -->
+
+        <div class="container" v-if="searchResults != ''" >
+          <div class="row">
+            <div class="col-12">
+              <div id="app">
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th scope="col">prod title</th>
+                      <th v-for="item in searchResults" :key="item.title">{{ item.title }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="property in Object.keys(searchResults[0])" :key="property">
+                      <th scope="row">{{ property }}</th>
+                      <td v-for="item in searchResults" :key="item.id">{{ item[property] }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+
+
     </div>
   </div>
 </template>
@@ -77,18 +82,19 @@ export default {
   data() {
     return {
       selectedChoice: null, // Store the selected choice value
-      clickcount: 0,
-      showInfo: true,
-      hasScroll: true,
-      searchData:'',
-      usertargetData:'',
-      receiveData:"no response",
-      selected:'',
-      searchResults: [],
-      items: ['test1','test2'],
-      checkedItems: [],
-      selectedItems:[],
-      userInput:''
+      hasScroll: true,// scroallable thingy
+      searchData:'',//search input
+      usertargetData:'',//group target input
+      receiveData: '',// receive criteria
+      selected:'',//selected criteria
+      datastore:'',//selected criteria that store before send
+      searchResults: [],//receive data scrape result
+      searchResultstest: [],//receive data scrape result
+      items: [],//idk?
+      checkedItems: [],//????
+      selectedItems:[],//what?
+      userInput:''// before send to backend input
+      
     };
   },
   // components:{ 
@@ -112,16 +118,21 @@ export default {
     send_search_input() {
       console.log("searchtringerred")
       const path = 'http://localhost:5000/search/search_criteria'
-      this.userInput=  this.searchData+this.usertargetData
+      // this.userInput=  this.searchData + this.usertargetData
+
       //an entire stuff happen below here also this is might be the worst refactor i have ever done
-      if (this.userInput !== '' ) {
-        this.clickcount += 1
-        //
+      if (this.searchData !== '' ) {
         console.log(this.userInput)
-        axios.post(path, this.userInput)
+        //funni stuff CORS and CONTENT thingy
+        const sending = [this.searchData,this.usertargetData]
+        axios.post(path, sending,{headers: {
+      'Content-Type': 'application/json'  // Set the correct Content-Type header
+      }
+    })
           .then(response => {
-            this.receiveData =  this.selected + response.data
-            console.log(response.data);
+            this.receiveData =  response.data
+            console.log("receive data");
+            console.log(response);
           })
           .catch(error => {
           this.userInput= this.selected + this.sendData
@@ -139,10 +150,16 @@ export default {
     scrape() {
       console.log("scrape tringerred")
       const path = 'http://localhost:5000/search/search_prod';
-      axios.post(path)
+      const sending = [this.searchData,this.usertargetData]
+      axios.post(path,sending,
+      {headers: {
+      'Content-Type': 'application/json'  // Set the correct Content-Type header
+      }
+    })
         .then(response => {
+          console.log("sending to scrape");
           console.log(response.data);
-          this.datastore = response.data;
+          this.searchResults = response.data;
         })
         .catch(error => {
           console.log(error);
@@ -153,9 +170,7 @@ export default {
       // First, send the search input
       this.send_search_input();
       // you can trigger the scrape method.
-      if (this.clickcount > 0 && this.receiveData !== '') {
-        this.scrape();
-      }
+      this.scrape();
     },
   },
 };
