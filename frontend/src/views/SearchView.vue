@@ -38,6 +38,7 @@
       <div>{{ datastore }}</div>
 
       <!-- A funni table of content -->
+
       <!-- this part check if receive data or not if not data not show -->
 
         <div class="container" v-if="searchResults != ''" >
@@ -63,21 +64,34 @@
           </div>
         </div>
 
-
+        <!--the end of show scraped -->
+        <!-- data graph thingy -->
+        <div>
+          <MyBarChart />
+        </div>
+        <!-- end of data graph -->
     </div>
+  </div>
+  <div>
+    <MyBarChart />
   </div>
 </template>
 
 
 <script>
-// import DropdownMenuMK1 from '@/components/vue-dropdown-menu.vue';
 import axios from 'axios'
+//--------------------graph visualization with vueslize yike---------------
+import MyBarChart from '@/components/chartfromvuechart.vue';
+//---------------------funny part---------------------------
 export default {
   props: {
     choices: {
       type: Array,
       required: true,
     },
+  },
+  components: {
+    MyBarChart
   },
   data() {
     return {
@@ -93,9 +107,25 @@ export default {
       items: [],//idk?
       checkedItems: [],//????
       selectedItems:[],//what?
-      userInput:''// before send to backend input
-      
+      userInput:'',// before send to backend input   
+      barchartdata : [
+      { "date": 2019, "Utilities": 21, "Rent": 16, "Insurance": 22 },
+      { "date": 2020, "Utilities": 19, "Rent": 10, "Insurance": 17 },
+   ],
+   chartOptions: { // literally option for setup chart yeah 
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Chart Title'
+          }
+        }
+      }
     };
+    
   },
   // components:{ 
   //   DropdownMenuMK1
