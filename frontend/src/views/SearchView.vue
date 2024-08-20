@@ -29,7 +29,7 @@
         <div>Selected criteria: {{ selectedItems }}</div>
         <div v-for="item in receiveData" :key="item">
           <input type="checkbox" :id="item" :value="item" v-model="checkedItems" />
-          <label :for="item">{{ item }}</label>
+          <div :for="item">{{ item }}</div>
         </div>
       </div>
 
@@ -103,20 +103,17 @@ export default {
       selected:'',//selected criteria
       datastore:'',//selected criteria that store before send
       searchResults: [],//receive data scrape result
-      searchResultstest: [],//receive data scrape result
       items: [],//idk?
       checkedItems: [],//????
       selectedItems:[],//what?
       userInput:'',// before send to backend input   
-      barchartdata : [
-      { "date": 2019, "Utilities": 21, "Rent": 16, "Insurance": 22 },
-      { "date": 2020, "Utilities": 19, "Rent": 10, "Insurance": 17 },
+      barchartdata : [ //chart data
    ],
    chartOptions: { // literally option for setup chart yeah 
         responsive: true,
         plugins: {
           legend: {
-            position: 'top',
+            position: 'top', 
           },
           title: {
             display: true,
@@ -147,7 +144,7 @@ export default {
   methods: {
     send_search_input() {
       console.log("searchtringerred")
-      const path = 'http://localhost:5000/search/search_criteria'
+      const path = 'http://localhost:5000/search/search_criteria_test'
       // this.userInput=  this.searchData + this.usertargetData
 
       //an entire stuff happen below here also this is might be the worst refactor i have ever done
@@ -179,7 +176,7 @@ export default {
     },
     scrape() {
       console.log("scrape tringerred")
-      const path = 'http://localhost:5000/search/search_prod';
+      const path = 'http://localhost:5000/search/search_prod_test';
       const sending = [this.searchData,this.usertargetData]
       axios.post(path,sending,
       {headers: {
@@ -190,16 +187,26 @@ export default {
           console.log("sending to scrape");
           console.log(response.data);
           this.searchResults = response.data;
+          console.log("replaced search result, doing chart")
+          this.fetchchartdata()
         })
         .catch(error => {
           console.log(error);
+        });
+    },
+    fetchChartData() {
+      axios.get('http://localhost:5000/search/critandprod_test')
+        .then(response => {
+          this.chartData = response.data;
+        })
+        .catch(error => {
+          console.error('Error fetching chart data:', error);
         });
     },
         // Control Method
     executeSearchAndScrape() {
       // First, send the search input
       this.send_search_input();
-      // you can trigger the scrape method.
       this.scrape();
     },
   },
