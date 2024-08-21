@@ -66,9 +66,9 @@
 
         <!--the end of show scraped -->
         <!-- data graph thingy -->
-        <div>
+        <!-- <div>
           <MyBarChart />
-        </div>
+        </div> -->
         <!-- end of data graph -->
     </div>
   </div>
@@ -124,33 +124,21 @@ export default {
     };
     
   },
-  // components:{ 
-  //   DropdownMenuMK1
+  // watch: {
+  //   checkedItems(newValue) {
+  //     this.selectedItems = newValue;
+  //   }
   // },
-  // computed: {
-  //   filteredResults() {
-  //     if (!this.userInput) return Object.keys(this.searchResults);
-
-  //     return Object.keys(this.searchResults).filter(key =>
-  //       key.toLowerCase().includes(this.userInput.toLowerCase())
-  //     );
-  //   },
-  // },
-  watch: {
-    checkedItems(newValue) {
-      this.selectedItems = newValue;
-    }
-  },
   methods: {
     send_search_input() {
       console.log("searchtringerred")
       const path = 'http://localhost:5000/search/search_criteria_test'
-      // this.userInput=  this.searchData + this.usertargetData
 
       //an entire stuff happen below here also this is might be the worst refactor i have ever done
       if (this.searchData !== '' ) {
         console.log(this.userInput)
         //funni stuff CORS and CONTENT thingy
+        console.log("search sent")
         const sending = [this.searchData,this.usertargetData]
         axios.post(path, sending,{headers: {
       'Content-Type': 'application/json'  // Set the correct Content-Type header
@@ -210,6 +198,19 @@ export default {
       this.scrape();
     },
   },
+  formatChartData(data) {
+      // Format the data to be compatible with chart.js
+      this.chartData = {
+        labels: data.labels, // Replace with your data labels
+        datasets: [
+          {
+            label: 'Dataset Label', // Replace with your dataset label
+            backgroundColor: '#42A5F5',
+            data: data.values // Replace with your data values
+          }
+        ]
+      }
+    }
 };
 </script>
 <style>

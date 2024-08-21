@@ -13,12 +13,25 @@ export default {
   components: { Bar },
   props: {
     chartData: {
-        type: Object,
-        required: true
-      },
+      type: Object,
+      required: true,
+      default: () => ({
+        labels: [], // Default to an empty array or you can provide default labels
+        datasets: [
+          {
+            label: 'Default Dataset',
+            backgroundColor: '#f87979',
+            data: [] // Default to an empty array
+          }
+        ]
+      })
+    },
     chartOptions: {
       type: Object,
-      default: () => {}
+      default: () => ({
+        responsive: true,
+        maintainAspectRatio: false
+      })
     }
   }
 }
