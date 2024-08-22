@@ -48,14 +48,16 @@
                 <table class="table table-bordered">
                   <thead>
                     <tr>
-                      <th scope="col">prod title</th>
+                      <th scope="col" class="text-container">prod title</th>
                       <th v-for="item in searchResults" :key="item.title">{{ item.title }}</th>
+                      <!-- {{ item[property].length > 50 ? item[property].slice(0, 50) + '...' : item[property] }} -->
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="property in Object.keys(searchResults[0])" :key="property">
-                      <th scope="row">{{ property }}</th>
-                      <td v-for="item in searchResults" :key="item.id">{{ item[property] }}</td>
+                      <!-- Filter and display only the row where property is 'price' -->
+                    <tr v-if="Object.keys(searchResults[0]).includes('price')" key="price">
+                        <th scope="row">Price</th>
+                      <td v-for="item in searchResults" :key="item.id">{{ item.price }}</td>
                     </tr>
                   </tbody>
                 </table>
@@ -66,15 +68,13 @@
 
         <!--the end of show scraped -->
         <!-- data graph thingy -->
-        <!-- <div>
-          <MyBarChart />
-        </div> -->
+        <div>
+        <MyBarChart :chartData="chartData" :chartOptions="chartOptions" />
+       </div>
         <!-- end of data graph -->
     </div>
   </div>
-  <div>
-    <MyBarChart />
-  </div>
+
 </template>
 
 
@@ -108,7 +108,9 @@ export default {
       selectedItems:[],//what?
       userInput:'',// before send to backend input   
       barchartdata : [ //chart data
-   ],
+        ],
+      barchartdata_pricerange : [ //chart data
+        ],
    chartOptions: { // literally option for setup chart yeah 
         responsive: true,
         plugins: {
@@ -179,6 +181,7 @@ export default {
           this.fetchchartdata()
         })
         .catch(error => {
+          console.log("scraped error occurred!")
           console.log(error);
         });
     },
@@ -201,7 +204,7 @@ export default {
   formatChartData(data) {
       // Format the data to be compatible with chart.js
       this.chartData = {
-        labels: data.labels, // Replace with your data labels
+        labels: data.labels, 
         datasets: [
           {
             label: 'Dataset Label', // Replace with your dataset label
@@ -227,9 +230,16 @@ export default {
         left: 30%;
 }
 
-
+/* container and text container */
 .container {
   max-width: 768px;
+}
+
+.text-container {
+  max-width: 200px; 
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .table-holder, .table-responsive {
