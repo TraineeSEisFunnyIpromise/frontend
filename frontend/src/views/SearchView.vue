@@ -107,9 +107,9 @@ export default {
       checkedItems: [],//????
       selectedItems:[],//what?
       userInput:'',// before send to backend input   
-      barchartdata : [ //chart data
+      chartdata : [ //chart data
         ],
-      barchartdata_pricerange : [ //chart data
+      chartdata_pricerange : [ //chart data
         ],
    chartOptions: { // literally option for setup chart yeah 
         responsive: true,
@@ -178,7 +178,7 @@ export default {
           console.log(response.data);
           this.searchResults = response.data;
           console.log("replaced search result, doing chart")
-          this.fetchchartdata()
+          this.fetchChartData()
         })
         .catch(error => {
           console.log("scraped error occurred!")
@@ -186,9 +186,10 @@ export default {
         });
     },
     fetchChartData() {
-      axios.get('http://localhost:5000/search/critandprod_test')
+      axios.post('http://localhost:5000/search/critandprod_test')
         .then(response => {
           this.chartData = response.data;
+          console.log(this.chartData)
         })
         .catch(error => {
           console.error('Error fetching chart data:', error);
