@@ -190,6 +190,7 @@ export default {
         .then(response => {
           this.chartData = response.data;
           console.log(this.chartData)
+          this.formatChartData(this.chartdata)
         })
         .catch(error => {
           console.error('Error fetching chart data:', error);
