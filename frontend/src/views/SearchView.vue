@@ -41,7 +41,7 @@
 
       <!-- this part check if receive data or not if not data not show -->
 
-        <div class="container" v-if="searchResults != ''" >
+        <div class="container" v-if="searchResults != '' && searchResults != null" >
           <div class="row">
             <div class="col-12">
               <div id="app">
@@ -68,9 +68,9 @@
 
         <!--the end of show scraped -->
         <!-- data graph thingy -->
-        <div class="chart-container">
+        <!-- <div class="chart-container">
         <MyBarChart :chartData="chartData" :chartOptions="chartOptions1" />
-       </div>
+       </div> -->
        <!-- <div class="chart-container">
         <MyBarChart :chartData="chartdata_pricerange" :chartOptions="chartOptions2" />
        </div> -->
@@ -84,7 +84,8 @@
 <script>
 import axios from 'axios'
 //--------------------graph visualization with vueslize yike---------------
-import MyBarChart from '@/components/chartfromvuechart.vue';
+// import MyBarChart from '@/components/chartfromvuechart.vue';
+
 // import express from 'express' <- this create 28 error which im not gonna fix that again 
 //---------------------funny part---------------------------
 //-----------yup CORS is nice--------------
@@ -98,7 +99,7 @@ export default {
     },
   },
   components: {
-    MyBarChart
+    // MyBarChart
   },
   data() {
     return {
@@ -153,7 +154,7 @@ export default {
   methods: {
     send_search_input() {
       console.log("searchtringerred")
-      const path = 'http://localhost:5000/search/search_criteria_test'
+      const path = 'http://localhost:5000/search/search_criteria'
 
       //an entire stuff happen below here also this is might be the worst refactor i have ever done
       if (this.searchData !== '' ) {
@@ -186,11 +187,16 @@ export default {
 
     scrape() {
       console.log("scrape tringerred")
-      const path = 'http://localhost:5000/search/search_prod';
-      const sending = [this.searchData,this.usertargetData]
+      
+      const sending = [this.searchData,this.usertargetData];
+      // const path = 'http://localhost:5000/search/scrape'
+      const path = 'http://localhost:5000/search/scrape'
       axios.post(path,sending,
       {headers: {
-      'Content-Type': 'application/json'  // Set the correct Content-Type header
+      'Content-Type': 'application/json',  // Set the correct Content-Type header
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST',
+      'Access-Control-Allow-Headers': 'Content-Type',
       }
     })
         .then(response => {
@@ -208,7 +214,7 @@ export default {
     },
 
     fetchChartData() {
-      const path = 'http://localhost:5000/search/search_prod';
+      const path = 'http://localhost:5000/search/critandprod_test';
       const sending = [this.searchData,this.usertargetData]
       axios.post(path,sending,
       {headers: {
