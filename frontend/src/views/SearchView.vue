@@ -29,13 +29,13 @@
         <div>Selected criteria: {{ selectedItems }}</div>
         <div v-for="item in receiveData" :key="item">
           <input type="checkbox" :id="item" :value="item" v-model="checkedItems" />
-          <div :for="item">{{ item }}</div>
+          <a :for="item">{{ item }}</a>
         </div>
       </div>
 
       <!-- a fancy select box -->
       <input type="checkbox" v-model="toggle" true-value="yes" false-value="no" />
-      <div>{{ datastore }}</div>
+      <a>{{ datastore }}</a>
 
       <!-- A funni table of content -->
 
@@ -85,21 +85,8 @@
 import axios from 'axios'
 //--------------------graph visualization with vueslize yike---------------
 import MyBarChart from '@/components/chartfromvuechart.vue';
+// import express from 'express' <- this create 28 error which im not gonna fix that again 
 //---------------------funny part---------------------------
-
-const express = require('express');
-const cors = require('cors');
-
-const app = express();
-app.use(cors());
-
-app.get('/', (req, res) => {
-  res.send('Hello from CORS proxy!');
-});
-
-app.listen(3000, () => {
-  console.log('CORS proxy listening on port 3000');
-});
 //-----------yup CORS is nice--------------
 
 //----------another funny and long part---------------
@@ -221,11 +208,14 @@ export default {
     },
 
     fetchChartData() {
-      const path = 'http://localhost:5000/search/search_prod_test';
+      const path = 'http://localhost:5000/search/search_prod';
       const sending = [this.searchData,this.usertargetData]
       axios.post(path,sending,
       {headers: {
-      'Content-Type': 'application/json'  // Set the correct Content-Type header
+      'Content-Type': 'application/json',  // Set the correct Content-Type header
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST',
+      'Access-Control-Allow-Headers': 'Content-Type',
       }
     })
         .then(response => {
