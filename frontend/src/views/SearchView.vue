@@ -49,7 +49,7 @@
                   <thead>
                     <tr>
                       <th scope="col" class="text-container">prod title</th>
-                      <th v-for="item in searchResults" :key="item.title">{{ item.title }}</th>
+                      <th class="text-banner" v-for="item in searchResults" :key="item.title">{{ item.title.length > 50 ? item.title.slice(0, 50) + '...' : item.title }}</th>
                       <!-- {{ item[property].length > 50 ? item[property].slice(0, 50) + '...' : item[property] }} -->
                     </tr>
                   </thead>
@@ -68,9 +68,12 @@
 
         <!--the end of show scraped -->
         <!-- data graph thingy -->
-        <div>
-        <MyBarChart :chartData="chartData" :chartOptions="chartOptions" />
+        <div class="chart-container">
+        <MyBarChart :chartData="chartData" :chartOptions="chartOptions1" />
        </div>
+       <!-- <div class="chart-container">
+        <MyBarChart :chartData="chartdata_pricerange" :chartOptions="chartOptions2" />
+       </div> -->
         <!-- end of data graph -->
     </div>
   </div>
@@ -83,6 +86,23 @@ import axios from 'axios'
 //--------------------graph visualization with vueslize yike---------------
 import MyBarChart from '@/components/chartfromvuechart.vue';
 //---------------------funny part---------------------------
+
+const express = require('express');
+const cors = require('cors');
+
+const app = express();
+app.use(cors());
+
+app.get('/', (req, res) => {
+  res.send('Hello from CORS proxy!');
+});
+
+app.listen(3000, () => {
+  console.log('CORS proxy listening on port 3000');
+});
+//-----------yup CORS is nice--------------
+
+//----------another funny and long part---------------
 export default {
   props: {
     choices: {
@@ -107,11 +127,11 @@ export default {
       checkedItems: [],//????
       selectedItems:[],//what?
       userInput:'',// before send to backend input   
-      chartdata : [ //chart data
-        ],
-      chartdata_pricerange : [ //chart data
-        ],
-   chartOptions: { // literally option for setup chart yeah 
+      chartdata : null  //chart data for criteria score
+        ,
+      chartdata_pricerange : null //chart price range
+        ,
+   chartOptions1: { // literally option for setup chart yeah 
         responsive: true,
         plugins: {
           legend: {
@@ -119,18 +139,30 @@ export default {
           },
           title: {
             display: true,
-            text: 'Chart Title'
+            text: 'Chart Criteria Score'
+          }
+        }
+      },
+      chartOptions2: { // literally option for setup chart 2 yeah 2
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top', 
+          },
+          title: {
+            display: true,
+            text: 'Chart Price Range'
           }
         }
       }
     };
     
   },
-  // watch: {
-  //   checkedItems(newValue) {
-  //     this.selectedItems = newValue;
-  //   }
-  // },
+  watch: {
+    checkedItems(newValue) {
+      this.selectedItems = newValue;
+    }
+  },
   methods: {
     send_search_input() {
       console.log("searchtringerred")
@@ -164,9 +196,10 @@ export default {
         
       }
     },
+
     scrape() {
       console.log("scrape tringerred")
-      const path = 'http://localhost:5000/search/search_prod_test';
+      const path = 'http://localhost:5000/search/search_prod';
       const sending = [this.searchData,this.usertargetData]
       axios.post(path,sending,
       {headers: {
@@ -175,9 +208,10 @@ export default {
     })
         .then(response => {
           console.log("sending to scrape");
-          console.log(response.data);
           this.searchResults = response.data;
-          console.log("replaced search result, doing chart")
+          console.log(this.searchResults)
+          console.log("replaced search result, doing price chart")
+          this.setupPriceData()
           this.fetchChartData()
         })
         .catch(error => {
@@ -185,8 +219,15 @@ export default {
           console.log(error);
         });
     },
+
     fetchChartData() {
-      axios.post('http://localhost:5000/search/critandprod_test')
+      const path = 'http://localhost:5000/search/search_prod_test';
+      const sending = [this.searchData,this.usertargetData]
+      axios.post(path,sending,
+      {headers: {
+      'Content-Type': 'application/json'  // Set the correct Content-Type header
+      }
+    })
         .then(response => {
           this.chartData = response.data;
           console.log(this.chartData)
@@ -202,20 +243,39 @@ export default {
       this.send_search_input();
       this.scrape();
     },
-  },
-  formatChartData(data) {
+    formatChartData(data) {
       // Format the data to be compatible with chart.js
       this.chartData = {
         labels: data.labels, 
         datasets: [
           {
-            label: 'Dataset Label', // Replace with your dataset label
+            label: 'Dataset Label',
             backgroundColor: '#42A5F5',
             data: data.values // Replace with your data values
           }
         ]
       }
-    }
+    },
+    setupPriceData() {
+        if (Array.isArray(this.searchResults) == true) {
+          const filteredResults = this.searchResults.filter(item => item !== null);
+          this.chartdata_pricerange = {
+            labels: filteredResults.map(item => String(item.title)),
+            //labels: this.searchResults.map(item => item.title.length > 10 ? item.title.slice(0, 10) : item.title ), // Adding titles as labels for better visualization
+            datasets: [
+              {
+                label: 'Price ($)',
+                backgroundColor: '#42A5F5',
+               // data: this.searchResults.map(item => item.price), 
+                data: filteredResults.map(item => parseFloat(item.price.replace('$', ''))),
+              },
+            ],
+          };
+        } else {
+          console.error('Error fetching price data');
+        }
+      },
+  },
 };
 </script>
 <style>
@@ -316,5 +376,11 @@ tr th:first-child, tr td:first-child {
   font-size: larger;
 
 }
-
+.text-banner{
+  font-size: small;
+}
+.chart-container{
+  width: 40%;
+  height: 40%;
+}
 </style>

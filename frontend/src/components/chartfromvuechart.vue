@@ -16,7 +16,7 @@ export default {
       type: Object,
       required: true,
       default: () => ({
-        labels: [], // Default to an empty array or you can provide default labels
+        labels: "default label", // Default to an empty array or you can provide default labels
         datasets: [
           {
             label: 'Default Dataset',
