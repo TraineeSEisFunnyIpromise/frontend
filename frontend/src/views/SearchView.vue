@@ -71,9 +71,10 @@
         <!-- <div class="chart-container">
         <MyBarChart :chartData="chartData" :chartOptions="chartOptions1" />
        </div> -->
-       <!-- <div class="chart-container">
+       <a>chart happen here</a>
+       <div class="chart-container" v-if="chartdata_pricerange != null && chartdata_pricerange != ''">
         <MyBarChart :chartData="chartdata_pricerange" :chartOptions="chartOptions2" />
-       </div> -->
+       </div>
         <!-- end of data graph -->
     </div>
   </div>
@@ -84,7 +85,7 @@
 <script>
 import axios from 'axios'
 //--------------------graph visualization with vueslize yike---------------
-// import MyBarChart from '@/components/chartfromvuechart.vue';
+import MyBarChart from '@/components/chartfromvuechart.vue';
 
 // import express from 'express' <- this create 28 error which im not gonna fix that again 
 //---------------------funny part---------------------------
@@ -99,7 +100,7 @@ export default {
     },
   },
   components: {
-    // MyBarChart
+    MyBarChart
   },
   data() {
     return {
@@ -154,7 +155,7 @@ export default {
   methods: {
     send_search_input() {
       console.log("searchtringerred")
-      const path = 'http://localhost:5000/search/search_criteria'
+      const path = 'http://localhost:5000/search/search_criteria_test'
 
       //an entire stuff happen below here also this is might be the worst refactor i have ever done
       if (this.searchData !== '' ) {
@@ -190,7 +191,7 @@ export default {
       
       const sending = [this.searchData,this.usertargetData];
       // const path = 'http://localhost:5000/search/scrape'
-      const path = 'http://localhost:5000/search/scrape'
+      const path = 'http://localhost:5000/search/scrape_test'
       axios.post(path,sending,
       {headers: {
       'Content-Type': 'application/json',  // Set the correct Content-Type header
@@ -204,8 +205,8 @@ export default {
           this.searchResults = response.data;
           console.log(this.searchResults)
           console.log("replaced search result, doing price chart")
-          this.setupPriceData()
-          this.fetchChartData()
+          this.setupPriceData(this.searchResults)
+          // this.fetchChartData()
         })
         .catch(error => {
           console.log("scraped error occurred!")
@@ -245,32 +246,52 @@ export default {
         labels: data.labels, 
         datasets: [
           {
-            label: 'Dataset Label',
+            labels: data.map(item => item.title || "Default Value"),
             backgroundColor: '#42A5F5',
             data: data.values // Replace with your data values
           }
         ]
       }
     },
-    setupPriceData() {
-        if (Array.isArray(this.searchResults) == true) {
-          const filteredResults = this.searchResults.filter(item => item !== null);
-          this.chartdata_pricerange = {
-            labels: filteredResults.map(item => String(item.title)),
-            //labels: this.searchResults.map(item => item.title.length > 10 ? item.title.slice(0, 10) : item.title ), // Adding titles as labels for better visualization
-            datasets: [
-              {
-                label: 'Price ($)',
-                backgroundColor: '#42A5F5',
-               // data: this.searchResults.map(item => item.price), 
-                data: filteredResults.map(item => parseFloat(item.price.replace('$', ''))),
-              },
+    setupPriceData(result_target) {
+    if (Array.isArray(result_target)) {
+        const filteredResults = result_target.filter(item => item !== null);
+        // console.log(filteredResults); // Log the filtered results
+
+        this.chartdata_pricerange = {
+          labels: filteredResults.map(() => "$"), // Replace all labels with "$"
+          datasets: [
+                {
+                  labels: filteredResults.map(item => item.title || "Default Value"),
+                    backgroundColor: '#42A5F5',
+                    data: filteredResults.map(item => item.price ? parseFloat(item.price.replace('$','')):0),
+                },
             ],
-          };
-        } else {
-          console.error('Error fetching price data');
-        }
-      },
+        };
+      // Safety check for price data
+      if (
+          this.chartdata_pricerange.datasets &&
+          this.chartdata_pricerange.datasets[0] && // Check if the first dataset exists
+          this.chartdata_pricerange.datasets[0].data != null // Check if price data exists
+      ) {
+          console.log("price ok");
+      } else {
+          console.error("price bad");
+      }
+
+      // Safety check for labels
+      if (this.chartdata_pricerange.labels != null) {
+          console.log("label ok");
+      } else {
+          console.log("label bad");
+      }
+
+        console.log(this.chartdata_pricerange); // Log the final data structure
+    } else {
+        console.error('Error fetching price data');
+    }
+}
+
   },
 };
 </script>

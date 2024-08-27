@@ -10,7 +10,7 @@
   "dependencies": {
     "@innologica/vue-dropdown-menu": "^0.1.4",
     "apexcharts": "^3.52.0",
-    "axios": "^1.4.0",
+    "axios": "^1.7.4",
     "bootstrap": "^5.3.3",
     "bootstrap-vue": "^2.23.1",
     "chart.js": "^4.4.3",
@@ -19,6 +19,7 @@
     "vue": "^3.4.25",
     "vue-apexcharts": "^1.6.2",
     "vue-chartjs": "^5.3.1",
+    "vue-cli-service": "^5.0.10",
     "vue-router": "^4.2.2",
     "vuesalize": "^2.1.9"
   },
