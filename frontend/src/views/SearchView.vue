@@ -10,19 +10,9 @@
   <div style="padding-top: 10px;">
     <button type="submit" @click="executeSearchAndScrape">Click here to create your electric's criteria</button>
   </div>
-
+    <!-- <div class="loader"></div> -->
+<!-- result section -->
   <div v-if="receiveData != ''">
-    <h2>Search Results :</h2>
-    <div class="col-12">
-      <div>
-        Output of search which are requirements:
-        {{ receiveData }}
-      </div>
-      <div>
-        Input of Search:
-        {{ userInput }}
-      </div>
-    </div>
 
     <div>
       <div>
@@ -37,9 +27,8 @@
       <input type="checkbox" v-model="toggle" true-value="yes" false-value="no" />
       <a>{{ datastore }}</a>
 
-      <!-- A funni table of content -->
-
       <!-- this part check if receive data or not if not data not show -->
+       <div v-if="badscrape != ''"></div>
 
         <div class="container" v-if="searchResults != '' && searchResults != null" >
           <div class="row">
@@ -50,7 +39,6 @@
                     <tr>
                       <th scope="col" class="text-container">prod title</th>
                       <th class="text-banner" v-for="item in searchResults" :key="item.title">{{ item.title.length > 50 ? item.title.slice(0, 50) + '...' : item.title }}</th>
-                      <!-- {{ item[property].length > 50 ? item[property].slice(0, 50) + '...' : item[property] }} -->
                     </tr>
                   </thead>
                   <tbody>
@@ -59,21 +47,55 @@
                         <th scope="row">Price</th>
                       <td v-for="item in searchResults" :key="item.id">{{ item.price }}</td>
                     </tr>
+                    <!-- <tr v-if="Object.keys(searchResults[0]).includes('description')" key="description">
+                        <th scope="row">description</th>
+                      <td v-for="item in searchResults" :key="item.id">{{ item.description }}</td>
+                    </tr> -->
                   </tbody>
+
                 </table>
               </div>
             </div>
           </div>
         </div>
 
+        <!-- highlightText -->
+        <div v-if=" selectedItems != null" >
+                    <th class="text-container" scope="col" 
+                   v-for="item in searchResults" :key="item.title" >
+                   {{ highlightText(item.title, selectedItems) }}
+                  </th>
+                  <td v-for="item in searchResults" :key="item.id">
+                    <span v-html="highlightText(item.price.toString(), selectedItems)"></span>
+                  </td>
+        </div>
+
+        
+                  <!-- test about highlightText -->
+ 
+                  <!-- <th class="text-container" scope="col">{{ highlightText(item.title, selectedItems) }}</th>
+                  <td v-for="item in searchResults" :key="item.id">
+                    <span v-html="highlightText(item.price.toString(), selectedItems)"></span>
+                  </td> -->
+
         <!--the end of show scraped -->
+
         <!-- data graph thingy -->
-        <!-- <div class="chart-container">
-        <MyBarChart :chartData="chartData" :chartOptions="chartOptions1" />
-       </div> -->
+
+        <div v-if="isLoading1">
+          Loading Chart Price...
+        </div>
        <a>chart happen here</a>
        <div class="chart-container" v-if="chartdata_pricerange != null && chartdata_pricerange != ''">
         <MyBarChart :chartData="chartdata_pricerange" :chartOptions="chartOptions2" />
+       </div>
+       <div v-if="isLoading">
+          Loading Chart criteria...
+        </div>
+        <div class="chart-container" >
+          <div v-if="chartdata != null">
+            <MyBarChart :chartData="chartData" :chartOptions="chartOptions1" />
+          </div>
        </div>
         <!-- end of data graph -->
     </div>
@@ -105,6 +127,8 @@ export default {
   data() {
     return {
       selectedChoice: null, // Store the selected choice value
+      isLoading: false,
+      isLoading1: false,
       hasScroll: true,// scroallable thingy
       searchData:'',//search input
       usertargetData:'',//group target input
@@ -115,6 +139,7 @@ export default {
       items: [],//idk?
       checkedItems: [],//????
       selectedItems:[],//what?
+      badscrape:'',
       userInput:'',// before send to backend input   
       chartdata : null  //chart data for criteria score
         ,
@@ -206,15 +231,17 @@ export default {
           console.log(this.searchResults)
           console.log("replaced search result, doing price chart")
           this.setupPriceData(this.searchResults)
-          // this.fetchChartData()
+          this.fetchChartData()
         })
         .catch(error => {
           console.log("scraped error occurred!")
           console.log(error);
+          this.badscrape = "scrape got problem "+ error
         });
     },
 
     fetchChartData() {
+      this.isLoading = true;
       const path = 'http://localhost:5000/search/critandprod_test';
       const sending = [this.searchData,this.usertargetData]
       axios.post(path,sending,
@@ -226,12 +253,13 @@ export default {
       }
     })
         .then(response => {
-          this.chartData = response.data;
           console.log(this.chartData)
-          this.formatChartData(this.chartdata)
+          this.formatChartData(response)
+          this.isLoading = false;
         })
         .catch(error => {
           console.error('Error fetching chart data:', error);
+          this.isLoading = false;
         });
     },
         // Control Method
@@ -241,19 +269,28 @@ export default {
       this.scrape();
     },
     formatChartData(data) {
-      // Format the data to be compatible with chart.js
-      this.chartData = {
-        labels: data.labels, 
-        datasets: [
-          {
-            labels: data.map(item => item.title || "Default Value"),
-            backgroundColor: '#42A5F5',
-            data: data.values // Replace with your data values
-          }
-        ]
-      }
-    },
+  if (Array.isArray(data)) {
+    // Filter out null values
+    const filteredData = data.filter(item => item !== null);
+
+    // Prepare chart data
+    this.chartData = {
+      labels: filteredData.map(item => item.Label || "Default Value"), // Extract Label property or use default
+      datasets: [
+        {
+          labels: filteredData.map(item => item.Score || "Default Value"), // Extract Score property or use default
+          backgroundColor: '#42A5F5',
+          data: filteredData.map(item => item.Score), // Extract Score property
+        }
+      ]
+    };
+  
+    console.log("dataset");
+    console.log(this.chartData);
+  }
+},
     setupPriceData(result_target) {
+      this.isLoading1 = true;
     if (Array.isArray(result_target)) {
         const filteredResults = result_target.filter(item => item !== null);
         // console.log(filteredResults); // Log the filtered results
@@ -285,13 +322,17 @@ export default {
       } else {
           console.log("label bad");
       }
-
+      this.isLoading1 = false;
         console.log(this.chartdata_pricerange); // Log the final data structure
     } else {
-        console.error('Error fetching price data');
+      this.isLoading1 = false;
+      console.error('Error fetching price data');
     }
-}
-
+    },
+    highlightText(text, criteria) {
+      const regex = new RegExp(criteria.join('|'), 'gi'); // Join criteria for multiple matches
+      return text.replace(regex, `<mark>$&</mark>`);
+    },
   },
 };
 </script>
@@ -400,4 +441,19 @@ tr th:first-child, tr td:first-child {
   width: 40%;
   height: 40%;
 }
+
+
+.loader {
+  width: fit-content;
+  font-weight: bold;
+  font-family: monospace;
+  font-size: 30px;
+  clip-path: inset(0 3ch 0 0);
+  animation: l4 1s steps(4) infinite;
+}
+.loader:before {
+  content:"Loading..."
+}
+@keyframes l4 {to{clip-path: inset(0 -1ch 0 0)}}
+
 </style>
