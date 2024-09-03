@@ -89,17 +89,22 @@
        <div class="chart-container" v-if="chartdata_pricerange != null && chartdata_pricerange != ''">
         <MyBarChart :chartData="chartdata_pricerange" :chartOptions="chartOptions2" />
        </div>
-       <div v-if="isLoading">
-          Loading Chart criteria...
-        </div>
-        <div class="chart-container" >
-          <div v-if="chartdata != null">
-            <MyBarChart :chartData="chartData" :chartOptions="chartOptions1" />
-          </div>
-       </div>
+
         <!-- end of data graph -->
     </div>
   </div>
+
+
+  <div v-if="isLoading">
+          Loading Chart criteria...
+        </div>
+        <div class="chart-container" >
+          <div v-if="chartdata_criteria != null">
+            <MyBarChart :chartData="chartdata_criteria" :chartOptions="chartOptions1" />
+          </div>
+       </div>
+       <button @click="manual_test"> test button here</button>
+
 
 </template>
 
@@ -127,6 +132,8 @@ export default {
   data() {
     return {
       selectedChoice: null, // Store the selected choice value
+      sample_test_for_chart:["1238","1241","1241","1278","1270","1239","1210","1211"],
+      label:["a","b","c","d","e","f","h","i"],
       isLoading: false,
       isLoading1: false,
       hasScroll: true,// scroallable thingy
@@ -141,7 +148,7 @@ export default {
       selectedItems:[],//what?
       badscrape:'',
       userInput:'',// before send to backend input   
-      chartdata : null  //chart data for criteria score
+      chartdata_criteria : null  //chart data for criteria score
         ,
       chartdata_pricerange : null //chart price range
         ,
@@ -333,6 +340,21 @@ export default {
       const regex = new RegExp(criteria.join('|'), 'gi'); // Join criteria for multiple matches
       return text.replace(regex, `<mark>$&</mark>`);
     },
+    manual_test(){
+      this.chartdata_criteria = {
+          labels: this.label.map(() => "$"), // Replace all labels with "$"
+          datasets: [
+                {
+                  labels: this.label.map(item => item.title || "Default Value"),
+                    backgroundColor: '#42A5F5',
+                    data: this.sample_test_for_chart,
+                },
+            ],
+        };
+        console.log(this.chartdata_criteria.datasets)
+        console.log(this.sample_test_for_chart)
+        this.isLoading = false
+    }
   },
 };
 </script>
