@@ -12,10 +12,10 @@
   </div>
     <!-- <div class="loader"></div> -->
 <!-- result section -->
-  <div v-if="receiveData != ''">
+  <div  style="color: aquamarine;">
 
-    <div>
-      <div>
+    <div v-if="receiveData != ''">
+      <div> 
         <div>Selected criteria: {{ selectedItems }}</div>
         <div v-for="item in receiveData" :key="item">
           <input type="checkbox" :id="item" :value="item" v-model="checkedItems" />
@@ -36,10 +36,7 @@
               <div id="app">
                 <table class="table table-bordered">
                   <thead>
-                    <tr>
-                      <th scope="col" class="text-container">prod title</th>
-                      <th class="text-banner" v-for="item in searchResults" :key="item.title">{{ item.title.length > 50 ? item.title.slice(0, 50) + '...' : item.title }}</th>
-                    </tr>
+                    <horizontalcomponent :searchResults="searchResults" />
                   </thead>
                   <tbody>
                       <!-- Filter and display only the row where property is 'price' -->
@@ -71,17 +68,10 @@
         </div>
 
         
-                  <!-- test about highlightText -->
- 
-                  <!-- <th class="text-container" scope="col">{{ highlightText(item.title, selectedItems) }}</th>
-                  <td v-for="item in searchResults" :key="item.id">
-                    <span v-html="highlightText(item.price.toString(), selectedItems)"></span>
-                  </td> -->
 
         <!--the end of show scraped -->
 
-        <!-- data graph thingy -->
-
+        <!-- data graph price -->
         <div v-if="isLoading1">
           Loading Chart Price...
         </div>
@@ -89,13 +79,8 @@
        <div class="chart-container" v-if="chartdata_pricerange != null && chartdata_pricerange != ''">
         <MyBarChart :chartData="chartdata_pricerange" :chartOptions="chartOptions2" />
        </div>
-
-        <!-- end of data graph -->
-    </div>
-  </div>
-
-
-  <div v-if="isLoading">
+       <!-- data graph criteria -->
+       <div v-if="isLoading">
           Loading Chart criteria...
         </div>
         <div class="chart-container" >
@@ -103,7 +88,11 @@
             <MyBarChart :chartData="chartdata_criteria" :chartOptions="chartOptions1" />
           </div>
        </div>
-       <button @click="manual_test"> test button here</button>
+
+        <!-- end of data graph -->
+    </div>
+  </div>
+
 
 
 </template>
@@ -113,6 +102,7 @@
 import axios from 'axios'
 //--------------------graph visualization with vueslize yike---------------
 import MyBarChart from '@/components/chartfromvuechart.vue';
+import horizontalcomponent from '@/components/horizontal-component.vue';
 
 // import express from 'express' <- this create 28 error which im not gonna fix that again 
 //---------------------funny part---------------------------
@@ -127,7 +117,8 @@ export default {
     },
   },
   components: {
-    MyBarChart
+    MyBarChart,
+    horizontalcomponent
   },
   data() {
     return {

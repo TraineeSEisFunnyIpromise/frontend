@@ -20,6 +20,8 @@
     </ul>
   </nav>
   <router-view />
+
+  
 </template>
 
 <script>
@@ -59,7 +61,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #9ea8b3;
   margin-top: 60px;
 }
 
@@ -149,5 +151,8 @@ li {
 
 .dropdown-menu li .nav-link:hover {
   color: #7fc46e;
+}
+body{
+  background-color: #455344;
 }
 </style>
