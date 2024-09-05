@@ -21,7 +21,6 @@ export default {
   },
   methods: {
     redirectToPage(item) {
-      // Assuming item has a 'url' property
       window.location.href = item.url;
     }
   }

@@ -104,6 +104,7 @@ import axios from 'axios'
 //--------------------graph visualization with vueslize yike---------------
 import MyBarChart from '@/components/chartfromvuechart.vue';
 import horizontalcomponent from '@/components/horizontal-component.vue';
+import VueHorizontal from 'vue-horizontal';
 
 // import express from 'express' <- this create 28 error which im not gonna fix that again 
 //---------------------funny part---------------------------
@@ -292,6 +293,7 @@ export default {
       this.isLoading1 = true;
     if (Array.isArray(result_target)) {
         const filteredResults = result_target.filter(item => item !== null);
+        pricedata = filteredResults.price
         // console.log(filteredResults); // Log the filtered results
 
         this.chartdata_pricerange = {
@@ -300,7 +302,7 @@ export default {
                 {
                   labels: filteredResults.map(item => item.title || "Default Value"),
                     backgroundColor: '#42A5F5',
-                    data: filteredResults.map(item => item.price ? parseFloat(item.price.replace('$','')):0),
+                    data: filteredResults.price
                 },
             ],
         };
