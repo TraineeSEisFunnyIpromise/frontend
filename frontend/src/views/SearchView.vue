@@ -12,8 +12,8 @@
   </div>
     <!-- <div class="loader"></div> -->
 <!-- result section -->
-  <div  style="color: aquamarine;">
-
+  <div class="colored-box-display" style=" text-align: center;">
+    result will display here
     <div v-if="receiveData != ''">
       <div> 
         <div>Selected criteria: {{ selectedItems }}</div>
@@ -91,6 +91,7 @@
 
         <!-- end of data graph -->
     </div>
+
   </div>
 
 
@@ -468,5 +469,16 @@ tr th:first-child, tr td:first-child {
   content:"Loading..."
 }
 @keyframes l4 {to{clip-path: inset(0 -1ch 0 0)}}
+
+.colored-box-display {
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
 
 </style>
