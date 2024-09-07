@@ -13,7 +13,7 @@
     <!-- <div class="loader"></div> -->
 <!-- result section -->
   <div class="colored-box-display" style=" text-align: center;">
-    result will display here
+    <div v-if="receiveData == ''">result will display here</div>
     <div v-if="receiveData != ''">
       <div> 
         <div>Selected criteria: {{ selectedItems }}</div>
@@ -34,22 +34,10 @@
           <div class="row">
             <div class="col-12">
               <div id="app">
-                <table class="table table-bordered">
+                <table >
                   <thead>
                     <horizontalcomponent :searchResults="searchResults" />
                   </thead>
-                  <tbody>
-                      <!-- Filter and display only the row where property is 'price' -->
-                    <tr v-if="Object.keys(searchResults[0]).includes('price')" key="price">
-                        <th scope="row">Price</th>
-                      <td v-for="item in searchResults" :key="item.id">{{ item.price }}</td>
-                    </tr>
-                    <!-- <tr v-if="Object.keys(searchResults[0]).includes('description')" key="description">
-                        <th scope="row">description</th>
-                      <td v-for="item in searchResults" :key="item.id">{{ item.description }}</td>
-                    </tr> -->
-                  </tbody>
-
                 </table>
               </div>
             </div>
@@ -57,7 +45,7 @@
         </div>
 
         <!-- highlightText -->
-        <div v-if=" selectedItems != null" >
+        <div class="horizontal-container" v-if=" selectedItems != null" >
                     <th class="text-container" scope="col" 
                    v-for="item in searchResults" :key="item.title" >
                    {{ highlightText(item.title, selectedItems) }}
@@ -66,8 +54,6 @@
                     <span v-html="highlightText(item.price.toString(), selectedItems)"></span>
                   </td>
         </div>
-
-        
 
         <!--the end of show scraped -->
 
@@ -104,7 +90,6 @@ import axios from 'axios'
 //--------------------graph visualization with vueslize yike---------------
 import MyBarChart from '@/components/chartfromvuechart.vue';
 import horizontalcomponent from '@/components/horizontal-component.vue';
-import VueHorizontal from 'vue-horizontal';
 
 // import express from 'express' <- this create 28 error which im not gonna fix that again 
 //---------------------funny part---------------------------
@@ -120,7 +105,7 @@ export default {
   },
   components: {
     MyBarChart,
-    horizontalcomponent
+    horizontalcomponent,
   },
   data() {
     return {
@@ -253,8 +238,10 @@ export default {
       }
     })
         .then(response => {
-          console.log(this.chartData)
-          this.formatChartData(response)
+          console.log("chart data")
+          console.log(response.data)
+          this.formatChartData(response.data)
+          console.log("done chart data")
           this.isLoading = false;
         })
         .catch(error => {
@@ -268,32 +255,28 @@ export default {
       this.send_search_input();
       this.scrape();
     },
-    formatChartData(data) {
-  if (Array.isArray(data)) {
-    // Filter out null values
-    const filteredData = data.filter(item => item !== null);
-
-    // Prepare chart data
-    this.chartData = {
-      labels: filteredData.map(item => item.Label || "Default Value"), // Extract Label property or use default
-      datasets: [
-        {
-          labels: filteredData.map(item => item.Score || "Default Value"), // Extract Score property or use default
-          backgroundColor: '#42A5F5',
-          data: filteredData.map(item => item.Score), // Extract Score property
-        }
-      ]
-    };
-  
-    console.log("dataset");
-    console.log(this.chartData);
-  }
+    formatChartData(data_receive) {
+      console.log("doing chart data")
+      const filteredResults = data_receive.filter(item => item !== null);
+      this.isLoading = true
+    this.chartdata_criteria = {
+          labels: filteredResults.map(item => item.Label),
+          datasets: [
+                {
+                  labels: this.Label,
+                    backgroundColor: '#42A5F5',
+                    data: filteredResults.map(item => item.Score),
+                },
+            ],
+        };
+        console.log(this.chartdata_criteria.datasets)
+        console.log(data_receive)
+        this.isLoading = false
 },
     setupPriceData(result_target) {
       this.isLoading1 = true;
     if (Array.isArray(result_target)) {
         const filteredResults = result_target.filter(item => item !== null);
-        pricedata = filteredResults.price
         // console.log(filteredResults); // Log the filtered results
 
         this.chartdata_pricerange = {
@@ -302,7 +285,7 @@ export default {
                 {
                   labels: filteredResults.map(item => item.title || "Default Value"),
                     backgroundColor: '#42A5F5',
-                    data: filteredResults.price
+                    data: filteredResults.map(item => item.price)
                 },
             ],
         };
@@ -315,6 +298,7 @@ export default {
           console.log("price ok");
       } else {
           console.error("price bad");
+          console.log(this.chartdata_pricerange.datasets)
       }
 
       // Safety check for labels
@@ -334,21 +318,6 @@ export default {
       const regex = new RegExp(criteria.join('|'), 'gi'); // Join criteria for multiple matches
       return text.replace(regex, `<mark>$&</mark>`);
     },
-    manual_test(){
-      this.chartdata_criteria = {
-          labels: this.label.map(() => "$"), // Replace all labels with "$"
-          datasets: [
-                {
-                  labels: this.label.map(item => item.title || "Default Value"),
-                    backgroundColor: '#42A5F5',
-                    data: this.sample_test_for_chart,
-                },
-            ],
-        };
-        console.log(this.chartdata_criteria.datasets)
-        console.log(this.sample_test_for_chart)
-        this.isLoading = false
-    }
   },
 };
 </script>
@@ -478,9 +447,25 @@ tr th:first-child, tr td:first-child {
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 10px;
-  background-color: #f9f9f9;
+  background-color: #3a423a;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   text-align: left;
 }
-
+.horizontal-container {
+  max-width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #3a423a;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  height: 200px; 
+  overflow: auto;
+}
+.horizontal-container div {
+  display: inline-block; 
+  padding: 5px;
+  margin-right: 10px; 
+}
 </style>

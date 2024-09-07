@@ -13,17 +13,17 @@
         <p v-if="user.username != null">Username: {{ user.username }}</p>
         <p v-if="user.about != null">About me: {{ user.about }}</p>
         <div>
-      <div><input type="text" v-if="showUpdate" ref="aboutInput" v-model="updatedAbout" /></div>
-      <button v-if="!showUpdate" @click="showUpdateForm">Update</button>
-      <button v-if="showUpdate" @click="updateUserInfo">Save</button>
+      <div><input type="Update" v-if="showUpdate" ref="aboutInput" v-model="updatedAbout" /></div>
+      <button class="updateUserForm" v-if="!showUpdate" @click="showUpdateForm">Update</button>
+      <button class="updateUser" v-if="showUpdate" @click="updateUserInfo">Save</button>
           
-      <div><input type="text" v-if="deleteUser" ref="deleteInput" v-model="deletepass" /></div>
-      <button v-if="!deleteUser" @click="showDeleteForm">Delete</button>
-      <button v-if="deleteUser" @click="DeleteUser">Delete user</button>
+      <div><input type="Delete" v-if="deleteUser" ref="deleteInput" v-model="deletepass" /></div>
+      <button class="deleteUserForm" v-if="!deleteUser" @click="showDeleteForm">Delete</button>
+      <button class="deleteUser" v-if="deleteUser" @click="DeleteUser">Delete user</button>
 
-      <div v-if="!admindeleteUser"><input type="text" v-if="deleteUser" ref="deleteInput" v-model="deletepass" /></div>
-      <button v-if="!admindeleteUser" @click="showAdminDeleteForm">Delete target</button>
-      <button v-if="admindeleteUser" @click="DeleteAdminUser">Delete target user</button>
+      <div v-if="!admindeleteUser"><input type="AdminDelete" v-if="deleteUser" ref="deleteInput" v-model="deletepass" /></div>
+      <button class="deleteUserAdminForm" v-if="!admindeleteUser" @click="showAdminDeleteForm">Delete target</button>
+      <button class="deleteUserAdmin" v-if="admindeleteUser" @click="DeleteAdminUser">Delete target user</button>
         </div>
       </div>
     </div>
