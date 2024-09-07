@@ -46,14 +46,21 @@
 
         <!-- highlightText -->
         <div class="horizontal-container" v-if=" selectedItems != null" >
-                    <th class="text-container" scope="col" 
+                    <div class="text-container" scope="col" 
                    v-for="item in searchResults" :key="item.title" >
-                   {{ highlightText(item.title, selectedItems) }}
-                  </th>
-                  <td v-for="item in searchResults" :key="item.id">
-                    <span v-html="highlightText(item.price.toString(), selectedItems)"></span>
-                  </td>
+                   <span>
+                   {{ highlightText(item.title.length > 50 ? item.title.slice(0, 10) + '...' : item.title, selectedItems) }}
+                  </span>
+                   <span v-html="highlightText(item.price.toString(), selectedItems)"></span>
+                  </div>
         </div>
+        
+            <!-- <div class="horizontal-container" v-if="selectedItems != null">
+              <div class="text-container" scope="col" v-for="item in searchResults" :key="item.title">
+                <span v-html="highlightText(item.title, selectedItems)"></span>
+                <span v-html="highlightText(item.price.toString(), selectedItems)"></span>
+              </div>
+            </div> -->
 
         <!--the end of show scraped -->
 
@@ -239,8 +246,10 @@ export default {
     })
         .then(response => {
           console.log("chart data")
-          console.log(response.data)
-          this.formatChartData(response.data)
+          
+          this.sample_test_for_chart = response.data
+          console.log(this.sample_test_for_chart)
+          this.formatChartData(this.sample_test_for_chart)
           console.log("done chart data")
           this.isLoading = false;
         })
@@ -257,9 +266,10 @@ export default {
     },
     formatChartData(data_receive) {
       console.log("doing chart data")
+      if (Array.isArray(data_receive)) {
       const filteredResults = data_receive.filter(item => item !== null);
       this.isLoading = true
-    this.chartdata_criteria = {
+      this.chartdata_criteria = {
           labels: filteredResults.map(item => item.Label),
           datasets: [
                 {
@@ -272,6 +282,9 @@ export default {
         console.log(this.chartdata_criteria.datasets)
         console.log(data_receive)
         this.isLoading = false
+      }else{
+        console.log("bad stuff in data")
+      }
 },
     setupPriceData(result_target) {
       this.isLoading1 = true;
