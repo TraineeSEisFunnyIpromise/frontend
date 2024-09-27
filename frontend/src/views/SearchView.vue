@@ -117,10 +117,10 @@ export default {
   data() {
     return {
       selectedChoice: null, // Store the selected choice value
-      sample_test_for_chart:["1238","1241","1241","1278","1270","1239","1210","1211"],
-      label:["a","b","c","d","e","f","h","i"],
       isLoading: false,
       isLoading1: false,
+      oldsearchData:"",
+      old_user_target:"",
       hasScroll: true,// scroallable thingy
       searchData:'',//search input
       usertargetData:'',//group target input
@@ -260,9 +260,20 @@ export default {
     },
         // Control Method
     executeSearchAndScrape() {
-      // First, send the search input
+      // First, send the search input check input before send 
+      if(this.searchData == this.oldsearchData){
+        console.log("use old data")
+        if(this.old_user_target != this.usertargetData){
+          this.send_search_input()
+        }
+      }
+      
+      else{
+      this.oldsearchData = this.searchData
+      console.log(this.oldsearchData)
       this.send_search_input();
-      this.scrape();
+      this.scrape();}
+
     },
     formatChartData(data_receive) {
       console.log("doing chart data")
