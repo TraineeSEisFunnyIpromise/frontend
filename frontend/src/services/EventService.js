@@ -14,7 +14,7 @@ export default {
     return apiClient.get('/event?_limit=' + perPage + '&_page=' + page)
   },
   getEvent(id) {
-    return apiClient.get('/event/' + id)
+    return apiClient.get('/productdetail/' + id)
   },
   saveEvent(event) {
     return apiClient.post('/event', event)

@@ -55,12 +55,6 @@
                   </div>
         </div>
         
-            <!-- <div class="horizontal-container" v-if="selectedItems != null">
-              <div class="text-container" scope="col" v-for="item in searchResults" :key="item.title">
-                <span v-html="highlightText(item.title, selectedItems)"></span>
-                <span v-html="highlightText(item.price.toString(), selectedItems)"></span>
-              </div>
-            </div> -->
 
         <!--the end of show scraped -->
 
@@ -97,6 +91,7 @@ import axios from 'axios'
 //--------------------graph visualization with vueslize yike---------------
 import MyBarChart from '@/components/chartfromvuechart.vue';
 import horizontalcomponent from '@/components/horizontal-component.vue';
+import EventService from '@/services/EventService.js'
 
 // import express from 'express' <- this create 28 error which im not gonna fix that again 
 //---------------------funny part---------------------------
@@ -265,6 +260,10 @@ export default {
         console.log("use old data")
         if(this.old_user_target != this.usertargetData){
           this.send_search_input()
+          EventService.getEvent(this.id)
+      .then((response) => {
+        this.event = response.data
+      })
         }
       }
       

@@ -1,17 +1,19 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import NotFoundView from '@/views/NotFoundView.vue'
-import EventListView from '@/views/EventListView.vue'
+import MainpageView from '@/views/MainpageView.vue'
 import NetWorkErrorView from '@/views/NetworkErrorView.vue'
 import LoginView from '@/views/LoginView.vue'
 import RegisterView from '@/views/RegistrationView.vue'
 import UserinfoView from '@/views/UserinfoView.vue'
 import SearchView from '@/views/SearchView.vue'
+import testView from '@views/testView.vue'
+import ProductDetailView from '@views/content/ProductDetailView.vue'
 // import NProgress from 'nprogress'
 const routes = [
   {
     path: '/',
-    name: 'EventList',
-    component: EventListView,
+    name: 'Mainpage',
+    component: MainpageView,
     props: (route) => ({ page: parseInt(route.query.page) || 1 })
   },
   {
@@ -33,6 +35,17 @@ const routes = [
     path: '/search',
     name: 'Searchview',
     component: SearchView,
+  },
+  {
+    path: '/testview',
+    name: 'testview',
+    component: testView,
+  },
+  {
+    path: "/productdetail/:id",
+    name: "ProductDetailView",
+    props: true,
+    component: ProductDetailView,
   },
   {
     path: '/404/:resource',
