@@ -7,11 +7,9 @@
           <div class="row">
             <div class="col-12">
               <div id="app">
-                <table >
                   <thead>
                     <horizontalcomponent :searchResults="searchResults" />
                   </thead>
-                </table>
               </div>
             </div>
           </div>

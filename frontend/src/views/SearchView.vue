@@ -34,11 +34,12 @@
           <div class="row">
             <div class="col-12">
               <div id="app">
-                <table >
                   <thead>
                     <horizontalcomponent :searchResults="searchResults" />
                   </thead>
-                </table>
+                  <thead>
+                    <EventCard :searchResults="searchResults" />
+                  </thead>
               </div>
             </div>
           </div>
@@ -167,7 +168,7 @@ export default {
   methods: {
     send_search_input() {
       console.log("searchtringerred")
-      const path = 'http://localhost:5000/search/search_criteria'
+      const path = 'http://localhost:5000/search/search_criteria_test'
 
       //an entire stuff happen below here also this is might be the worst refactor i have ever done
       if (this.searchData !== '' ) {
@@ -204,7 +205,8 @@ export default {
       const sending = [this.searchData,this.usertargetData];
       // const path = 'http://localhost:5000/search/scrape'
       const path = 'http://localhost:5000/search/scrape'
-      axios.post(path,sending,
+      if (this.searchData !== ''){
+        axios.post(path,sending,
       {headers: {
       'Content-Type': 'application/json',  // Set the correct Content-Type header
       'Access-Control-Allow-Origin': '*',
@@ -224,12 +226,17 @@ export default {
           console.log("scraped error occurred!")
           console.log(error);
           this.badscrape = "scrape got problem "+ error
+          alert(this.badscrape)
         });
+      }
+      else{
+        alert("scrape is not work try again")
+      }
     },
 
     fetchChartData() {
       this.isLoading = true;
-      const path = 'http://localhost:5000/search/critandprod';
+      const path = 'http://localhost:5000/search/critandprod_test';
       const sending = [this.searchData,this.usertargetData]
       axios.post(path,sending,
       {headers: {
@@ -256,22 +263,27 @@ export default {
         // Control Method
     executeSearchAndScrape() {
       // First, send the search input check input before send 
-      if(this.searchData == this.oldsearchData){
+      if(this.searchData!=''){
+        if(this.searchData == this.oldsearchData ){
         console.log("use old data")
         if(this.old_user_target != this.usertargetData){
           this.send_search_input()
           EventService.getEvent(this.id)
       .then((response) => {
         this.event = response.data
-      })
+            })
+          }
         }
+        else{
+        this.oldsearchData = this.searchData
+        console.log(this.oldsearchData)
+        this.send_search_input();
+        this.scrape();}
       }
-      
       else{
-      this.oldsearchData = this.searchData
-      console.log(this.oldsearchData)
-      this.send_search_input();
-      this.scrape();}
+        alert("the input must not be empty")
+      }
+
 
     },
     formatChartData(data_receive) {

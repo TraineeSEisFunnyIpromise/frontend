@@ -2,7 +2,7 @@
   <nav>
     <ul class="nav-left">
       <li class="box-for">
-        <router-link :to="{ name: 'EventList' }" class="nav-link">
+        <router-link :to="{ name: 'Mainpage' }" class="nav-link">
           Home
         </router-link>
       </li>

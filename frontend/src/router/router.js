@@ -6,8 +6,7 @@ import LoginView from '@/views/LoginView.vue'
 import RegisterView from '@/views/RegistrationView.vue'
 import UserinfoView from '@/views/UserinfoView.vue'
 import SearchView from '@/views/SearchView.vue'
-import testView from '@views/testView.vue'
-import ProductDetailView from '@views/content/ProductDetailView.vue'
+import ProductDetailView from '@/views/content/ProductDetailView.vue'
 // import NProgress from 'nprogress'
 const routes = [
   {
@@ -35,11 +34,6 @@ const routes = [
     path: '/search',
     name: 'Searchview',
     component: SearchView,
-  },
-  {
-    path: '/testview',
-    name: 'testview',
-    component: testView,
   },
   {
     path: "/productdetail/:id",
