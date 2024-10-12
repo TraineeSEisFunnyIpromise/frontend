@@ -5,9 +5,13 @@
       <div class="price">{{ item.price }}</div>
     </div>
   </div>
+  <eventcard v-for="item in searchResults" :key="item.id" @click="redirectToPage(item)" >
+    click here for more detail
+  </eventcard>
 </template>
 
 <script>
+import eventcard  from "@/components/EventCard.vue"
 export default {
   props: {
     searchResults: {
@@ -19,6 +23,9 @@ export default {
       default: 'flex',
       validator: (val) => ['flex', 'inline-flex'].includes(val)
     }
+  },
+  components: {
+    eventcard
   },
   methods: {
     redirectToPage(item) {

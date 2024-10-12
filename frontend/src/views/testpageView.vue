@@ -1,24 +1,9 @@
 <template>
-  <form @submit.prevent="executeSearchAndScrape">
-    <div class="inputtext" for="search">Search Product</div>
-    <input type="text" id="searchData" v-model="searchData" required>
 
-    <div class="inputtext" for="groupsearch">Group target</div>
-    <input type="text" id="usertargetData" v-model="usertargetData">
-  </form>
-
-  <div style="padding-top: 10px;">
-    <button type="submit" @click="executeSearchAndScrape">Click here to create your electric's criteria</button>
-  </div>
-    <!-- <div class="loader"></div> -->
 <!-- result section -->
- <!--criteria section-->
   <div class="colored-box-display" style=" text-align: center;">
     <div v-if="receiveData == ''">result will display here</div>
-    <div v-if="receiveData != '' && receiveData !='Bad criteria' ">
-      <div id="loader_criteria" v-if="isLoading_scrape_criteria == true">
-          creating criteria...
-        </div>
+    <div v-if="receiveData != ''">
       <div> 
         <div>Selected criteria: {{ selectedItems }}</div>
         <div v-for="item in receiveData" :key="item">
@@ -30,39 +15,41 @@
       <!-- a fancy select box -->
       <input type="checkbox" v-model="toggle" true-value="yes" false-value="no" />
       <a>{{ datastore }}</a>
-<!--criteria section-->
 
-<!-- this part check if receive data or not if not data not show -->
-
+      <!-- this part check if receive data or not if not data not show -->
        <div v-if="badscrape != ''"></div>
-       <div v-if="isLoading_scrape == true">
-          Scraping Data...
-        </div>
+
         <div class="container" v-if="searchResults != '' && searchResults != null" >
           <div class="row">
             <div class="col-12">
               <div id="app">
+                <table >
                   <thead>
                     <horizontalcomponent :searchResults="searchResults" />
                   </thead>
+                </table>
               </div>
             </div>
           </div>
         </div>
 
-        <div>
-          <!-- highlightText -->
-          <div class="horizontal-container" v-if=" selectedItems != null" >
-                      <div class="text-container" scope="col" 
-                    v-for="item in searchResults" :key="item.title" >
-                    <span>
-                    {{ highlightText(item.title.length > 50 ? item.title.slice(0, 10) + '...' : item.title, selectedItems) }}
-                    </span>
-                    <span v-html="highlightText(item.price.toString(), selectedItems)"></span>
-                    </div>
-          </div>
+        <!-- highlightText -->
+        <div class="horizontal-container" v-if=" selectedItems != null" >
+                    <div class="text-container" scope="col" 
+                   v-for="item in searchResults" :key="item.title" >
+                   <span>
+                   {{ highlightText(item.title.length > 50 ? item.title.slice(0, 10) + '...' : item.title, selectedItems) }}
+                  </span>
+                   <span v-html="highlightText(item.price.toString(), selectedItems)"></span>
+                  </div>
         </div>
         
+            <!-- <div class="horizontal-container" v-if="selectedItems != null">
+              <div class="text-container" scope="col" v-for="item in searchResults" :key="item.title">
+                <span v-html="highlightText(item.title, selectedItems)"></span>
+                <span v-html="highlightText(item.price.toString(), selectedItems)"></span>
+              </div>
+            </div> -->
 
         <!--the end of show scraped -->
 
@@ -99,7 +86,6 @@ import axios from 'axios'
 //--------------------graph visualization with vueslize yike---------------
 import MyBarChart from '@/components/chartfromvuechart.vue';
 import horizontalcomponent from '@/components/horizontal-component.vue';
-import EventService from '@/services/EventService.js'
 
 // import express from 'express' <- this create 28 error which im not gonna fix that again 
 //---------------------funny part---------------------------
@@ -122,7 +108,6 @@ export default {
       selectedChoice: null, // Store the selected choice value
       isLoading: false,
       isLoading1: false,
-      isLoading_scrape: false,
       oldsearchData:"",
       old_user_target:"",
       hasScroll: true,// scroallable thingy
@@ -176,7 +161,7 @@ export default {
   methods: {
     send_search_input() {
       console.log("searchtringerred")
-      const path = 'http://localhost:5000/search/search_criteria_test'
+      const path = 'http://localhost:5000/search/search_criteria'
 
       //an entire stuff happen below here also this is might be the worst refactor i have ever done
       if (this.searchData !== '' ) {
@@ -189,13 +174,7 @@ export default {
       }
     })
           .then(response => {
-            this.isLoading_scrape_criteria == false
-            if(this.receiveData != 'invalid' || this.receiveData == null){
-              this.receiveData =  response.data
-            }
-            else{
-              this.receiveData = "Bad criteria"
-            }
+            this.receiveData =  response.data
             console.log("receive data");
             console.log(response);
           })
@@ -207,7 +186,6 @@ export default {
         // Successful 
       } else {
         // Failed
-        this.isLoading_scrape_criteria == false
         alert('please add an input');
         console.log("please add information");
         
@@ -219,9 +197,8 @@ export default {
       
       const sending = [this.searchData,this.usertargetData];
       // const path = 'http://localhost:5000/search/scrape'
-      const path = 'http://localhost:5000/search/scrape_test'
-      if (this.searchData !== ''){
-        axios.post(path,sending,
+      const path = 'http://localhost:5000/search/scrape'
+      axios.post(path,sending,
       {headers: {
       'Content-Type': 'application/json',  // Set the correct Content-Type header
       'Access-Control-Allow-Origin': '*',
@@ -232,7 +209,6 @@ export default {
         .then(response => {
           console.log("sending to scrape");
           this.searchResults = response.data;
-          this.isLoading_scrape = false
           console.log(this.searchResults)
           console.log("replaced search result, doing price chart")
           this.setupPriceData(this.searchResults)
@@ -242,17 +218,12 @@ export default {
           console.log("scraped error occurred!")
           console.log(error);
           this.badscrape = "scrape got problem "+ error
-          alert(this.badscrape)
         });
-      }
-      else{
-        alert("scrape is not work try again")
-      }
     },
 
     fetchChartData() {
       this.isLoading = true;
-      const path = 'http://localhost:5000/search/critandprod_test';
+      const path = 'http://localhost:5000/search/critandprod';
       const sending = [this.searchData,this.usertargetData]
       axios.post(path,sending,
       {headers: {
@@ -279,28 +250,18 @@ export default {
         // Control Method
     executeSearchAndScrape() {
       // First, send the search input check input before send 
-      if(this.searchData!=''){
-        if(this.searchData == this.oldsearchData ){
+      if(this.searchData == this.oldsearchData){
         console.log("use old data")
         if(this.old_user_target != this.usertargetData){
           this.send_search_input()
-          EventService.getEvent(this.id)
-      .then((response) => {
-        this.event = response.data
-            })
-          }
         }
-        else{
-        this.oldsearchData = this.searchData
-        console.log(this.oldsearchData)
-        this.isLoading_scrape = false
-        this.send_search_input();
-        this.scrape();}
       }
+      
       else{
-        alert("the input must not be empty")
-      }
-
+      this.oldsearchData = this.searchData
+      console.log(this.oldsearchData)
+      this.send_search_input();
+      this.scrape();}
 
     },
     formatChartData(data_receive) {

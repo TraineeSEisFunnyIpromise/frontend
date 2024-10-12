@@ -39,9 +39,33 @@
 <script>
 import axios from 'axios'
 export default {
-
-  inject: ['GStore']
-  ,
+  inject: ['GStore'],
+  data() {
+    return {
+      isLoading: false,
+      isLoading1: false,
+      usertargetData:'',//group target input
+      receiveData: '',// receive criteria
+      badscrape:'',
+      userInput:'',// before send to backend input   
+      chartdata_criteria : null  //chart data for criteria score
+        ,
+      chartdata_pricerange : null //chart price range
+        ,
+   chartOptions1: { // literally option for setup chart yeah 
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top', 
+          },
+          title: {
+            display: true,
+            text: 'Chart Criteria Score'
+          }
+        }
+      },
+    }
+  },
   methods: {
     fetchChartData() {
       this.isLoading = true;
