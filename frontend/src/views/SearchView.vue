@@ -176,7 +176,7 @@ export default {
   methods: {
     send_search_input() {
       console.log("searchtringerred")
-      const path = 'http://localhost:5000/search/search_criteria_test'
+      const path = 'http://localhost:5000/search/search_criteria'
 
       //an entire stuff happen below here also this is might be the worst refactor i have ever done
       if (this.searchData !== '' ) {
@@ -219,7 +219,7 @@ export default {
       
       const sending = [this.searchData,this.usertargetData];
       // const path = 'http://localhost:5000/search/scrape'
-      const path = 'http://localhost:5000/search/scrape_test'
+      const path = 'http://localhost:5000/search/scrape'
       if (this.searchData !== ''){
         axios.post(path,sending,
       {headers: {

@@ -22,6 +22,9 @@
         <button type="submit">Login</button>
       </form>
     </div>
+    <div class="errormessage" v-if="errorMessage">
+      <p>{{ errorMessage }}</p>
+    </div>
   </body>
 
   </html>
@@ -39,7 +42,9 @@ export default {
     return {
       username: '',
       password: '',
-      sessionId: null
+      sessionId: null,
+      errorMessage: '',
+      errorMessage2:'',
     };
   },
   methods: {
@@ -68,9 +73,10 @@ export default {
         .catch(error => {
           if(error.status == 500 || error.message == "Network Error"){
             console.log("server is not response")
+            this.errorMessage = error
           }
           else{
-          error.message;
+          this.errorMessage = error;
           console.error(error);
          }
         }
