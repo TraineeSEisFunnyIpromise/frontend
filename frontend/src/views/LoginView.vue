@@ -73,7 +73,9 @@ export default {
         .catch(error => {
           if(error.status == 500 || error.message == "Network Error"){
             console.log("server is not response")
-            this.errorMessage = error
+            if(error == "AxiosError: Network Error"){
+              this.errorMessage = "Sorry for inconvenience seem Server is not response";
+            }
           }
           else{
           this.errorMessage = error;

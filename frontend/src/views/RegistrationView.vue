@@ -39,8 +39,9 @@
         <button type="submit">Register</button>
         <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
       </form>
-      <!--    <p v-if="errorMessage" style="color: red;">{{ errorMessage }}</p>
-      <p v-if="successMessage" style="color: green;">{{ successMessage }}</p>-->
+         <p v-if="errorMessage != ''" style="color: red;">{{ errorMessage }}</p>
+      <p v-if="successMessage != ''" style="color: green;">{{ successMessage }}</p>
+      
     </div>
   </body>
 
@@ -59,7 +60,8 @@ export default {
       confirmPassword: '',
       dateOfBirth: '',
       userinfo: '',
-      errorMessage: ''
+      errorMessage: '',
+      successMessage: '',
     };
   },
   methods: {
@@ -77,13 +79,16 @@ export default {
         .then(response => {
           console.log(response.data);
           this.errorMessage = ''; // Clear error message on successful registration
+          this.successMessage = 'Registration successful!';
+          // Redirect to login page or perform any other actions
+
         })
         .catch(error => {
           if(error.status == 500 || error.message == "Network Error"){
             console.log("server is not response")
           }
           else{
-          error.message;
+          this.errorMessage = "sorry some problem occured please try it again"+error.response.data.message;
           console.error(error);
          }
         }

@@ -15,74 +15,75 @@
  <!--criteria section-->
   <div class="colored-box-display" style=" text-align: center;">
     <div v-if="receiveData == ''">result will display here</div>
-    <div v-if="receiveData != '' && receiveData !='Bad criteria' ">
-      <div id="loader_criteria" v-if="isLoading_scrape_criteria == true">
-          creating criteria...
+      <div v-if="receiveData != '' && receiveData !='Bad criteria' ">
+        <div id="loader_criteria" v-if="isLoading_scrape_criteria == true">
+            creating criteria...
+          </div>
+        <div> 
+          <div>Selected criteria: {{ selectedItems }}</div>
+          <div v-for="item in receiveData" :key="item">
+            <input type="checkbox" :id="item" :value="item" v-model="checkedItems" />
+            <a :for="item">{{ item }}</a>
+          </div>
         </div>
-      <div> 
-        <div>Selected criteria: {{ selectedItems }}</div>
-        <div v-for="item in receiveData" :key="item">
-          <input type="checkbox" :id="item" :value="item" v-model="checkedItems" />
-          <a :for="item">{{ item }}</a>
-        </div>
-      </div>
 
-      <!-- a fancy select box -->
-      <input type="checkbox" v-model="toggle" true-value="yes" false-value="no" />
-      <a>{{ datastore }}</a>
-<!--criteria section-->
+        <!-- a fancy select box -->
+        <input type="checkbox" v-model="toggle" true-value="yes" false-value="no" />
+        <a>{{ datastore }}</a>
+  <!--criteria section-->
 
-<!-- this part check if receive data or not if not data not show -->
+  <!-- this part check if receive data or not if not data not show -->
 
-       <div v-if="badscrape != ''"></div>
-       <div v-if="isLoading_scrape == true">
-          Scraping Data...
-        </div>
-        <div class="container" v-if="searchResults != '' && searchResults != null" >
-          <div class="row">
-            <div class="col-12">
-              <div id="app">
-                  <thead>
-                    <horizontalcomponent :searchResults="searchResults" />
-                  </thead>
+        <div v-if="badscrape != ''"> sorry seem we got an error {{ badscrape }}</div>
+
+        <div v-if="isLoading_scrape == true">
+            Scraping Data...
+          </div>
+          <div class="container" v-if="searchResults != '' && searchResults != null" >
+            <div class="row">
+              <div class="col-12">
+                <div id="app">
+                    <thead>
+                      <horizontalcomponent :searchResults="searchResults" />
+                    </thead>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div>
-          <!-- highlightText -->
-          <div class="horizontal-container" v-if=" selectedItems != null" >
-                      <div class="text-container" scope="col" 
-                    v-for="item in searchResults" :key="item.title" >
-                    <span>
-                    {{ highlightText(item.title.length > 50 ? item.title.slice(0, 10) + '...' : item.title, selectedItems) }}
-                    </span>
-                    <span v-html="highlightText(item.price.toString(), selectedItems)"></span>
-                    </div>
+          <div>
+            <!-- highlightText -->
+            <div class="horizontal-container" v-if=" selectedItems != null" >
+                        <div class="text-container" scope="col" 
+                      v-for="item in searchResults" :key="item.title" >
+                      <span>
+                      {{ highlightText(item.title.length > 50 ? item.title.slice(0, 10) + '...' : item.title, selectedItems) }}
+                      </span>
+                      <span v-html="highlightText(item.price.toString(), selectedItems)"></span>
+                      </div>
+            </div>
           </div>
-        </div>
-        
+          
 
-        <!--the end of show scraped -->
+          <!--the end of show scraped -->
 
-        <!-- data graph price -->
-        <div v-if="isLoading1">
-          Loading Chart Price...
-        </div>
-       <a>chart happen here</a>
-       <div class="chart-container" v-if="chartdata_pricerange != null && chartdata_pricerange != ''">
-        <MyBarChart :chartData="chartdata_pricerange" :chartOptions="chartOptions2" />
-       </div>
-       <!-- data graph criteria -->
-       <div v-if="isLoading">
-          Loading Chart criteria...
-        </div>
-        <div class="chart-container" >
-          <div v-if="chartdata_criteria != null">
-            <MyBarChart :chartData="chartdata_criteria" :chartOptions="chartOptions1" />
+          <!-- data graph price -->
+          <div v-if="isLoading1">
+            Loading Chart Price...
           </div>
-       </div>
+        <a>chart happen here</a>
+        <div class="chart-container" v-if="chartdata_pricerange != null && chartdata_pricerange != ''">
+          <MyBarChart :chartData="chartdata_pricerange" :chartOptions="chartOptions2" />
+        </div>
+        <!-- data graph criteria -->
+        <div v-if="isLoading">
+            Loading Chart criteria...
+          </div>
+          <div class="chart-container" >
+            <div v-if="chartdata_criteria != null">
+              <MyBarChart :chartData="chartdata_criteria" :chartOptions="chartOptions1" />
+            </div>
+        </div>
 
         <!-- end of data graph -->
     </div>
@@ -242,6 +243,9 @@ export default {
           console.log("scraped error occurred!")
           console.log(error);
           this.badscrape = "scrape got problem "+ error
+          if (error == "AxiosError: Network Error") {
+            this.badscrape = "backend server is not working"
+          }
           alert(this.badscrape)
         });
       }
