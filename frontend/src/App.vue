@@ -73,7 +73,7 @@ export default {
 }
 
 nav {
-  background-color: #618076;
+  background-color: #4d685f;
   padding: 1rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -153,6 +153,6 @@ li {
   color: #7fc46e;
 }
 body{
-  background-color: #455344;
+  background-color: #394138;
 }
 </style>

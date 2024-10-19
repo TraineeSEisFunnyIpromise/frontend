@@ -180,7 +180,7 @@ export default {
       const path = 'http://localhost:5000/search/search_criteria'
 
       //an entire stuff happen below here also this is might be the worst refactor i have ever done
-      if (this.searchData !== '' ) {
+      if (this.searchData !== '' && this.usertargetData !== '' ) {
         console.log(this.userInput)
         //funni stuff CORS and CONTENT thingy
         console.log("search sent")
@@ -191,7 +191,7 @@ export default {
     })
           .then(response => {
             this.isLoading_scrape_criteria == false
-            if(this.receiveData != 'invalid' || this.receiveData == null){
+            if(this.receiveData != 'invalid' || this.receiveData == null || this.receiveData == ['Invalid']){
               this.receiveData =  response.data
             }
             else{
@@ -247,10 +247,13 @@ export default {
             this.badscrape = "backend server is not working"
           }
           alert(this.badscrape)
+          this.oldsearchData = ''
+          this.old_user_target = ''
         });
       }
       else{
         alert("scrape is not work try again")
+        this.oldsearchData = ''
       }
     },
 
@@ -285,20 +288,22 @@ export default {
       // First, send the search input check input before send 
       if(this.searchData!=''){
         if(this.searchData == this.oldsearchData ){
-        console.log("use old data")
-        if(this.old_user_target != this.usertargetData){
-          this.send_search_input()
-          EventService.getEvent(this.id)
-      .then((response) => {
-        this.event = response.data
-            })
+          console.log("use old data")
+          if(this.old_user_target != this.usertargetData && this.usertargetData !== ''){
+            this.send_search_input()
+              EventService.getEvent(this.id)
+              .then((response) => {
+                this.event = response.data
+                })
+              }
           }
-        }
         else{
         this.oldsearchData = this.searchData
         console.log(this.oldsearchData)
         this.isLoading_scrape = false
-        this.send_search_input();
+        if(this.usertargetData !==''){
+          this.send_search_input();
+        }
         this.scrape();}
       }
       else{
