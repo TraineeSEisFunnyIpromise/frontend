@@ -25,6 +25,9 @@
     <div class="errormessage" v-if="errorMessage">
       <p>{{ errorMessage }}</p>
     </div>
+    <div>
+      <button class="Resetpassword" @click="display_Resetpassword">Reset password</button>
+    </div>
   </body>
 
   </html>
@@ -45,6 +48,7 @@ export default {
       sessionId: null,
       errorMessage: '',
       errorMessage2:'',
+      display_Resetpassword: false,
     };
   },
   methods: {

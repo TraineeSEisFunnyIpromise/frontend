@@ -54,7 +54,6 @@
           <div>
             <!-- highlightText -->
             <div class="horizontal-container" v-if=" selectedItems != null" >
-              selected
                         <div class="text-container" scope="col" 
                       v-for="item in searchResults" :key="item.title" >
                       <span>
@@ -382,8 +381,8 @@ export default {
     },
     highlightText(text, criteria) {
       const regex = new RegExp(criteria.join('|'), 'gi'); // Join criteria for multiple matches
-      // return text.replace(regex, `<mark>$&</mark>`);
-      return text.replace(regex, ``);
+
+      return text.replace(regex, `<mark> </mark>`);
     },
   },
 };
