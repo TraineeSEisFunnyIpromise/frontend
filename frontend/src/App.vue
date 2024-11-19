@@ -31,7 +31,11 @@ export default {
   data() {
     return {
       dropdownOpen: false,
+      role:'',
     };
+  },
+  mounted() {
+    this.fetchUserInfo();
   },
   methods: {
     toggleDropdown() {
@@ -42,6 +46,7 @@ export default {
       axios.get(path)
         .then(response => {
           // Handle successful login (store token?)
+          console.log("getting user info")
           console.log(response.data);
           this.name = response.data;
           this.AboutMe = response.data;
@@ -49,6 +54,7 @@ export default {
         })
         .catch(error => {
           console.error(error);
+          console.log("user not found")
         });
     },
   },

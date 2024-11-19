@@ -20,10 +20,7 @@
       <div><input type="Delete" v-if="deleteUser" ref="deleteInput" v-model="deletepass" /></div>
       <button class="deleteUserForm" v-if="!deleteUser" @click="showDeleteForm">Delete</button>
       <button class="deleteUser" v-if="deleteUser" @click="DeleteUser">Delete user</button>
-
-      <div v-if="!admindeleteUser"><input type="AdminDelete" v-if="deleteUser" ref="deleteInput" v-model="deletepass" /></div>
-      <button class="deleteUserAdminForm" v-if="!admindeleteUser" @click="showAdminDeleteForm">Delete target</button>
-      <button class="deleteUserAdmin" v-if="admindeleteUser" @click="DeleteAdminUser">Delete target user</button>
+      
         </div>
       </div>
     </div>

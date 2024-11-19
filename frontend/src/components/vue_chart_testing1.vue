@@ -35,7 +35,6 @@
           }]
         };
       },
-      // ... other computed properties
     }
   };
 </script>

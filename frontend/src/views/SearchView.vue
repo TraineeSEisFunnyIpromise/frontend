@@ -377,7 +377,8 @@ export default {
     },
     highlightText(text, criteria) {
       const regex = new RegExp(criteria.join('|'), 'gi'); // Join criteria for multiple matches
-      return text.replace(regex, `<mark>$&</mark>`);
+      // return text.replace(regex, `<mark>$&</mark>`);
+      return text.replace(regex, ``);
     },
   },
 };
