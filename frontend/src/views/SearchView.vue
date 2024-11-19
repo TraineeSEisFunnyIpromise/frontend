@@ -220,7 +220,7 @@ export default {
       
       const sending = [this.searchData,this.usertargetData];
       // const path = 'http://localhost:5000/search/scrape'
-      const path = 'http://localhost:5000/search/scrape'
+      const path = 'http://localhost:5000/search/scrape_test'
       if (this.searchData !== ''){
         axios.post(path,sending,
       {headers: {
