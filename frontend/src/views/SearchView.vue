@@ -54,6 +54,7 @@
           <div>
             <!-- highlightText -->
             <div class="horizontal-container" v-if=" selectedItems != null" >
+              selected
                         <div class="text-container" scope="col" 
                       v-for="item in searchResults" :key="item.title" >
                       <span>
@@ -84,6 +85,7 @@
               <MyBarChart :chartData="chartdata_criteria" :chartOptions="chartOptions1" />
             </div>
         </div>
+
 
         <!-- end of data graph -->
     </div>
@@ -117,6 +119,7 @@ export default {
   components: {
     MyBarChart,
     horizontalcomponent,
+
   },
   data() {
     return {
@@ -177,7 +180,7 @@ export default {
   methods: {
     send_search_input() {
       console.log("searchtringerred")
-      const path = 'http://localhost:5000/search/search_criteria'
+      const path = 'http://localhost:5000/search/search_criteria_test'
 
       //an entire stuff happen below here also this is might be the worst refactor i have ever done
       if (this.searchData !== '' && this.usertargetData !== '' ) {
@@ -191,6 +194,7 @@ export default {
     })
           .then(response => {
             this.isLoading_scrape_criteria == false
+            console.log("criteria list")
             if(this.receiveData != 'invalid' || this.receiveData == null || this.receiveData == ['Invalid']){
               this.receiveData =  response.data
             }
@@ -237,6 +241,7 @@ export default {
           console.log(this.searchResults)
           console.log("replaced search result, doing price chart")
           this.setupPriceData(this.searchResults)
+          console.log("fetch chartdata")
           this.fetchChartData()
         })
         .catch(error => {
@@ -327,8 +332,8 @@ export default {
                 },
             ],
         };
-        console.log(this.chartdata_criteria.datasets)
-        console.log(data_receive)
+        console.log(this.filteredResults.Score)
+        console.log(this.filteredResults.Label)
         this.isLoading = false
       }else{
         console.log("bad stuff in data")

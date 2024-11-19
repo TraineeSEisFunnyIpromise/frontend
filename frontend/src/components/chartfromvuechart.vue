@@ -19,9 +19,7 @@ export default {
         labels: "default label", // Default to an empty array or you can provide default labels
         datasets: [
           {
-            label: 'Defaultlabel',
-            backgroundColor: '#f87979',
-            data: [12,20,30,40] // Default to an empty array
+            data: [12,20,30,40,50] // Default to an empty array
           }
         ]
       })
