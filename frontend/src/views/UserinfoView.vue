@@ -50,22 +50,26 @@ export default ({
   },
   methods: {
     fetchUserInfo() {
-      // const sessionId = localStorage.getItem('session_id');
-      // { params: { session_id: sessionId } }
-      const path = 'http://localhost:5000/userinfo/Information_test';
-      axios.post(path)
+      const path = 'http://localhost:5000/userinfo/Information';
+      const user = {
+        username: sessionStorage.getItem('username'),
+      };
+      axios.post(path,user)
         .then(response => {
           // Handle successful login (store token?)
+          console.log("getting user info")
           console.log(response.data);
-          this.user = response.data
+          this.name = response.data;
+          this.AboutMe = response.data;
           // You can store the JWT token in localStorage or Vuex for future requests
         })
         .catch(error => {
           console.error(error);
+          console.log("user not found")
         });
     },
     UpdateUser() {
-      const path = 'http://localhost:5000/updateuserinfo';
+      const path = 'http://localhost:5000/userinfo/updateuserinfo';
       const send_about = this.updatedAbout;
       // const senddata: 
       axios.get(path,send_about)
@@ -82,7 +86,7 @@ export default ({
         });
     },
     DeleteUser() {
-      const path = 'http://localhost:5000/deleteuserinfo';
+      const path = 'http://localhost:5000/userinfo/deleteuserinfo';
       const user = this.deletepass
       axios.get(path,user)
         .then(response => {

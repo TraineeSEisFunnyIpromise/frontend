@@ -23,17 +23,17 @@
 
         <div class="input-group">
           <label for="info">Information about Yourself:</label>
-          <input type="text" id="info" v-model="info" required>
+          <input type="text" id="info" v-model="userinfo" required>
         </div>
 
         <div class="input-group">
           <label for="question">Question when forget password:</label>
-          <input type="text" id="question" v-model="question" required>
+          <input type="text" id="question" v-model="question_for_reset" required>
         </div>
 
         <div class="input-group">
-          <label for="userinfo">Answer of the Question:</label>
-          <input type="text" id="userinfo" v-model="userinfo" required>
+          <label for="answer_for_password">Answer of the Question:</label>
+          <input type="text" id="answer_for_password" v-model="answer_for_password" required>
         </div>
 
         <button type="submit">Register</button>
@@ -58,7 +58,7 @@ export default {
       username: '',
       password: '',
       confirmPassword: '',
-      dateOfBirth: '',
+      answer_for_reset: '',
       userinfo: '',
       errorMessage: '',
       successMessage: '',
@@ -70,8 +70,9 @@ export default {
       const registerData = {
         username: this.username,
         password: this.password,
-        dateOfBirth: this.dateOfBirth,
-        userinfo: this.userinfo
+        answer_for_reset: this.answer_for_reset,
+        question_for_reset: this.question_for_reset,
+        userinfo: this.userinfo,
       };
       // Perform registration logic
       // Replace the following code with your own registration logic
