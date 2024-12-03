@@ -179,7 +179,7 @@ export default {
   methods: {
     send_search_input() {
       console.log("searchtringerred")
-      const path = 'http://localhost:5000/search/search_criteria'
+      const path = 'http://localhost:5000/search/search_criteria_test'
 
       //an entire stuff happen below here also this is might be the worst refactor i have ever done
       if (this.searchData !== '' && this.usertargetData !== '' ) {
@@ -192,7 +192,7 @@ export default {
       }
     })
           .then(response => {
-            this.isLoading_scrape_criteria == false
+            this.isLoading_scrape_criteria = false
             console.log("criteria list")
             if(this.receiveData != 'invalid' || this.receiveData == null || this.receiveData == ['Invalid']){
               this.receiveData =  response.data
@@ -211,7 +211,7 @@ export default {
         // Successful 
       } else {
         // Failed
-        this.isLoading_scrape_criteria == false
+        this.isLoading_scrape_criteria = false
         alert('please add an input');
         console.log("please add information");
         

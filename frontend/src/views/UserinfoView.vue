@@ -15,12 +15,17 @@
         <div>
       <div><input type="Update" v-if="showUpdate" ref="aboutInput" v-model="updatedAbout" /></div>
       <button class="updateUserForm" v-if="!showUpdate" @click="showUpdateForm">Update</button>
-      <button class="updateUser" v-if="showUpdate" @click="updateUserInfo">Save</button>
+      <button class="updateUser" v-if="showUpdate" @click="UpdateUser">Save</button>
           
       <div><input type="Delete" v-if="deleteUser" ref="deleteInput" v-model="deletepass" /></div>
       <button class="deleteUserForm" v-if="!deleteUser" @click="showDeleteForm">Delete</button>
       <button class="deleteUser" v-if="deleteUser" @click="DeleteUser">Delete user</button>
       
+      <div><input type="UpdatePassword" v-if="showUpdatePassForm" ref="ResetPassInput" v-model="deletepass" /></div>
+      <button class="UpdatePasswordform" v-if="!showUpdatePassForm" @click="showUpdatePassForm">UpdatePassword</button>
+      <button class="UpdatePassword" v-if="UpdatePassword" @click="UpdatePassword">Delete user</button>
+      
+
         </div>
       </div>
     </div>
@@ -39,10 +44,13 @@ export default ({
     return {
       user:null,
       showUpdate: false,
+      showUpdateForm:false,
+      showUpdatePassForm: false,
       deleteUser: false,
-      admindeleteUser: false,
       updatedAbout: '',
       send:'',
+      updatePassword:'',
+
     }
   },
   created() {
@@ -85,6 +93,22 @@ export default ({
           console.error(error);
         });
     },
+    UpdatePassword() {
+      const path = 'http://localhost:5000/userinfo/updatepassword';
+      const send_about = this.updatedAbout;
+      // const senddata: 
+      axios.get(path,send_about)
+        .then(response => {
+          console.log(response.data);
+          this.name = response.data
+          this.AboutMe = response.data
+          this.showUpdate = false;
+          // You can store the JWT token in localStorage or Vuex for future requests
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    },
     DeleteUser() {
       const path = 'http://localhost:5000/userinfo/deleteuserinfo';
       const user = this.deletepass
@@ -107,11 +131,8 @@ export default ({
       showDeleteForm() {
         this.deleteUser = true;
       },
-      showAdminDeleteForm() {
-        if(this.user['role'] == 'admin'){
-          this.admindeleteUser = true;
-        }
-        
+      showUpdatePassForm() {
+          this.UpdatePassword = true;
 
       },
   },
