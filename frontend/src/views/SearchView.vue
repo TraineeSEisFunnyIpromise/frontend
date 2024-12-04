@@ -1,4 +1,5 @@
 <template>
+<!-- search input section --> 
   <form @submit.prevent="executeSearchAndScrape">
     <div class="inputtext" for="search">Search Product</div>
     <input type="text" id="searchData" v-model="searchData" required>
@@ -8,17 +9,17 @@
   </form>
 
   <div style="padding-top: 10px;">
-    <button type="submit" @click="executeSearchAndScrape">Click here to create your electric's criteria</button>
+    <button type="submit" @click="executeSearchAndScrape" @click.stop="isLoading_scrape != true">Click here to make magic</button>
   </div>
-    <!-- <div class="loader"></div> -->
-<!-- result section -->
- <!--criteria section-->
+
+<!-- result section --> 
+      <!--         criteria section                       -->
   <div class="colored-box-display" style=" text-align: center;">
     <div v-if="receiveData == ''">result will display here</div>
-      <div v-if="receiveData != '' && receiveData !='Bad criteria' ">
-        <div id="loader_criteria" v-if="isLoading_scrape_criteria == true">
+    <div id="loader_criteria" v-if="isLoading_scrape_criteria == true">
             creating criteria...
-          </div>
+    </div>
+      <div v-if="receiveData != '' && receiveData !='Bad criteria' ">
         <div> 
           <div>Selected criteria: {{ selectedItems }}</div>
           <div v-for="item in receiveData" :key="item">
@@ -27,14 +28,17 @@
           </div>
         </div>
 
-        <!-- a fancy select box -->
+        <!--      a fancy select box            -->
         <input type="checkbox" v-model="toggle" true-value="yes" false-value="no" />
         <a>{{ datastore }}</a>
-  <!--criteria section-->
 
-  <!-- this part check if receive data or not if not data not show -->
+  <!--criteria display section-->
 
-        <div v-if="badscrape != ''"> sorry seem we got an error {{ badscrape }}</div>
+    <!-- this part check if receive data or not if not data not show -->
+
+        <div v-if="badscrape != ''"> sorry seem we got an error at creating criteria{{ badscrape }}</div>
+
+    <!--         search section                       -->
 
         <div v-if="isLoading_scrape == true">
             Scraping Data...
@@ -126,6 +130,7 @@ export default {
       isLoading: false,
       isLoading1: false,
       isLoading_scrape: false,
+      isLoading_scrape_criteria: false,
       oldsearchData:"",
       old_user_target:"",
       hasScroll: true,// scroallable thingy
@@ -204,6 +209,7 @@ export default {
             console.log(response);
           })
           .catch(error => {
+          this.isLoading_scrape_criteria = false
           this.userInput= this.selected + this.sendData
           console.log(this.userInput)
           console.log(error);
@@ -222,8 +228,8 @@ export default {
       console.log("scrape tringerred")
       
       const sending = [this.searchData,this.usertargetData];
-      const path = 'http://localhost:5000/search/scrape'
-      // const path = 'http://localhost:5000/search/scrape_test'
+      // const path = 'http://localhost:5000/search/scrape'
+      const path = 'http://localhost:5000/search/scrape_test'
       if (this.searchData !== ''){
         axios.post(path,sending,
       {headers: {
@@ -231,7 +237,7 @@ export default {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'POST',
       'Access-Control-Allow-Headers': 'Content-Type',
-      }
+      } 
     })
         .then(response => {
           console.log("sending to scrape");
@@ -290,24 +296,23 @@ export default {
         // Control Method
     executeSearchAndScrape() {
       // First, send the search input check input before send 
-      if(this.searchData!=''){
-        if(this.searchData == this.oldsearchData ){
+      this.isLoading_scrape_criteria = true // literally make loader appear
+      if(this.searchData!=''){// if no search or first time search
+        if(this.searchData == this.oldsearchData ){ // if the search keyword is matched
           console.log("use old data")
-          if(this.old_user_target != this.usertargetData && this.usertargetData !== ''){
             this.send_search_input()
               EventService.getEvent(this.id)
               .then((response) => {
                 this.event = response.data
                 })
-              }
           }
-        else{
+        else{//if the old search keyword is not
         this.oldsearchData = this.searchData
         console.log(this.oldsearchData)
         this.isLoading_scrape = false
-        if(this.usertargetData !==''){
-          this.send_search_input();
-        }
+
+        this.send_search_input();
+
         this.scrape();}
       }
       else{

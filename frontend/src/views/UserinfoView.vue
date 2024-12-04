@@ -123,17 +123,8 @@ export default ({
           console.error(error);
         });
     },
-      showUpdateForm() {
-        this.showUpdate = true;
-        this.updatedAbout = this.user.about;
-      },
-      
       showDeleteForm() {
         this.deleteUser = true;
-      },
-      showUpdatePassForm() {
-          this.UpdatePassword = true;
-
       },
   },
 });
