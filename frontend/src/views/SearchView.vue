@@ -32,11 +32,13 @@
         <input type="checkbox" v-model="toggle" true-value="yes" false-value="no" />
         <a>{{ datastore }}</a>
 
+
+        <div v-if="badscrape != '' && receiveData == ''" style="text-emphasis-color: red;"> sorry seem we got an error at creating criteria{{ badscrape }}</div>
+
   <!--criteria display section-->
 
     <!-- this part check if receive data or not if not data not show -->
 
-        <div v-if="badscrape != ''"> sorry seem we got an error at creating criteria{{ badscrape }}</div>
 
     <!--         search section                       -->
 
@@ -57,7 +59,8 @@
 
           <div>
             <!-- highlightText -->
-            <div class="horizontal-container" v-if=" selectedItems != null" >
+             <div>Text Matching</div>
+            <div class="horizontal-container" v-if=" selectedItems != null && selectedItems != ''" >
                         <div class="text-container" scope="col" 
                       v-for="item in searchResults" :key="item.title" >
                       <span>
@@ -187,7 +190,7 @@ export default {
       const path = 'http://localhost:5000/search/search_criteria_test'
 
       //an entire stuff happen below here also this is might be the worst refactor i have ever done
-      if (this.searchData !== '' && this.usertargetData !== '' ) {
+      if (this.searchData !== '' || this.usertargetData !== '' ) {
         console.log(this.userInput)
         //funni stuff CORS and CONTENT thingy
         console.log("search sent")
@@ -218,7 +221,7 @@ export default {
       } else {
         // Failed
         this.isLoading_scrape_criteria = false
-        alert('please add an input');
+        this.badscrape = ''
         console.log("please add information");
         
       }
