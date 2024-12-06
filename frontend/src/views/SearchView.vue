@@ -341,39 +341,46 @@ export default {
     },
     formatChartData(data_receive) {
       console.log("doing chart criteria data")
-      if (Array.isArray(data_receive)) {
-      const filteredResults = data_receive.filter(item => item !== null);
+      if (data_receive != '') {
+      const filteredResults = JSON.parse(data_receive);
       this.isLoading = true
+    // Extract labels and scores using map
+      const labels = filteredResults.map(item => item.Label);
+      const scores = filteredResults.map(item => item.Score);
+      console.log(labels)
+      console.log(scores)
+
       this.chartdata_criteria = {
-          labels: filteredResults.map(item => item.Label),
-          datasets: [
-                {
-                  labels: this.Label,
-                    backgroundColor: '#42A5F5',
-                    data: filteredResults.map(item => item.Score),
-                },
-            ],
-        };
-        console.log(this.filteredResults.Score)
-        console.log(this.filteredResults.Label)
+        labels: labels,
+        datasets: [
+          {
+            // label: labels,
+            backgroundColor: '#42A5F5',
+            data: scores,
+          },
+        ],
+      };
+
         this.isLoading = false
       }else{
         console.log("bad stuff in data")
+        this.isLoading = false
       }
 },
     setupPriceData(result_target) {
       this.isLoading1 = true;
-    if (Array.isArray(result_target)) {
-        const filteredResults = result_target.filter(item => item !== null);
+      const jsonifieddata = JSON.parse(result_target)
+    if (jsonifieddata!= '') {
+        const filteredResults = jsonifieddata.map(item => item.price);
+        
         // console.log(filteredResults); // Log the filtered results
 
         this.chartdata_pricerange = {
-          labels: filteredResults.map(() => "$"), // Replace all labels with "$"
+          labels: jsonifieddata.map(item => item.title || "Default Value"),
           datasets: [
                 {
-                  labels: filteredResults.map(item => item.title || "Default Value"),
-                    backgroundColor: '#42A5F5',
-                    data: filteredResults.map(item => item.price)
+                  backgroundColor: '#42A5F5',
+                  data: filteredResults
                 },
             ],
         };
