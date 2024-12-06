@@ -30,6 +30,11 @@
       </div>
     </div>
     <p v-else>No user information available</p>
+
+    <div class="errormessage" v-if="errorMessage">
+      <p>sorry we got error : {{ errorMessage }}</p>
+    </div>
+
   </div>
 
 </body>
@@ -50,6 +55,7 @@ export default ({
       updatedAbout: '',
       send:'',
       updatePassword:'',
+      errorMessage:'',
 
     }
   },
@@ -74,6 +80,7 @@ export default ({
         .catch(error => {
           console.error(error);
           console.log("user not found")
+          this.errorMessage = error
         });
     },
     UpdateUser() {

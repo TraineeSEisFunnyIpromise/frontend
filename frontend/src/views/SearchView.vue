@@ -19,7 +19,14 @@
     <div id="loader_criteria" v-if="isLoading_scrape_criteria == true">
             creating criteria...
     </div>
-      <div v-if="receiveData != '' && receiveData !='Bad criteria' ">
+
+
+
+    <div v-if="badscrape == 'backend server is not working' " style="text-emphasis-color: red;"> 
+      sorry seem we got an error at creating criteria and search please try again
+    </div>
+
+      <div v-if="receiveData != '' && receiveData !='Bad criteria' ">        
         <div> 
           <div>Selected criteria: {{ selectedItems }}</div>
           <div v-for="item in receiveData" :key="item">
@@ -33,9 +40,11 @@
         <a>{{ datastore }}</a>
 
 
-        <div v-if="badscrape != '' && receiveData == ''" style="text-emphasis-color: red;"> sorry seem we got an error at creating criteria{{ badscrape }}</div>
+        <div v-if="badscrape != '' && receiveData == ''" style="text-emphasis-color: red;"> 
+          sorry seem we got an error at creating criteria{{ badscrape }}
+        </div>
 
-  <!--criteria display section-->
+  <!--criteria display section     -->
 
     <!-- this part check if receive data or not if not data not show -->
 
@@ -44,6 +53,9 @@
 
         <div v-if="isLoading_scrape == true">
             Scraping Data...
+          </div>
+          <div class="container" v-if="searchResults == '' && searchResults == null" >
+            error occured in the scrape section
           </div>
           <div class="container" v-if="searchResults != '' && searchResults != null" >
             <div class="row">
@@ -75,13 +87,16 @@
           <!--the end of show scraped -->
 
           <!-- data graph price -->
-          <div v-if="isLoading1">
+          <div v-if="isLoadingprice == true">
             Loading Chart Price...
           </div>
-        <a>chart happen here</a>
-        <div class="chart-container" v-if="chartdata_pricerange != null && chartdata_pricerange != ''">
-          <MyBarChart :chartData="chartdata_pricerange" :chartOptions="chartOptions2" />
-        </div>
+          <div v-if="isLoadingprice == false">
+            <div class="chart-container" v-if="chartdata_pricerange != null && chartdata_pricerange != ''">
+            <MyBarChart :chartData="chartdata_pricerange" :chartOptions="chartOptions2" />
+            </div>
+          </div>
+
+
         <!-- data graph criteria -->
         <div v-if="isLoading">
             Loading Chart criteria...
@@ -108,7 +123,7 @@ import axios from 'axios'
 //--------------------graph visualization with vueslize yike---------------
 import MyBarChart from '@/components/chartfromvuechart.vue';
 import horizontalcomponent from '@/components/horizontal-component.vue';
-import EventService from '@/services/EventService.js'
+// import EventService from '@/services/EventService.js'
 
 // import express from 'express' <- this create 28 error which im not gonna fix that again 
 //---------------------funny part---------------------------
@@ -131,7 +146,7 @@ export default {
     return {
       selectedChoice: null, // Store the selected choice value
       isLoading: false,
-      isLoading1: false,
+      isLoadingprice: false,
       isLoading_scrape: false,
       isLoading_scrape_criteria: false,
       oldsearchData:"",
@@ -304,10 +319,10 @@ export default {
         if(this.searchData == this.oldsearchData ){ // if the search keyword is matched
           console.log("use old data")
             this.send_search_input()
-              EventService.getEvent(this.id)
-              .then((response) => {
-                this.event = response.data
-                })
+              // EventService.getEvent(this.id)
+              // .then((response) => {
+              //   this.event = response.data
+              //   })
           }
         else{//if the old search keyword is not
         this.oldsearchData = this.searchData
@@ -325,7 +340,7 @@ export default {
 
     },
     formatChartData(data_receive) {
-      console.log("doing chart data")
+      console.log("doing chart criteria data")
       if (Array.isArray(data_receive)) {
       const filteredResults = data_receive.filter(item => item !== null);
       this.isLoading = true
