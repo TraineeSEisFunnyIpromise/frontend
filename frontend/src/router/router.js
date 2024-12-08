@@ -7,6 +7,7 @@ import RegisterView from '@/views/RegistrationView.vue'
 import UserinfoView from '@/views/UserinfoView.vue'
 import SearchView from '@/views/SearchView.vue'
 import ProductDetailView from '@/views/content/ProductDetailView.vue'
+import ResetpasswordView from '@/views/ForgetpasswordView.vue'
 // import NProgress from 'nprogress'
 const routes = [
   {
@@ -24,6 +25,11 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: RegisterView,
+  },
+  {
+    path: '/resetpassword',
+    name: 'Resetpassword',
+    component: ResetpasswordView,
   },
   {
     path: '/userinfo',

@@ -21,13 +21,14 @@
         </div>
         <button type="submit">Login</button>
       </form>
+      <div style=" padding-top:10px ;">
+      <button class="Resetpassword" @click="redirect_to_resetpage">forget password?</button>
+        </div>
     </div>
     <div class="errormessage" v-if="errorMessage">
       <p>{{ errorMessage }}</p>
     </div>
-    <div>
-      <button class="Resetpassword" @click="display_Resetpassword">Reset password</button>
-    </div>
+
   </body>
 
   </html>
@@ -87,7 +88,11 @@ export default {
          }
         }
       );
-    }
+    },
+    redirect_to_resetpage() {
+      this.$router.push('resetpassword')
+    },
+
     // app.js
   }
 };

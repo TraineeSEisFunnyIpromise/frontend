@@ -52,16 +52,16 @@
 		};
 		},
 		methods: {
-			forgetpassword() {
-					const path = 'http://localhost:5000/forgetpassword';
+			finduser() {
+					const path = 'http://localhost:5000/checkuser';
 					const userdata = {
 					username: this.username,
 					};
 					axios.post(path, userdata)
 					.then(response => {
-					// Handle successful login (store token?)
+
 					console.log(response.data);
-					// You can store the JWT token in localStorage or Vuex for future requests
+
 					})
 					.catch(error => {
 					console.error(error);
@@ -75,9 +75,9 @@
 					};
 					axios.post(path, userdata)
 					.then(response => {
-					// Handle successful login (store token?)
+
 					console.log(response.data);
-					// You can store the JWT token in localStorage or Vuex for future requests
+
 					})
 					.catch(error => {
 					console.error(error);
