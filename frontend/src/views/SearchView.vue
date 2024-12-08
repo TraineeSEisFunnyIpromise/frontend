@@ -22,11 +22,11 @@
 
 
 
-    <div v-if="badscrape == 'backend server is not working' " style="text-emphasis-color: red;"> 
+    <div v-if="badcriteria == true " style="text-emphasis-color: red;"> 
       sorry seem we got an error at creating criteria and search please try again
     </div>
 
-      <div v-if="receiveData != '' && receiveData !='Bad criteria' ">        
+      <div v-if="receiveData != '' && receiveData != null ">        
         <div> 
           <div>Selected criteria: {{ selectedItems }}</div>
           <div v-for="item in receiveData" :key="item">
@@ -39,10 +39,6 @@
         <input type="checkbox" v-model="toggle" true-value="yes" false-value="no" />
         <a>{{ datastore }}</a>
 
-
-        <div v-if="badscrape != '' && receiveData == ''" style="text-emphasis-color: red;"> 
-          sorry seem we got an error at creating criteria{{ badscrape }}
-        </div>
 
   <!--criteria display section     -->
 
@@ -151,6 +147,7 @@ export default {
       isLoading_scrape_criteria: false,
       oldsearchData:"",
       old_user_target:"",
+      badcriteria:false,
       hasScroll: true,// scroallable thingy
       searchData:'',//search input
       usertargetData:'',//group target input
@@ -221,7 +218,7 @@ export default {
               this.receiveData =  response.data
             }
             else{
-              this.receiveData = "Bad criteria"
+              this.badcriteria = true
             }
             console.log("receive data");
             console.log(response);
