@@ -56,6 +56,7 @@ export default ({
       send:'',
       updatePassword:'',
       errorMessage:'',
+      result:"",
 
     }
   },
@@ -94,10 +95,23 @@ export default ({
           this.name = response.data
           this.AboutMe = response.data
           this.showUpdate = false;
+          if(response.data == "user updated"){
+            this.result = "account has been successfully Updated"
+            this.fetchUserInfo();
+            setTimeout(() => {
+              this.result = ""
+            }, 3000);
+          }
           // You can store the JWT token in localStorage or Vuex for future requests
         })
         .catch(error => {
-          console.error(error);
+          if(error.data)          {
+            this.result = "account has not been successfully Updated"
+            setTimeout(() => {
+              this.result = ""
+            }, 3000);
+
+          }
         });
     },
     UpdatePassword() {
@@ -110,10 +124,24 @@ export default ({
           this.name = response.data
           this.AboutMe = response.data
           this.showUpdate = false;
+          if(response.data == "user updated"){
+            this.result = "account password has been successfully Updated"
+            this.fetchUserInfo();
+            setTimeout(() => {
+              this.result = ""
+            }, 3000);
+          }
           // You can store the JWT token in localStorage or Vuex for future requests
         })
         .catch(error => {
-          console.error(error);
+          
+          if(error.data)          {
+            this.result = "account password has not been successfully Updated"
+            setTimeout(() => {
+              this.result = ""
+            }, 3000);
+
+          }
         });
     },
     DeleteUser() {
@@ -122,12 +150,25 @@ export default ({
       axios.get(path,user)
         .then(response => {
           // Handle successful login (store token?)
-          this.$router.push("/")
-          console.log(response.data);
+          
+          if(response.data == "user deleted"){
+            this.result = "account has been successfully deleted"
+            setTimeout(() => {
+              this.console.log("redirecting");
+              this.$router.push("/");
+            }, 5000);
+          }
+
           // You can store the JWT token in localStorage or Vuex for future requests
         })
         .catch(error => {
           console.error(error);
+          if(error.data)          {
+            this.result = "account has not been successfully deleted"
+            setTimeout(() => {
+              this.result = ""
+            }, 3000);
+          }
         });
     },
       showDeleteForm() {
