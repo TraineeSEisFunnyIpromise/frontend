@@ -247,16 +247,17 @@ export default {
       const path = 'http://localhost:5000/search/scrape_test'
       if (this.searchData !== ''){
         axios.post(path,sending,
-      {headers: {
-      'Content-Type': 'application/json',  // Set the correct Content-Type header
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'POST',
-      'Access-Control-Allow-Headers': 'Content-Type',
-      } 
+      {
+      //   headers: {
+      // 'Content-Type': 'application/json',  // Set the correct Content-Type header
+      // 'Access-Control-Allow-Origin': '*',
+      // 'Access-Control-Allow-Methods': 'POST',
+      // 'Access-Control-Allow-Headers': 'Content-Type',
+      // } 
     })
         .then(response => {
           console.log("sending to scrape");
-          this.searchResults = response.data;
+          this.searchResults = JSON.parse(response.data);
           this.isLoading_scrape = false
           console.log(this.searchResults)
           console.log("replaced search result, doing price chart")

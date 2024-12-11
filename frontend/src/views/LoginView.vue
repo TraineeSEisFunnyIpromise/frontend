@@ -81,6 +81,12 @@ export default {
             if(error == "AxiosError: Network Error"){
               this.errorMessage = "Sorry for inconvenience seem Server is not response";
             }
+            if(error == "user not found"){
+              this.errorMessage = "please enter the correct username";
+            }
+            if(error == "incorrect password"){
+              this.errorMessage = "please enter the correct password";
+            }
           }
           else{
           this.errorMessage = error;

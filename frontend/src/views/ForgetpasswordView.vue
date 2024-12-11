@@ -10,7 +10,7 @@
 		<body>
 		<div id="app" div class="login">
 			<h2>Username target</h2>
-			<form @submit.prevent="forgetpassword">
+			<form @submit.prevent="finduser">
 			<div class="input-group">
 			<label for="username">Username target:</label>
 			<input type="text" id="username" v-model="username" required>
@@ -30,6 +30,7 @@
 			<button type="submit">Press here to find</button>
 			</form>
 			</div>
+			<div v-if="result != ''">result of the reset password {{  result }} </div>
 		</div>
 		
 		</html>
@@ -49,6 +50,7 @@
 			password: '',
 			tabappear:false,
 			findingtarget:null,
+			result:"",
 		};
 		},
 		methods: {
@@ -61,10 +63,11 @@
 					.then(response => {
 
 					console.log(response.data);
-
+					
 					})
 					.catch(error => {
 					console.error(error);
+
 					});
 				},
 			Resetpassword() {
@@ -76,11 +79,18 @@
 					axios.post(path, userdata)
 					.then(response => {
 
+					if(response == ""){
+						this.result = "reset password successful"
+					}
+
 					console.log(response.data);
 
 					})
 					.catch(error => {
 					console.error(error);
+					if(error.response == ""){
+						this.result = "reset password unsuccessful"
+					}
 					});
 				},
 		// app.js
