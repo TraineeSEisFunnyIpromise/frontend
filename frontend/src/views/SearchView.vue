@@ -10,7 +10,7 @@
 
   <div style="padding-top: 10px;">
     <button type="submit" @click="executeSearchAndScrape" @click.stop="isLoading_scrape != true">Click here to make magic</button>
-  </div>
+  </div> 
 
 <!-- result section --> 
       <!--         criteria section                       -->

@@ -96,7 +96,7 @@ export default ({
           this.AboutMe = response.data
           this.showUpdate = false;
           if(response.data == "user updated"){
-            this.result = "account has been successfully Updated"
+            this.result = "aboutme has been successfully Updated"
             this.fetchUserInfo();
             setTimeout(() => {
               this.result = ""
@@ -106,7 +106,7 @@ export default ({
         })
         .catch(error => {
           if(error.data)          {
-            this.result = "account has not been successfully Updated"
+            this.result = "aboutme has not been successfully Updated"
             setTimeout(() => {
               this.result = ""
             }, 3000);

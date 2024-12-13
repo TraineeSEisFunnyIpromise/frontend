@@ -80,11 +80,11 @@ export default {
         .then(response => {
           console.log(response.data);
           this.errorMessage = ''; // Clear error message on successful registration
-          if( response.message == "username_is_used"){
+          if( response.message == "Username already exists"){
             console.log("server is got error in input")
             this.successMessage = 'username has already taken'
           }
-          this.successMessage = 'Registration successful!';
+          else{this.successMessage = 'Registration successful!';}
           // Redirect to login page or perform any other actions
 
 

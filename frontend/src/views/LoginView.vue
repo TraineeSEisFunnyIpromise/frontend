@@ -63,29 +63,28 @@ export default {
         .then(response => {
           // Handle successful login (store token?)
           console.log(response.data);
-          if(response.status === 202){
+          if(response.status == 202){
             console.log("redirecting"); 
             this.sessionId = response.data.session_id;
             localStorage.setItem('session_id', this.sessionId);  // Store session ID in local storage
             this.$router.push('userinfo')
           }
-          else{
-            console.log("test1")
-          }
           
           // You can store the JWT token in localStorage or Vuex for future requests
         })
         .catch(error => {
-          if(error.status == 500 || error.message == "Network Error"){
-            console.log("server is not response")
-            if(error == "AxiosError: Network Error"){
+          if(error != '' ){
+            if(error.message == 'Network Error'){
               this.errorMessage = "Sorry for inconvenience seem Server is not response";
             }
-            if(error == "user not found"){
+            if(error.message == 'user not found'){
               this.errorMessage = "please enter the correct username";
             }
-            if(error == "incorrect password"){
+            if(error.message == 'incorrect password'){
               this.errorMessage = "please enter the correct password";
+            }
+            if(error.message == "can not connect to database"){
+              this.errorMessage = "Sorry for inconvenience seem database is not response";
             }
           }
           else{

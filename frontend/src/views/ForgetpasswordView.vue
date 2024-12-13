@@ -24,8 +24,11 @@
 			<h2>Reset Password</h2>
 			<form @submit.prevent="Resetpassword">
 			<div class="input-group">
-			<label for="username">New Password</label>
-			<input type="text" id="username" v-model="username" required>
+			<label for="password">QUESTION</label>
+			<label for="password">{{ question }}</label>
+			<input type="text" id="newpassword" v-model="answer" required>
+			<label for="password">New Password</label>
+			<input type="text" id="newpassword" v-model="password" required>
 			</div>
 			<button type="submit">Press here to find</button>
 			</form>
@@ -48,9 +51,11 @@
 		return {
 			username: '',
 			password: '',
+			answer:'',
 			tabappear:false,
 			findingtarget:null,
 			result:"",
+			question:""
 		};
 		},
 		methods: {
@@ -62,12 +67,19 @@
 					axios.post(path, userdata)
 					.then(response => {
 
-					console.log(response.data);
+						if(response.status == 200){
+						this.question = response.data
+						this.tabappear = true
+					}
 					
 					})
 					.catch(error => {
-					console.error(error);
-
+					console.log(error)
+					if(error == "not found")
+					alert("user not found")
+					if(error.message == "Network Error"){
+					alert("server is Not available")
+					}
 					});
 				},
 			Resetpassword() {
@@ -79,7 +91,7 @@
 					axios.post(path, userdata)
 					.then(response => {
 
-					if(response == ""){
+					if(response == "success"){
 						this.result = "reset password successful"
 					}
 
@@ -88,9 +100,13 @@
 					})
 					.catch(error => {
 					console.error(error);
-					if(error.response == ""){
+					if(error.response == "Incorrect answer"){
+						this.result = "Please provide correct username and answer"
+					}
+					else{
 						this.result = "reset password unsuccessful"
 					}
+
 					});
 				},
 		// app.js
