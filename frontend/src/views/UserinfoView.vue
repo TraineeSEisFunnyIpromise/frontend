@@ -32,9 +32,10 @@
     <p v-else>No user information available</p>
 
     <div class="errormessage" v-if="errorMessage">
-      <p>sorry we got error : {{ errorMessage }}</p>
+      <p> {{ errorMessage }}</p>
     </div>
 
+    <div>{{ session }}</div>
   </div>
 
 </body>
@@ -81,7 +82,8 @@ export default ({
         .catch(error => {
           console.error(error);
           console.log("user not found")
-          this.errorMessage = error
+          //need to update
+          this.errorMessage = "sorry seem we can't fetch current user's information"
         });
     },
     UpdateUser() {

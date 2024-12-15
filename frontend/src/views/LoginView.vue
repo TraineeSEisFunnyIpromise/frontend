@@ -25,7 +25,7 @@
       <button class="Resetpassword" @click="redirect_to_resetpage">forget password?</button>
         </div>
     </div>
-    <div class="errormessage" v-if="errorMessage">
+    <div class="errormessage" v-if="errorMessage != ''">
       <p>{{ errorMessage }}</p>
     </div>
 
@@ -62,26 +62,29 @@ export default {
       axios.post(path, logindata)
         .then(response => {
           // Handle successful login (store token?)
-          console.log(response.data);
           if(response.status == 202){
             console.log("redirecting"); 
             this.sessionId = response.data.session_id;
             localStorage.setItem('session_id', this.sessionId);  // Store session ID in local storage
             this.$router.push('userinfo')
           }
+          if(response.data.message == 'Incorrect passwords'){
+            console.log("error1")
+              this.errorMessage = "please enter the correct password";
+            }
+          if(response.data.message == 'user not found'){
+            console.log("error2")
+              this.errorMessage = "please enter the correct username";
+            }
           
           // You can store the JWT token in localStorage or Vuex for future requests
         })
         .catch(error => {
           if(error != '' ){
-            if(error.message == 'Network Error'){
+            console.log("error log")
+            console.log(error.message)
+            if(error.message == 'Network Error'||error.message == 'The server is down'){
               this.errorMessage = "Sorry for inconvenience seem Server is not response";
-            }
-            if(error.message == 'user not found'){
-              this.errorMessage = "please enter the correct username";
-            }
-            if(error.message == 'incorrect password'){
-              this.errorMessage = "please enter the correct password";
             }
             if(error.message == "can not connect to database"){
               this.errorMessage = "Sorry for inconvenience seem database is not response";
@@ -89,7 +92,9 @@ export default {
           }
           else{
           this.errorMessage = error;
-          console.error(error);
+          console.log("error log")
+          console.log(error);
+          console.log(this.errorMessage)
          }
         }
       );

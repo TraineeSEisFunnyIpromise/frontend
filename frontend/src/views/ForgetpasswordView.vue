@@ -43,7 +43,6 @@
 		import axios from 'axios';
 		
 		export default {
-		name: 'HelloWorld',
 		props: {
 		msg: String,
 		},
@@ -60,7 +59,8 @@
 		},
 		methods: {
 			finduser() {
-					const path = 'http://localhost:5000/checkuser';
+				//http://localhost:5000/auth/login
+					const path = 'http://localhost:5000/auth/getuser';
 					const userdata = {
 					username: this.username,
 					};
@@ -75,7 +75,7 @@
 					})
 					.catch(error => {
 					console.log(error)
-					if(error == "not found")
+					if(error.message == "not found")
 					alert("user not found")
 					if(error.message == "Network Error"){
 					alert("server is Not available")
@@ -83,10 +83,11 @@
 					});
 				},
 			Resetpassword() {
-					const path = 'http://localhost:5000/resetpassword';
+					const path = 'http://localhost:5000/auth/reset_password';
 					const userdata = {
 					username: this.username,
-					password: this.password
+					password: this.password,
+					answer: this.answer
 					};
 					axios.post(path, userdata)
 					.then(response => {
@@ -100,11 +101,11 @@
 					})
 					.catch(error => {
 					console.error(error);
-					if(error.response == "Incorrect answer"){
+					if(error.response == "unsuccess"){
 						this.result = "Please provide correct username and answer"
 					}
 					else{
-						this.result = "reset password unsuccessful"
+						this.result = "reset password unsuccessful due to server"
 					}
 
 					});

@@ -35,11 +35,12 @@
           <label for="answer_for_password">Answer of the Question:</label>
           <input type="text" id="answer_for_password" v-model="answer_for_password" required>
         </div>
+        <div v-if="isloading == true">sending information...</div>
 
         <button type="submit">Register</button>
         <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
       </form>
-         <p v-if="errorMessage != ''" style="color: red;">{{ errorMessage }}</p>
+
       <p v-if="successMessage != ''" style="color: green;">{{ successMessage }}</p>
       
     </div>
@@ -62,10 +63,12 @@ export default {
       userinfo: '',
       errorMessage: '',
       successMessage: '',
+      isloading:false,
     };
   },
   methods: {
     register() {
+      this.isloading = true
       const path = 'http://localhost:5000/auth/register';
       const registerData = {
         username: this.username,
@@ -79,23 +82,29 @@ export default {
       axios.post(path, registerData)
         .then(response => {
           console.log(response.data);
+          console.log(response.data.message);
           this.errorMessage = ''; // Clear error message on successful registration
-          if( response.message == "Username already exists"){
-            console.log("server is got error in input")
-            this.successMessage = 'username has already taken'
+          if( response.data.message == "Username already exists"){
+            this.errorMessage = 'username has already taken'
+            this.isloading = false
           }
-          else{this.successMessage = 'Registration successful!';}
-          // Redirect to login page or perform any other actions
-
-
+          else{
+          this.successMessage = 'Registration successful!';
+          this.isloading = false
+          setTimeout(() => {
+          this.$router.push('login')
+            }, 3000);
+          }
         })
         .catch(error => {
-          if(error.status == 500 || error.message == "Network Error"){
-            console.log("server is not response")
+          if(error.message == "server is not response" || error.message == "Network Error"){
+            this.errorMessage = "sorry some problem occured in server";
+            this.isloading = false
           }
           else{
           this.errorMessage = "sorry some problem occured please try it again"+error.response.data.message;
           console.error(error);
+          this.isloading = false
          }
         }
       );

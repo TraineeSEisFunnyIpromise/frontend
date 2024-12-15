@@ -8,13 +8,13 @@
       </li>
     </ul>
     <ul class="nav-right">
-      <li><router-link :to="{ name: 'Login' }" class="nav-link">Login</router-link></li>
-      <li><router-link :to="{ name: 'Register' }" class="nav-link">Register</router-link></li>
-      <li><router-link :to="{ name: 'Searchview' }" class="nav-link">Search</router-link></li>
-      <li class="user-dropdown">
+      <li><router-link v-if="role != true" :to="{ name: 'Login' }" class="nav-link">Login</router-link></li>
+      <li><router-link v-if="role != true" :to="{ name: 'Register' }" class="nav-link">Register</router-link></li>
+      <li><router-link v-if="role != false" :to="{ name: 'Searchview' }" class="nav-link">Search</router-link></li>
+      <li class="user-dropdown" v-if="role != false">
         <img src="/frontend/src/assets/Login_Icon.jpg" alt="User Portrait" class="user-icon" @click="toggleDropdown" />
         <ul v-if="dropdownOpen" class="dropdown-menu">
-          <li><router-link :to="{ name: 'Userinfo' }" class="nav-link">User Information</router-link></li>
+          <li><router-link  :to="{ name: 'Userinfo' }" class="nav-link">User Information</router-link></li>
         </ul>
       </li>
     </ul>
@@ -31,7 +31,7 @@ export default {
   data() {
     return {
       dropdownOpen: false,
-      role:'',
+      role:false,
     };
   },
   mounted() {
@@ -48,8 +48,7 @@ export default {
           // Handle successful login (store token?)
           console.log("getting user info")
           console.log(response.data);
-          this.name = response.data;
-          this.AboutMe = response.data;
+          this.role = response.data["role"];
           // You can store the JWT token in localStorage or Vuex for future requests
         })
         .catch(error => {
