@@ -39,6 +39,9 @@
 				<div>{{ datastore }}</div>
                 </div>
       </div>
+			<div>
+				<chart></chart>
+			</div>
   </div>
 <!-- oh boy implement time-->
 		</div>
@@ -47,6 +50,7 @@
 </template>
 <script>
 import axios from 'axios'
+import chart from '@/components/chartfromvuechart.vue';
 	export default {
 	data() {
 	return {
@@ -62,6 +66,10 @@ import axios from 'axios'
 	datastore:'',
 	};
 	},
+	components: {
+    chart,
+
+  },
 	methods: {
 	compare_test() {
 	const path = 'http://localhost:5000/compare_test'
@@ -69,7 +77,7 @@ import axios from 'axios'
 				.then(response => {
 						console.log(response.data);
 						this.datastore = response
-				})
+				}) 
 				.catch(error => {
 						console.log(error);
 				});
@@ -114,8 +122,6 @@ import axios from 'axios'
 			this.errorMessage = 'please add information';
 			}
 		},
-	},
-	components:{
 	},
 	mounted: function() {
 		}
