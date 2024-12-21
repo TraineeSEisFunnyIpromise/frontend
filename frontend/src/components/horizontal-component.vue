@@ -5,9 +5,9 @@
       <div class="price">{{ item.price }}</div>
     </div>
   </div>
-  <!-- <eventcard v-for="item in searchResults" :key="item.id" @click="redirectToPage(item)" >
+  <eventcard v-for="item in searchResults" :key="item.id" @click="redirectToPage(item)" >
     click here for more detail
-  </eventcard> -->
+  </eventcard>
 </template>
 
 <script>

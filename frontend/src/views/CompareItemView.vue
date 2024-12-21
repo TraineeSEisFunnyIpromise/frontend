@@ -20,15 +20,15 @@
                                     <thead>
                                     <tr>
                                         <th scope="col"></th>
-                                        <th v-for="item in searchResults_Sample" :key="item.id">
+                                        <th v-for="item in searchResults" :key="item.id">
                                         {{ item.title }}
                                         </th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr v-for="property in Object.keys(searchResults_Sample[0])" :key="property">
+                                    <tr v-for="property in Object.keys(searchResults[0])" :key="property">
                                         <th scope="row">{{ property }}</th>
-                                        <td v-for="item in searchResults_Sample" :key="item.id">
+                                        <td v-for="item in searchResults" :key="item.id">
                                         {{ item[property] }}
                                         </td>
                                     </tr>
@@ -54,12 +54,7 @@ import chart from '@/components/chartfromvuechart.vue';
 	export default {
 	data() {
 	return {
-	searchResults_Sample: [
-    {id:1, title:"Test1",description:["criterialist1","criterialist2","criterialist3"],price:"1234",asin:"5125"},
-    {id:2, title:"Test2",description:["criterialist1","criterialist2","criterialist3"],price:"1234",asin:"4214"},
-    {id:3, title:"Test3",description:["criterialist1","criterialist2","criterialist3"],price:"1231",asin:"1242"},
-    {id:4, title:"Test4",description:["criterialist1","criterialist2","criterialist3"],price:"1234",asin:"6126"},
-        ],
+
 	searchResults:[],
 	CompareResults: false,
 	showInfo: true,
