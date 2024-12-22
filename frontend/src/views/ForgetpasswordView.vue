@@ -25,7 +25,7 @@
 			<form @submit.prevent="Resetpassword">
 			<div class="input-group">
 			<label for="password">QUESTION</label>
-			<label for="password">{{ question.message }}</label>
+			<label for="password">{{ question }}</label>
 			<input type="text" id="newpassword" v-model="answer" required>
 			<label for="password">New Password</label>
 			<input type="text" id="newpassword" v-model="password" required>
@@ -35,7 +35,7 @@
 		</div>
 		
 		</div>
-		<div v-if="result != ''">result of the reset password {{  result }} </div>
+		<div v-if="result != ''">Result{{  result }} </div>
 		
 		</html>
 		</template>
@@ -69,6 +69,7 @@
 					.then(response => {
 					if(response.message != "database is down"){
 						if(response.message != "user not found"){
+							console.log(response)
 							this.question = response.data
 							this.tabappear = true
 						}
@@ -101,10 +102,14 @@
 					axios.post(path, userdata)
 					.then(response => {
 
-					if(response.message == "success"){
+					if(response.data == "success"){
 						this.result = "reset password successful"
+						
+						setTimeout(() => {
+							this.$router.push("login");
+							}, 5000);
 					}
-					if(response.message == "unsuccess"){
+					if(response.data == "unsuccess"){
 						this.result = "Please provide correct username and answer"
 					}
 

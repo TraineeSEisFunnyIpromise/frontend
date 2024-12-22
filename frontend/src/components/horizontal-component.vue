@@ -3,11 +3,13 @@
     <div v-for="item in searchResults" :key="item.id" @click="redirectToPage(item)">
       <div class="title">{{ item.title.length > 50 ? item.title.slice(0, 50) + '...' : item.title }}</div>
       <div class="price">{{ item.price }}</div>
+      <!-- <eventcard  :key="item.id" @click="redirectToPage(item)" >
+      click here for more detail
+    </eventcard> -->
     </div>
+
   </div>
-  <eventcard v-for="item in searchResults" :key="item.id" @click="redirectToPage(item)" >
-    click here for more detail
-  </eventcard>
+
 </template>
 
 <script>

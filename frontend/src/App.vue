@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from 'axios'
 export default {
   inject: ['GStore'],
   data() {
@@ -42,19 +42,45 @@ export default {
       this.dropdownOpen = !this.dropdownOpen;
     },
     fetchUserInfo() {
-      const path = 'http://localhost:5000/Userinfo';
-      axios.get(path)
+
+      
+      const path = 'http://localhost:5000/auth/Information';
+      const user = {
+        username: localStorage.getItem('session_username'),
+      };
+      axios.post(path,user)
         .then(response => {
-          // Handle successful login (store token?)
+          // Handle successful session local but not found in server
           console.log("getting user info")
           console.log(response.data);
-          this.role = response.data["role"];
+          console.log(user)
+          if(user  && response.data == "user not found"){
+            localStorage.clear()
+          }
+
           // You can store the JWT token in localStorage or Vuex for future requests
         })
         .catch(error => {
           console.error(error);
           console.log("user not found")
+          console.log(user)
+          localStorage.clear()
+
         });
+
+      
+          const something =  localStorage.getItem('session_username')
+          // Handle successful login (store token?)
+          console.log("getting user info")
+          if( something != '' && something != null)
+          {console.log(something);
+            this.role = true
+          }
+          
+          // You can store the JWT token in localStorage or Vuex for future requests
+          else{
+            this.role = false
+          }
     },
   },
 }

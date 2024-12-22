@@ -64,9 +64,14 @@ export default {
           // Handle successful login (store token?)
           if(response.status == 202){
             console.log("redirecting"); 
-            this.sessionId = response.data.session_id;
-            localStorage.setItem('session_id', this.sessionId);  // Store session ID in local storage
+            console.log(response)
+
+            this.session = response.data.username;
+            localStorage.setItem('session_username', this.session);  // Store session ID in local storage
+            console.log(this.session)
+            alert("login success")
             this.$router.push('userinfo')
+            
           }
           if(response.data.message == 'Incorrect passwords'){
             console.log("error1")

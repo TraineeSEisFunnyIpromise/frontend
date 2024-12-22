@@ -257,8 +257,11 @@ export default {
     })
         .then(response => {
           console.log("sending to scrape");
-          this.searchResults = JSON.parse(response.data);
+          this.searchResults = JSON.parse(JSON.stringify(response.data));
           this.isLoading_scrape = false
+          console.log("raw data")
+          console.log(response.data)
+          console.log("a litbit processed")
           console.log(this.searchResults)
           console.log("replaced search result, doing price chart")
           this.setupPriceData(this.searchResults)
@@ -367,7 +370,13 @@ export default {
 },
     setupPriceData(result_target) {
       this.isLoading1 = true;
-      const jsonifieddata = JSON.parse(result_target)
+      //const jsonifieddata = JSON.stringify(JSON.parse(result_target),null,2)
+      console.log("result target display")
+      console.log(result_target)
+      const jsonifieddata = JSON.parse(JSON.stringify(result_target))
+      console.log("jsonified display")
+      console.log(jsonifieddata)
+
     if (jsonifieddata!= '') {
         const filteredResults = jsonifieddata.map(item => item.price);
         

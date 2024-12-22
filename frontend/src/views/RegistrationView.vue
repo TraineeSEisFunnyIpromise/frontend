@@ -33,7 +33,7 @@
 
         <div class="input-group">
           <label for="answer_for_password">Answer of the Question:</label>
-          <input type="text" id="answer_for_password" v-model="answer_for_password" required>
+          <input type="text" id="answer_for_password" v-model="answer_for_reset" required>
         </div>
         <div v-if="isloading == true">sending information...</div>
 
