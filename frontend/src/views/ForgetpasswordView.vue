@@ -25,16 +25,17 @@
 			<form @submit.prevent="Resetpassword">
 			<div class="input-group">
 			<label for="password">QUESTION</label>
-			<label for="password">{{ question }}</label>
+			<label for="password">{{ question.message }}</label>
 			<input type="text" id="newpassword" v-model="answer" required>
 			<label for="password">New Password</label>
 			<input type="text" id="newpassword" v-model="password" required>
 			</div>
 			<button type="submit">Press here to find</button>
 			</form>
-			</div>
-			<div v-if="result != ''">result of the reset password {{  result }} </div>
 		</div>
+		
+		</div>
+		<div v-if="result != ''">result of the reset password {{  result }} </div>
 		
 		</html>
 		</template>
@@ -60,23 +61,31 @@
 		methods: {
 			finduser() {
 				//http://localhost:5000/auth/login
-					const path = 'http://localhost:5000/auth/getuser';
+					const path = 'http://localhost:5000/auth/searchinguser';
 					const userdata = {
 					username: this.username,
 					};
 					axios.post(path, userdata)
 					.then(response => {
-
-						if(response.status == 200){
-						this.question = response.data
-						this.tabappear = true
+					if(response.message != "database is down"){
+						if(response.message != "user not found"){
+							this.question = response.data
+							this.tabappear = true
+						}
+						else{
+						alert("user not found")
+						this.result = "user not found"
+						}
+					}
+					else{
+					alert("server is down")
+					this.result = "server is down"
 					}
 					
 					})
 					.catch(error => {
+						console.log("error here :")
 					console.log(error)
-					if(error.message == "not found")
-					alert("user not found")
 					if(error.message == "Network Error"){
 					alert("server is Not available")
 					}
@@ -92,8 +101,11 @@
 					axios.post(path, userdata)
 					.then(response => {
 
-					if(response == "success"){
+					if(response.message == "success"){
 						this.result = "reset password successful"
+					}
+					if(response.message == "unsuccess"){
+						this.result = "Please provide correct username and answer"
 					}
 
 					console.log(response.data);
@@ -101,12 +113,7 @@
 					})
 					.catch(error => {
 					console.error(error);
-					if(error.response == "unsuccess"){
-						this.result = "Please provide correct username and answer"
-					}
-					else{
 						this.result = "reset password unsuccessful due to server"
-					}
 
 					});
 				},

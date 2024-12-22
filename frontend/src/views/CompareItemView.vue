@@ -66,20 +66,17 @@ import chart from '@/components/chartfromvuechart.vue';
 
   },
 	methods: {
-	compare_test() {
-	const path = 'http://localhost:5000/compare_test'
-			axios.post(path)
-				.then(response => {
-						console.log(response.data);
-						this.datastore = response
-				}) 
-				.catch(error => {
-						console.log(error);
-				});
-		// Successful login
+	compare_math_test() {
+		//top-down(mean) calculation
+		//average without cull value
+
+
+		//cull the exceed of maximum 20 percentage of average by max and min + average * 20%
+
+		//average representative value
 
 		},
-		compare() {
+	compare() {
 	const path = 'http://localhost:5000/compare_test'
 	const loginData = {
 		keyword: this.sendData,
