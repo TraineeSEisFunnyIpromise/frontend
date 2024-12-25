@@ -51,11 +51,13 @@
 <script>
 import axios from 'axios'
 import chart from '@/components/chartfromvuechart.vue';
+import EventService from '@/services/EventService.js'
 	export default {
+	props: ['id'],
 	data() {
 	return {
 
-	searchResults:[],
+	searchResults:null,
 	CompareResults: false,
 	showInfo: true,
 	datastore:'',
@@ -115,8 +117,15 @@ import chart from '@/components/chartfromvuechart.vue';
 			}
 		},
 	},
-	mounted: function() {
-		}
+  created() {
+    EventService.getEvent(this.id)
+      .then((response) => {
+        this.event = response.data
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
 	};
 </script>
 <style>

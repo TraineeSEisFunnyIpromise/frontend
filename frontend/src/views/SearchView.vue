@@ -132,6 +132,7 @@ export default {
       type: Array,
       required: true,
     },
+    
   },
   components: {
     MyBarChart,
