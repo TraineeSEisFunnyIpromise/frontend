@@ -36,6 +36,8 @@ export default {
   },
   mounted() {
     this.fetchUserInfo();
+    this.check_session();
+
   },
   methods: {
     toggleDropdown() {
@@ -81,7 +83,17 @@ export default {
           else{
             this.role = false
           }
+
     },
+    check_session(){
+      if(localStorage.getItem('session_username' )){
+        console.log("found user")
+      }
+      else{
+        console.log("user not found ayee")
+      }
+
+    }
   },
 }
 </script>

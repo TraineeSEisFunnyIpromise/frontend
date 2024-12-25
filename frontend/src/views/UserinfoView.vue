@@ -188,12 +188,12 @@ export default ({
         .then(response => {
           // Handle successful login (store token?)
           
-          if(response.data.message == "remove successful"){
+          if(response.data == "remove successful"){
             this.result = "account has been successfully deleted"
             localStorage.clear()
             setTimeout(() => {
               this.console.log("redirecting");
-              this.$router.push("/");
+              this.$router.push("/").then(this.$router.go(0));
             }, 5000);
           }
 
@@ -224,7 +224,8 @@ const path = 'http://localhost:5000/auth/logout';
             localStorage.clear()
             this.result = "account has been successfully logout"
             setTimeout(() => {
-              this.$router.push("/");
+              this.console.log("redirecting");
+              this.$router.push("/").then(this.$router.go(0));
             }, 5000);
           }
 
