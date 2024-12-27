@@ -1,100 +1,28 @@
 <template>
-  <div v-if="GStore.event">
-    <h1>{{ GStore.event.title }}</h1>
+  <div v-if="event">
+    <h1>{{ event.title }}</h1>
+    <p>{{ event.time }} on {{ event.date }} @ {{ event.location }}</p>
+    <p>{{ event.description }}</p>
   </div>
-  
-  <div class="container" v-if="searchResults != '' && searchResults != null" >
-          <div class="row">
-            <div class="col-12">
-              <div id="app">
-                  <thead>
-                    <horizontalcomponent :searchResults="searchResults" />
-                  </thead>
-              </div>
-            </div>
-          </div>
-    </div>
-
-<!-- data graph price -->
-    <div v-if="isLoading1">
-          Loading Chart Price...
-    </div>
-    <a>chart happen here</a>
-      <div class="chart-container" v-if="chartdata_pricerange != null && chartdata_pricerange != ''">
-        <MyBarChart :chartData="chartdata_pricerange" :chartOptions="chartOptions2" />
-      </div>
-       <!-- data graph criteria -->
-      <div v-if="isLoading">
-          Loading Chart criteria...
-      </div>
-      <div class="chart-container" >
-        <div v-if="chartdata_criteria != null">
-          <MyBarChart :chartData="chartdata_criteria" :chartOptions="chartOptions1" />
-        </div>
-      </div>
-    
-
-    
 </template>
+
 <script>
-import axios from 'axios'
+import EventService from '@/services/EventService.js'
 export default {
-  inject: ['GStore'],
+  props: ['id'],
   data() {
     return {
-      isLoading: false,
-      isLoading1: false,
-      usertargetData:'',//group target input
-      receiveData: '',// receive criteria
-      badscrape:'',
-      userInput:'',// before send to backend input   
-      chartdata_criteria : null  //chart data for criteria score
-        ,
-      chartdata_pricerange : null //chart price range
-        ,
-   chartOptions1: { // literally option for setup chart yeah 
-        responsive: true,
-        plugins: {
-          legend: {
-            position: 'top', 
-          },
-          title: {
-            display: true,
-            text: 'Chart Criteria Score'
-          }
-        }
-      },
+      event: null
     }
   },
-  methods: {
-    fetchChartData() {
-      this.isLoading = true;
-      const path = 'http://localhost:5000/search/critandprod';
-      const sending = [this.searchData,this.usertargetData]
-      axios.post(path,sending,
-      {headers: {
-      'Content-Type': 'application/json',  // Set the correct Content-Type header
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'POST',
-      'Access-Control-Allow-Headers': 'Content-Type',
-      }
-    })
-        .then(response => {
-          console.log("chart data")
-          
-          this.sample_test_for_chart = response.data
-          console.log(this.sample_test_for_chart)
-          this.formatChartData(this.sample_test_for_chart)
-          console.log("done chart data")
-          this.isLoading = false;
-        })
-        .catch(error => {
-          console.error('Error fetching chart data:', error);
-          this.isLoading = false;
-        });
-    },
-
+  created() {
+    EventService.getEvent(this.id)
+      .then((response) => {
+        this.event = response.data
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   }
 }
-
 </script>

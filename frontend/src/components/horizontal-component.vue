@@ -1,12 +1,8 @@
 <template>
   <div class="horizontal-container">
-    <div v-for="item in searchResults" :key="item.id" @click="redirectToPage(item)">
-      <div class="title">{{ item.title.length > 50 ? item.title.slice(0, 50) + '...' : item.title }}</div>
-      <div class="price">{{ item.price }}</div>
-      <eventcard  :key="item.id" @click="redirectToPage(item)" >
-      click here for more detail
+    <eventcard v-for="event in events" :key="event.id" >
+    
     </eventcard>
-    </div>
 
   </div>
 
@@ -14,9 +10,11 @@
 
 <script>
 import eventcard  from "@/components/EventCard.vue"
+// import EventService from '@/services/EventService.js'
+
 export default {
   props: {
-    searchResults: {
+    events: {
       type: Array,
       required: true
     },
@@ -32,8 +30,20 @@ export default {
   methods: {
     redirectToPage(item) {
       window.location.href = item.url;
-    }
-  }
+    },
+  },
+  // beforeRouteEnter(routeTo, routeFrom, next) {
+  //   EventService.getEvents(3, parseInt(routeTo.query.page) || 1)
+  //     .then((response) => {
+  //       next((comp) => {
+  //         comp.events = response.data
+
+  //       })
+  //     })
+  //     .catch(() => {
+  //       next({ name: 'NetworkError' })
+  //     })
+  // },
 };
 </script>
 <style scoped>

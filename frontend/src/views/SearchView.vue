@@ -53,12 +53,14 @@
           <div class="container" v-if="searchResults == '' && searchResults == null" >
             error occured in the scrape section
           </div>
+
           <div class="container" v-if="searchResults != '' && searchResults != null" >
             <div class="row">
               <div class="col-12">
                 <div id="app">
                     <thead>
-                      <horizontalcomponent :searchResults="searchResults" />
+                      <!-- <horizontalcomponent :searchResults="searchResults" /> -->
+                      <horizontalcomponent :events="searchResults" />
                     </thead>
                 </div>
               </div>
@@ -119,7 +121,6 @@ import axios from 'axios'
 //--------------------graph visualization with vueslize yike---------------
 import MyBarChart from '@/components/chartfromvuechart.vue';
 import horizontalcomponent from '@/components/horizontal-component.vue';
-// import EventService from '@/services/EventService.js'
 
 // import express from 'express' <- this create 28 error which im not gonna fix that again 
 //---------------------funny part---------------------------
@@ -204,7 +205,7 @@ export default {
 
       //an entire stuff happen below here also this is might be the worst refactor i have ever done
       if (this.searchData !== '' || this.usertargetData !== '' ) {
-        console.log(this.userInput)
+
         //funni stuff CORS and CONTENT thingy
         console.log("search sent")
         const sending = [this.searchData,this.usertargetData]
@@ -222,12 +223,12 @@ export default {
               this.badcriteria = true
             }
             console.log("receive data");
-            console.log(response);
+
           })
           .catch(error => {
           this.isLoading_scrape_criteria = false
           this.userInput= this.selected + this.sendData
-          console.log(this.userInput)
+
           console.log(error);
           });
         // Successful 
@@ -260,10 +261,6 @@ export default {
           console.log("sending to scrape");
           this.searchResults = JSON.parse(JSON.stringify(response.data));
           this.isLoading_scrape = false
-          console.log("raw data")
-          console.log(response.data)
-          console.log("a litbit processed")
-          console.log(this.searchResults)
           console.log("replaced search result, doing price chart")
           this.setupPriceData(this.searchResults)
           console.log("fetch chartdata")
@@ -303,7 +300,7 @@ export default {
           console.log("chart data")
           
           this.sample_test_for_chart = response.data
-          console.log(this.sample_test_for_chart)
+
           this.formatChartData(this.sample_test_for_chart)
           console.log("done chart data")
           this.isLoading = false;
@@ -321,14 +318,11 @@ export default {
         if(this.searchData == this.oldsearchData ){ // if the search keyword is matched
           console.log("use old data")
             this.send_search_input()
-              // EventService.getEvent(this.id)
-              // .then((response) => {
-              //   this.event = response.data
-              //   })
+
           }
         else{//if the old search keyword is not
         this.oldsearchData = this.searchData
-        console.log(this.oldsearchData)
+
         this.isLoading_scrape = false
 
         this.send_search_input();
@@ -349,8 +343,7 @@ export default {
     // Extract labels and scores using map
       const labels = filteredResults.map(item => item.Label);
       const scores = filteredResults.map(item => item.Score);
-      console.log(labels)
-      console.log(scores)
+
 
       this.chartdata_criteria = {
         labels: labels,
@@ -373,10 +366,10 @@ export default {
       this.isLoading1 = true;
       //const jsonifieddata = JSON.stringify(JSON.parse(result_target),null,2)
       console.log("result target display")
-      console.log(result_target)
+
       const jsonifieddata = JSON.parse(JSON.stringify(result_target))
       console.log("jsonified display")
-      console.log(jsonifieddata)
+
 
     if (jsonifieddata!= '') {
         const filteredResults = jsonifieddata.map(item => item.price);
@@ -411,7 +404,7 @@ export default {
           console.log("label bad");
       }
       this.isLoading1 = false;
-        console.log(this.chartdata_pricerange); // Log the final data structure
+       
     } else {
       this.isLoading1 = false;
       console.error('Error fetching price data');
@@ -422,6 +415,7 @@ export default {
 
       return text.replace(regex, `<mark> </mark>`);
     },
+
   },
 };
 </script>

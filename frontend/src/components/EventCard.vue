@@ -1,36 +1,50 @@
 <template>
-  <router-link
+  <router-link v-if="event != null"
     class="event-link"
     :to="{ name: 'ProductDetailView', params: { id: event.id } }"
   >
-    <div class="event-card">
-      <span class="title">{{ item.title.length > 50 ? item.title.slice(0, 50) + '...' : item.title }}</span>
-      <span class="price">{{ item.price }}</span>
-      <span class="rating"> {{ item.rating }}</span>
-    </div>
+      
+      <div class="event-card" >
+          <span class="title">{{ item.title.length > 50 ? item.title.slice(0, 50) + '...' : item.title }}</span>
+          <span class="price">{{ item.price }}</span>
+          <span class="rating"> {{ item.rating }}</span>
+          <div>{{ event }}</div>
+        </div>
+
   </router-link>
 </template>
 
 <script>
-import EventService from '@/services/EventService.js'
+import EventService from '@/services/EventService.js';
+
 export default {
   name: 'EventCard',
   props: ['id'],
   data() {
     return {
-      event: null
-    }
+      event: null,
+    };
   },
-created() {
-    EventService.getEvent(this.id)
-      .then((response) => {
-        this.event = response.data
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-  }
-}
+  // created() {
+  //   // Listen for the 'show-event-details' event
+  //   EventService.on('productdetail', this.fetchEvent);
+  // },
+  // beforeUnmount() {
+  //   // Unlisten for the event when the component is destroyed
+  //   EventService.off('productdetail', this.fetchEvent);
+  // },
+  methods: {
+    fetchEvent(id) {
+      EventService.getEvent(id) // Replace with your actual data fetching logic
+        .then((response) => {
+          this.event = response.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+  },
+};
 </script>
 
 <style scoped>

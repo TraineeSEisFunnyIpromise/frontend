@@ -8,7 +8,10 @@ import UserinfoView from '@/views/UserinfoView.vue'
 import SearchView from '@/views/SearchView.vue'
 import ProductDetailView from '@/views/content/ProductDetailView.vue'
 import ResetpasswordView from '@/views/ForgetpasswordView.vue'
-// import NProgress from 'nprogress'
+import NProgress from 'nprogress'
+import EventService from '@/services/EventService'
+import GStore from '@/store'
+
 const routes = [
   {
     path: '/',
@@ -46,6 +49,22 @@ const routes = [
     name: "ProductDetailView",
     props: true,
     component: ProductDetailView,
+    beforeEnter: (to) => {
+      return EventService.getEvent(to.params.id)
+        .then((response) => {
+          GStore.event = response.data
+        })
+        .catch((error) => {
+          if (error.response && error.response.start == 404) {
+            return {
+              name: '404Resource',
+              parames: { resource: 'event' }
+            }
+          } else {
+            return { name: 'NetworkError' }
+          }
+        })
+    },
   },
   {
     path: '/404/:resource',
@@ -78,12 +97,12 @@ const router = createRouter({
 })
 
 
-// router.beforeEach(() => {
-//   NProgress.start()
-// })
+router.beforeEach(() => {
+  NProgress.start()
+})
 
-// router.afterEach(() => {
-//   NProgress.done()
-// })
+router.afterEach(() => {
+  NProgress.done()
+})
 
 export default router

@@ -55,13 +55,16 @@ import EventService from '@/services/EventService.js'
 	export default {
 	props: ['id'],
 	data() {
-	return {
+		return {
 
-	searchResults:null,
-	CompareResults: false,
-	showInfo: true,
-	datastore:'',
-	};
+		searchResults:null,
+		CompareResults: false,
+		showInfo: true,
+		datastore:'',
+		Mean:0,
+		NormalDistribution:0,
+		DeviationRange:[]
+		};
 	},
 	components: {
     chart,
