@@ -1,15 +1,22 @@
 <template>
   <div class="horizontal-container">
-    <eventcard v-for="event in events" :key="event.id" >
-    
-    </eventcard>
-
+    <div v-for="item in events" :key="item.id">
+      <div>{{ item.id }}</div>
+      <div>
+        <router-link 
+          class="event-link"
+          :to="{ name: 'ProductDetailView', params: { id: item.id } }"
+        >
+        click here for more detail
+        </router-link>
+         
+      </div>
+    </div>
   </div>
-
 </template>
 
 <script>
-import eventcard  from "@/components/EventCard.vue"
+
 // import EventService from '@/services/EventService.js'
 
 export default {
@@ -24,26 +31,11 @@ export default {
       validator: (val) => ['flex', 'inline-flex'].includes(val)
     }
   },
-  components: {
-    eventcard
-  },
-  methods: {
-    redirectToPage(item) {
-      window.location.href = item.url;
-    },
-  },
-  // beforeRouteEnter(routeTo, routeFrom, next) {
-  //   EventService.getEvents(3, parseInt(routeTo.query.page) || 1)
-  //     .then((response) => {
-  //       next((comp) => {
-  //         comp.events = response.data
 
-  //       })
-  //     })
-  //     .catch(() => {
-  //       next({ name: 'NetworkError' })
-  //     })
-  // },
+  methods: {
+
+  },
+
 };
 </script>
 <style scoped>
@@ -72,5 +64,9 @@ export default {
 
 .price {
   color: #ffffff;
+}
+.event-link {
+  color: #fff2c9;
+  text-decoration: none;
 }
 </style>

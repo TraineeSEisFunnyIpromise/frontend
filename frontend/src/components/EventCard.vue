@@ -1,38 +1,27 @@
 <template>
-  <router-link v-if="event != null"
-    class="event-link"
-    :to="{ name: 'ProductDetailView', params: { id: event.id } }"
-  >
-      
-      <div class="event-card" >
-          <span class="title">{{ item.title.length > 50 ? item.title.slice(0, 50) + '...' : item.title }}</span>
+
+  <div class="event-card" v-if="event != null">
+          <!-- <span class="title">{{ item.title.length > 50 ? item.title.slice(0, 50) + '...' : item.title }}</span>
           <span class="price">{{ item.price }}</span>
-          <span class="rating"> {{ item.rating }}</span>
+          <span class="rating"> {{ item.rating }}</span> -->
           <div>{{ event }}</div>
         </div>
-
-  </router-link>
+  <div v-if="event == null">can't access</div>
+  <div v-if="Gstore.event != null"> {{ Gstore.event }} </div>
 </template>
 
 <script>
 import EventService from '@/services/EventService.js';
 
 export default {
+  inject:"Gstore",
   name: 'EventCard',
   props: ['id'],
   data() {
     return {
-      event: null,
+      eventData: null,
     };
   },
-  // created() {
-  //   // Listen for the 'show-event-details' event
-  //   EventService.on('productdetail', this.fetchEvent);
-  // },
-  // beforeUnmount() {
-  //   // Unlisten for the event when the component is destroyed
-  //   EventService.off('productdetail', this.fetchEvent);
-  // },
   methods: {
     fetchEvent(id) {
       EventService.getEvent(id) // Replace with your actual data fetching logic
