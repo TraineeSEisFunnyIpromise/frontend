@@ -90,7 +90,7 @@
             </div>
             <div v-if="isLoadingprice == false">
               <div class="chart-container" v-if="chartdata_pricerange != null && chartdata_pricerange != ''">
-              <MyBarChart :chartData="chartdata_pricerange" :chartOptions="chartOptions2" />
+              <MyBarChart :chartData="chartdata_pricerange"  />
               </div>
             </div>
   
@@ -101,7 +101,7 @@
             </div>
             <div class="chart-container" >
               <div v-if="chartdata_criteria != null">
-                <MyBarChart :chartData="chartdata_criteria" :chartOptions="chartOptions1" />
+                <MyBarChart :chartData="chartdata_criteria" />
               </div>
           </div>
   
