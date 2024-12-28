@@ -10,11 +10,7 @@ const apiClient = axios.create({
 })
 
 export default {
-
   getEvent(id) {
     return apiClient.get('/productdetail/' + id)
-  },
-  saveEvent(event) {
-    return apiClient.post('/event', event)
   },
 }

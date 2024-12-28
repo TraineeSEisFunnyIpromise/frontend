@@ -25,6 +25,10 @@
                               </section>
                         </DropdownMenuMK1>
                   </div>
+
+                  <!-- fancy picture below here -->
+                   <div></div>
+
             </h5>
       </div>
 </template>
@@ -36,13 +40,7 @@
 import DropdownMenuMK1 from '@/components/vue-dropdown-menu.vue'
 // @ is an alias to /src
 export default {
-      name: 'EventListView',
-      props: {
-            page: {
-                  type: Number,
-                  required: true
-            },
-      },
+      // name: 'MainPage',
       components: {
             DropdownMenuMK1
       },
