@@ -70,16 +70,29 @@
             <div>
               <!-- highlightText -->
                <div>Text Matching</div>
-              <div class="horizontal-container" v-if=" selectedItems != null && selectedItems != ''" >
-                          <div class="text-container" scope="col" 
-                        v-for="item in searchResults" :key="item.title" >
-                        <span>
-                        {{ highlightText(item.title.length > 50 ? item.title.slice(0, 10) + '...' : item.title, selectedItems) }}
-                        </span>
-                        <span v-html="highlightText(item.price.toString(), selectedItems)"></span>
-                        </div>
-              </div>
+                <div class="horizontal-container" v-if=" selectedItems != null && selectedItems != ''" >
+                            <div class="text-container" scope="col" 
+                            v-for="item in searchResults" :key="item.title" >
+                                <span>
+                                {{ highlightText(item.title.length > 50 ? item.title.slice(0, 10) + '...' : item.title, selectedItems) }}
+                                </span>
+                                <span v-html="highlightText(item.price.toString(), selectedItems)">
+                                </span>
+                            </div>
+                </div>
             </div>
+            
+            <div>
+              <!--  Math Text -->
+               <div>Standard Diviation of Price(Price Range)</div>
+               <div>{{ dataprice[1] }}</div>
+               <div>Normal Distribution of Price(Most Group up in term of Price)</div>
+               <div>{{ dataprice[3] }}</div>
+               <div>Total Average of price according to scraping data</div>
+               <div>{{ dataprice[2] }}</div>
+
+            </div>
+            
             
   
             <!--the end of show scraped -->
@@ -161,6 +174,7 @@
         receiveData: '',// receive criteria
         selected:'',//selected criteria
         datastore:'',//selected criteria that store before send
+        dataprice:[],//math array thingy for price
         searchResults: [],//receive data scrape result
         items: [],//idk?
         checkedItems: [],//????
@@ -172,11 +186,7 @@
         chartdata_pricerange : null //chart price range
           ,
      chartOptions1: { // literally option for setup chart yeah 
-          responsive: true,
           plugins: {
-            legend: {
-              position: 'top', 
-            },
             title: {
               display: true,
               text: 'Chart Criteria Score'
@@ -184,11 +194,7 @@
           }
         },
         chartOptions2: { // literally option for setup chart 2 yeah 2
-          responsive: true,
           plugins: {
-            legend: {
-              position: 'top', 
-            },
             title: {
               display: true,
               text: 'Chart Price Range'
@@ -331,9 +337,11 @@
           this.isLoading_scrape = false
           this.send_search_input();
           this.scrape();
-        }
+          this.getnormaldistribution();
+          }
         }
         else{
+          this.isLoading_scrape_criteria = false
           alert("the input must not be empty")
         }
   
@@ -381,7 +389,7 @@
           // console.log(filteredResults); // Log the filtered results
   
           this.chartdata_pricerange = {
-            labels: jsonifieddata.map(item => item.title || "Default Value"),
+            labels: jsonifieddata.map(item => item.title.length > 11 ? item.title.slice(0, 10) : item.title || "Default Value"),
             datasets: [
                   {
                     backgroundColor: '#42A5F5',
@@ -418,6 +426,23 @@
         const regex = new RegExp(criteria.join('|'), 'gi'); // Join criteria for multiple matches
   
         return text.replace(regex, `<mark> </mark>`);
+      },
+      getNormaldistribution() {
+        console.log("Math tringerred")
+
+        const path = 'http://localhost:5000/search/nd'
+          axios.post(path,
+        {
+      })
+          .then(response => {
+            console.log("sending to scrape");
+            this.dataprice = JSON.parse(JSON.stringify(response.data));
+          })
+          .catch(error => {
+            console.log("math error occurred!")
+            console.log(error);
+          });
+
       },
   
     },

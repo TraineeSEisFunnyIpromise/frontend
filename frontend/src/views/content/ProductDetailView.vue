@@ -1,23 +1,37 @@
 <template>
   <div v-if="event">
-    <h1>{{ event }}</h1>
-
-  </div>
-  <div v-else>
     <h1>Product Detail View</h1>
     <p>Product ID: {{ id }}</p>
+
+    <div>{{ event.title }}</div>
+    <div>{{ event.price }}</div>
+    <div>{{ event }}</div>
+
+    <div>
+      Opinion Chart
+
+      <!-- <chart :chartData="event" /> -->
+       <chart />
+  
+    </div>
+ 
+
     
-  </div>
+
 </template>
 
 <script>
 import { inject } from 'vue';
+import chart from '@/components/chart.vue';
 
 export default {
   props: ['id'],
   setup() {
     const GStore = inject('GStore');
     return { GStore };
+  },
+  components: {
+    chart
   },
   computed: {
     event() {
