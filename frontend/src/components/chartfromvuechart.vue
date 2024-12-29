@@ -28,7 +28,8 @@ export default {
       type: Object,
       default: () => ({
         responsive: true,
-        maintainAspectRatio: false
+        maintainAspectRatio: true,
+        
       })
     }
   }

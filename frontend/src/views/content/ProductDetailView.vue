@@ -6,11 +6,11 @@
     <div>{{ event.title }}</div>
     <div>{{ event.price }}</div>
 
-    <div>
+    <div class="chart-containera">
       Opinion Chart
 
-      <chart  />
-       <chart />
+      <chart />
+
   
     </div>
   </div>
@@ -65,3 +65,11 @@ export default {
   }
 };
 </script>
+
+<style>
+  .chart-containera{
+    width: 200px;
+    height: 400px;
+    
+  }
+</style>

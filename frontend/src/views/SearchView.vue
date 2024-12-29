@@ -23,21 +23,26 @@
   
   
       <div v-if="badcriteria == true " style="text-emphasis-color: red;"> 
-        sorry seem we got an error at creating criteria and search please try again
+        sorry seem we got an error at creating criteria 
       </div>
   
-        <div v-if="receiveData != '' && receiveData != null ">        
-          <div> 
+        <div>
+  
+          <div v-if="receiveData != '' && receiveData != null "> 
             <div>Selected criteria: {{ selectedItems }}</div>
             <div v-for="item in receiveData" :key="item">
               <input type="checkbox" :id="item" :value="item" v-model="checkedItems" />
               <a :for="item">{{ item }}</a>
             </div>
+
+
+            <input type="checkbox" v-model="toggle" true-value="yes" false-value="no" />
+          <a>{{ datastore }}</a>
+
           </div>
   
           <!--      a fancy select box            -->
-          <input type="checkbox" v-model="toggle" true-value="yes" false-value="no" />
-          <a>{{ datastore }}</a>
+          
   
   
     <!--criteria display section     -->
@@ -47,10 +52,10 @@
   
       <!--         search section                       -->
   
-          <div v-if="isLoading_scrape == true">
+            <div v-if="isLoading_scrape == true">
               Scraping Data...
             </div>
-            <div class="container" v-if="searchResults == '' && searchResults == null" >
+            <div class="container" v-if="(searchResults == '' || searchResult == null) && badscrape != null" >
               error occured in the scrape section
             </div>
   
@@ -66,8 +71,9 @@
                 </div>
               </div>
             </div>
+
   
-            <div>
+            <div v-if="searchResults != '' && searchResults != null">
               <!-- highlightText -->
                <div>Text Matching</div>
                 <div class="horizontal-container" v-if=" selectedItems != null && selectedItems != ''" >
@@ -81,17 +87,19 @@
                             </div>
                 </div>
             </div>
-            
-            <div v-if="dataprice != '' && dataprice != null" style="text-align: center; padding-top: 10px;">
-              <!--  Math Text -->
-               <div>Standard Diviation of Price(Price Range)</div>
-               <div>{{ dataprice[1] }}</div>
-               <div>Normal Distribution of Price(Most Group up in term of Price)</div>
-               <div>{{ dataprice[3] }}</div>
-               <div>Total Average of price according to scraping data</div>
-               <div>{{ dataprice[2] }}</div>
-
+            <div v-if="(searchResults != '' || searchResult != null) && badscrape == null">
+                <div v-if="dataprice != '' && dataprice != null" style="text-align: center; padding-top: 10px;">
+                <!--  Math Text -->
+                <div>Standard Diviation of Price(Price Range)</div>
+                <div>{{ dataprice[1] }}</div>
+                <div>Normal Distribution of Price(Most Group up in term of Price)</div>
+                <div>{{ dataprice[3] }}</div>
+                <div>Total Average of price according to scraping data</div>
+                <div>{{ dataprice[2] }}</div>
+                
+              </div>
             </div>
+            
             
             
   
@@ -190,7 +198,7 @@
         items: [],//idk?
         checkedItems: [],//????
         selectedItems:[],//what?
-        badscrape:'',
+        badscrape:null,
         userInput:'',// before send to backend input   
         chartdata_criteria : null  //chart data for criteria score
           ,
@@ -245,11 +253,15 @@
       })
             .then(response => {
               this.isLoading_scrape_criteria = false
-              console.log("criteria list")
-              if(this.receiveData != 'invalid' || this.receiveData == null || this.receiveData == ['Invalid']){
+              console.log("criteria listdkjdhkjf")
+              console.log(response)
+              
+              if(response.data != 'invalid' && response.data != null  && response.data != ['Invalid'] &&  response.data != ''){
                 this.receiveData =  response.data
               }
               else{
+                console.log("bad criteria")
+                console.log(this.badcriteria)
                 this.badcriteria = true
               }
               console.log("receive data");
