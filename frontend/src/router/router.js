@@ -9,8 +9,9 @@ import SearchView from '@/views/SearchView.vue'
 import ProductDetailView from '@/views/content/ProductDetailView.vue'
 import ResetpasswordView from '@/views/ForgetpasswordView.vue'
 import NProgress from 'nprogress'
-import EventService from '@/services/EventService'
 import GStore from '@/store'
+
+
 
 const routes = [
   {
@@ -44,27 +45,22 @@ const routes = [
     name: 'Searchview',
     component: SearchView,
   },
+
   {
-    path: "/productdetail/:id",
-    name: "ProductDetailView",
+    path: '/detail/:id',
+    name: 'ProductDetailView',
     props: true,
     component: ProductDetailView,
-    beforeEnter: (to) => {
-      return EventService.getEvent(to.params.id)
-        .then((response) => {
-          GStore.event = response.data
-        })
-        .catch((error) => {
-          if (error.response && error.response.start == 404) {
-            return {
-              name: '404Resource',
-              parames: { resource: 'event' }
-            }
-          } else {
-            return { name: 'NetworkError' }
-          }
-        })
-    },
+    beforeEnter: (to, from, next) => {
+      console.log("Navigating to ProductDetailView with ID:",GStore.event.id);
+      console.log("before enter check with ID:",to.params.id);
+      if (GStore.event.id == to.params.id) {
+        next();
+      } else {
+        console.error("Event data not found in GStore");
+        next({ name: 'NetworkError' });
+      }
+    }
   },
   {
     path: '/404/:resource',
@@ -82,27 +78,26 @@ const routes = [
     name: 'NetworkError',
     component: NetWorkErrorView
   }
-]
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
   scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
-      return savedPosition
+      return savedPosition;
     } else {
-      return { top: 0 }
+      return { top: 0 };
     }
   }
-})
-
+});
 
 router.beforeEach(() => {
-  NProgress.start()
-})
+  NProgress.start();
+});
 
 router.afterEach(() => {
-  NProgress.done()
-})
+  NProgress.done();
+});
 
-export default router
+export default router;

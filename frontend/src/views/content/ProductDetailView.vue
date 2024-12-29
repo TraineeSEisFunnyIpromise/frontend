@@ -1,18 +1,31 @@
 <template>
   <div v-if="event">
-    <h1>{{ event.title }}</h1>
-    <p>{{ event.time }} on {{ event.date }} @ {{ event.location }}</p>
-    <p>{{ event.description }}</p>
+    <h1>{{ event }}</h1>
+
+  </div>
+  <div v-else>
+    <h1>Product Detail View</h1>
+    <p>Product ID: {{ id }}</p>
+    
   </div>
 </template>
 
 <script>
+import { inject } from 'vue';
+
 export default {
   props: ['id'],
-  data() {
-    return {
-      event: null
+  setup() {
+    const GStore = inject('GStore');
+    return { GStore };
+  },
+  computed: {
+    event() {
+      return this.GStore.event;
     }
   },
-}
+  created() {
+    console.log("ProductDetailView created with ID:", this.id);
+  }
+};
 </script>

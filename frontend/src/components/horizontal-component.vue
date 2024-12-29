@@ -1,23 +1,19 @@
 <template>
   <div class="horizontal-container">
     <div v-for="item in events" :key="item.id">
-      <div>{{ item.id }}</div>
+      <div>{{ item.title }}</div>
       <div>
-        <router-link 
-          class="event-link"
-          :to="{ name: 'ProductDetailView', params: { id: item.id } }"
-        >
-        click here for more detail
-        </router-link>
-         
+        <a @click.prevent="navigateToDetail(item)" class="event-link">
+          click here for more detail
+        </a>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-
-import EventService from '@/services/EventService.js'
+import { inject } from 'vue';
+import EventService from '@/services/EventService.js';
 
 export default {
   props: {
@@ -31,26 +27,46 @@ export default {
       validator: (val) => ['flex', 'inline-flex'].includes(val)
     }
   },
-
-  created() {
-    EventService.getEvent(this.id)
-      .then((response) => {
-        this.event = response.data;
-      })
-      .catch((error) => {
-        if (error.response && error.response.status == 404) {
-          this.$router.push({
-            name: "404Resource",
-            params: { resource: "event" },
-          });
-        } else {
-          this.$router.push({ name: "NetworkError" });
-        }
-      });
+  setup() {
+    const GStore = inject('GStore');
+    return { GStore };
   },
+  methods: {
+    navigateToDetail(item) {
+      console.log("Navigating to detail for event ID:", item.id);
+      // Set event data in GStore before navigating
+      this.GStore.event = item;
+      console.log("Navigating to ProductDetailView with ID:", item.id);
+      this.$router.push({ name: 'ProductDetailView', params: { id: item.id } });
+    },
+    navigateTomain() {
+     
+      // Fetch event data and set it in GStore before navigating
+      EventService.getMain()
+        .then(response => {
+          console.log("Event data fetched successfully:", response.data);
+          this.GStore.event = response.data;
+         
+          this.$router.push({ name: 'Mainpage'});
+        })
+        .catch(error => {
+          console.error("Error fetching event data:", error);
+          if (error.response && error.response.status == 404) {
+            this.$router.push({
+              name: '404Resource',
+              params: { resource: 'event' }
+            });
+          } else {
+            this.$router.push({ name: 'NetworkError' });
+          }
+        });
 
+        
+    }
+  }
 };
 </script>
+
 <style scoped>
 .horizontal-container {
   max-width: 400px;

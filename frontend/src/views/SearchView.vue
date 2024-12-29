@@ -121,14 +121,18 @@
   //--------------------graph visualization with vueslize yike---------------
   import MyBarChart from '@/components/chartfromvuechart.vue';
   import horizontalcomponent from '@/components/horizontal-component.vue';
-  import EventService from '@/services/EventService';
 
+  import { inject } from 'vue';
   // import express from 'express' <- this create 28 error which im not gonna fix that again 
   //---------------------funny part---------------------------
   //-----------yup CORS is nice--------------
   
   //----------another funny and long part---------------
   export default {
+    setup() {
+    const GStore = inject('GStore');
+    return { GStore };
+  },
     props: {
       choices: {
         type: Array,
@@ -139,7 +143,7 @@
     components: {
       MyBarChart,
       horizontalcomponent,
-  
+
     },
     data() {
       return {
@@ -323,11 +327,10 @@
             }
           else{//if the old search keyword is not
           this.oldsearchData = this.searchData
-  
+
           this.isLoading_scrape = false
           this.send_search_input();
           this.scrape();
-          this.data_to_eventservice();
         }
         }
         else{
@@ -416,16 +419,6 @@
   
         return text.replace(regex, `<mark> </mark>`);
       },
-      data_to_eventservice() {
-    EventService.getEvents()
-      .then((response) => {
-        console.log(response.data);
-        this.events = response.data;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  },
   
     },
 
