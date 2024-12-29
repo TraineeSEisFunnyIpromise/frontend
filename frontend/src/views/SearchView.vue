@@ -82,7 +82,7 @@
                 </div>
             </div>
             
-            <div>
+            <div v-if="dataprice != '' && dataprice != null" style="text-align: center; padding-top: 10px;">
               <!--  Math Text -->
                <div>Standard Diviation of Price(Price Range)</div>
                <div>{{ dataprice[1] }}</div>
@@ -96,33 +96,44 @@
             
   
             <!--the end of show scraped -->
-  
-            <!-- data graph price -->
-            <div v-if="isLoadingprice == true">
-              Loading Chart Price...
-            </div>
-            <div v-if="isLoadingprice == false">
-              <div class="chart-container" v-if="chartdata_pricerange != null && chartdata_pricerange != ''">
-              <MyBarChart :chartData="chartdata_pricerange"  />
-              </div>
-            </div>
-  
-  
-          <!-- data graph criteria -->
-          <div v-if="isLoading">
-              Loading Chart criteria...
-            </div>
-            <div class="chart-container" >
-              <div v-if="chartdata_criteria != null">
-                <MyBarChart :chartData="chartdata_criteria" />
-              </div>
-          </div>
+
+
+           
+
   
   
           <!-- end of data graph -->
       </div>
-  
+
+
+                            <!-- data graph price -->
+              <div style="padding-top: 10px;">
+
+          <div v-if="isLoadingprice == true">
+          Loading Chart Price...
+          </div>
+          <div v-if="isLoadingprice == false">
+            <div class="chart-container" style="overflow-x: auto; width: 100%; height: 400px;" v-if="chartdata_pricerange != null && chartdata_pricerange != ''">
+          <MyBarChart :chartData="chartdata_pricerange"  />
+          </div>
+          </div>
+
+
+          <!-- data graph criteria -->
+          <div v-if="isLoading">
+          Loading Chart criteria...
+          </div>
+          <div class="chart-container" style="overflow-x: auto; width: 100%;"  v-if="chartdata_criteria != null && chartdata_criteria != ''"> 
+          <div v-if="chartdata_criteria != null">
+            <MyBarChart :chartData="chartdata_criteria" />
+          </div>
+          </div>
+
+
+          </div>
     </div>
+
+
   
   
   
@@ -186,7 +197,11 @@
         chartdata_pricerange : null //chart price range
           ,
      chartOptions1: { // literally option for setup chart yeah 
+          responsive: true,
           plugins: {
+            legend: {
+              position: 'top', 
+            },
             title: {
               display: true,
               text: 'Chart Criteria Score'
@@ -194,7 +209,11 @@
           }
         },
         chartOptions2: { // literally option for setup chart 2 yeah 2
+          responsive: true,
           plugins: {
+            legend: {
+              position: 'top', 
+            },
             title: {
               display: true,
               text: 'Chart Price Range'
@@ -337,7 +356,7 @@
           this.isLoading_scrape = false
           this.send_search_input();
           this.scrape();
-          this.getnormaldistribution();
+          this.getNormaldistribution();
           }
         }
         else{
@@ -361,7 +380,7 @@
           labels: labels,
           datasets: [
             {
-              // label: labels,
+              label: "Score",
               backgroundColor: '#42A5F5',
               data: scores,
             },
@@ -380,20 +399,26 @@
         console.log("result target display")
   
         const jsonifieddata = JSON.parse(JSON.stringify(result_target))
+
+        const titles= jsonifieddata.map(item => item.title.length > 10 ? item.title.substr(0, 10) + '...' : item.title);
+        const scores = jsonifieddata.map(item => parseFloat(item.price.replace('$', '')));
+
+        console.log(jsonifieddata)
         console.log("jsonified display")
-  
-  
+
+        console.log(scores)
       if (jsonifieddata!= '') {
-          const filteredResults = jsonifieddata.map(item => item.price);
+          
           
           // console.log(filteredResults); // Log the filtered results
   
           this.chartdata_pricerange = {
-            labels: jsonifieddata.map(item => item.title.length > 11 ? item.title.slice(0, 10) : item.title || "Default Value"),
+            labels: titles,
             datasets: [
                   {
+                    label:"$",
                     backgroundColor: '#42A5F5',
-                    data: filteredResults
+                    data: scores
                   },
               ],
           };
@@ -430,13 +455,14 @@
       getNormaldistribution() {
         console.log("Math tringerred")
 
-        const path = 'http://localhost:5000/search/nd'
+        const path = 'http://localhost:5000/search/nd_test'
           axios.post(path,
         {
       })
           .then(response => {
-            console.log("sending to scrape");
-            this.dataprice = JSON.parse(JSON.stringify(response.data));
+            console.log("sending to sND");
+            console.log(response.data.data)
+            this.dataprice = response.data.data;
           })
           .catch(error => {
             console.log("math error occurred!")

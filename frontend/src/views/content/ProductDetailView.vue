@@ -5,16 +5,15 @@
 
     <div>{{ event.title }}</div>
     <div>{{ event.price }}</div>
-    <div>{{ event }}</div>
 
     <div>
       Opinion Chart
 
-      <!-- <chart :chartData="event" /> -->
+      <chart :chartData="event.price" />
        <chart />
   
     </div>
- 
+  </div>
 
     
 
@@ -22,7 +21,7 @@
 
 <script>
 import { inject } from 'vue';
-import chart from '@/components/chart.vue';
+import chart from '@/components/chartfromvuechart.vue';
 
 export default {
   props: ['id'],
