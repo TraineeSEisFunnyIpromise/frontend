@@ -70,7 +70,9 @@ export default {
             localStorage.setItem('session_username', this.session);  // Store session ID in local storage
             console.log(this.session)
             alert("login success")
-            this.$router.push('userinfo')
+            this.$router.push('userinfo').then(() => {
+              location.reload();
+            });
             
           }
           if(response.data.message == 'Incorrect passwords'){

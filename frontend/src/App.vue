@@ -8,10 +8,10 @@
       </li>
     </ul>
     <ul class="nav-right">
-      <li><router-link v-if="role != true" :to="{ name: 'Login' }" class="nav-link">Login</router-link></li>
-      <li><router-link v-if="role != true" :to="{ name: 'Register' }" class="nav-link">Register</router-link></li>
-      <li><router-link v-if="role != false" :to="{ name: 'Searchview' }" class="nav-link">Search</router-link></li>
-      <li class="user-dropdown" v-if="role != false">
+      <li><router-link v-if="username_existance != true" :to="{ name: 'Login' }" class="nav-link">Login</router-link></li>
+      <li><router-link v-if="username_existance != true" :to="{ name: 'Register' }" class="nav-link">Register</router-link></li>
+      <li><router-link v-if="username_existance != false" :to="{ name: 'Searchview' }" class="nav-link">Search</router-link></li>
+      <li class="user-dropdown" v-if="username_existance != false">
         <img src="/frontend/src/assets/Login_Icon.jpg" alt="User Portrait" class="user-icon" @click="toggleDropdown" />
         <ul v-if="dropdownOpen" class="dropdown-menu">
           <li><router-link  :to="{ name: 'Userinfo' }" class="nav-link">User Information</router-link></li>
@@ -31,7 +31,7 @@ export default {
   data() {
     return {
       dropdownOpen: false,
-      role:false,
+      username_existance:false,
     };
   },
   mounted() {
@@ -76,12 +76,12 @@ export default {
           console.log("getting user info")
           if( something != '' && something != null)
           {console.log(something);
-            this.role = true
+            this.username_existance = true
           }
           
           // You can store the JWT token in localStorage or Vuex for future requests
           else{
-            this.role = false
+            this.username_existance = false
           }
 
     },

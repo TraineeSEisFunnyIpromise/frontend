@@ -3,31 +3,72 @@
             <h1>Ptrends Analyzers</h1>
             <h5>
                   <div style="position: relative; width: 100%;">
+
                         <DropdownMenuMK1 menu-title="What is this product?" dark-mode="auto" class="buttonArrange" style="position: absolute; left: 15%;">
                               <section class="option">
                                     <span class="desc">
                                           This is a web application that scrapes product information, including reviews, from eCommerce websites. It then presents this information in an infographic format, highlighting major opinions on the product.
                                     </span>
+
                               </section>
                         </DropdownMenuMK1>
-
+                        
                         <DropdownMenuMK1 menu-title="How does it work?" dark-mode="auto" class="buttonArrange" style="position: absolute; left: 40%;">
                               <section class="option">
                                     <span class="desc">
                                           It provides information and reviews from eCommerce websites to help you make informed decisions about electronic devices based on your requirements.
                                     </span>
+
+
                               </section>
                         </DropdownMenuMK1>
 
                         <DropdownMenuMK1 menu-title="How do I use it?" dark-mode="auto" class="buttonArrange" style="position: absolute; left: 65%;">
-                              <section class="option">
-                                    <span class="desc">Just log in and you are good to go!</span>
-                              </section>
+                                    <section class="option">
+                                          <span class="desc">Just log in and you are good to go!</span>
+                                    </section>
+                                    <div class="minipicture3">
+
+                                    </div>
+
                         </DropdownMenuMK1>
+
+                                          <!-- fancy picture below here -->
+                              <div style="padding-top: 10%;">
+                                    <div>
+                                          <div>
+                                                <img src="@/assets/images/work1.png" alt="image1" 
+                                                      contain  
+                                                      height="200px"
+                                                      width="550px"
+                                                />
+                                                have you ever wonder what you should 
+                                                choose which product and which brand 
+                                                and what price that you think that make you profit?
+                                          </div>
+                                          <div>
+                                                <img src="@/assets/images/work3.png" alt="image1" 
+                                                contain  
+                                                height="200px"
+                                                width="550px"
+                                                
+                                                />
+                                                with our project we will help you decide by provide an information 
+                                                and option to filter product that meet your demand
+                                          </div>
+                                    </div>
+
+                                    <div>
+
+                                    </div>
+
+
+                              </div>
+
+
                   </div>
 
-                  <!-- fancy picture below here -->
-                   <div></div>
+
 
             </h5>
       </div>
@@ -134,5 +175,11 @@ export default {
 
 .desc {
       font-size: medium;
+}
+
+.picture{
+      padding-top: 10px;
+      height: 10px;
+      width: 50%;
 }
 </style>

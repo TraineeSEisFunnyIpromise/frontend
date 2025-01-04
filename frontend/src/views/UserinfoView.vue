@@ -193,7 +193,9 @@ export default ({
             localStorage.clear()
             setTimeout(() => {
               this.console.log("redirecting");
-              this.$router.push("/").then(this.$router.go(0));
+              this.$router.push('/').then(() => {
+                location.reload();
+              });
             }, 5000);
           }
 
@@ -213,8 +215,8 @@ export default ({
         alert("Delete user must not empty or other")
       }
     },
-    Logout(){
-const path = 'http://localhost:5000/auth/logout';
+Logout(){
+  const path = 'http://localhost:5000/auth/logout';
       const senduser = this.name
       axios.post(path,senduser)
         .then(response => {
@@ -225,7 +227,9 @@ const path = 'http://localhost:5000/auth/logout';
             this.result = "account has been successfully logout"
             setTimeout(() => {
               this.console.log("redirecting");
-              this.$router.push("/").then(this.$router.go(0));
+              this.$router.push('/').then(() => {
+                location.reload();
+              });
             }, 5000);
           }
 
