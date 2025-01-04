@@ -6,18 +6,16 @@
     <div>{{ event.title }}</div>
     <div>{{ event.price }}</div>
 
-    <div class="chart-containera">
+    <div class="chart-containera" v-if="check_reviewscore != false">
       Opinion Chart
-
-      <chart />
-
-  
+      <chart :chartData="chartData" :chartOptions="chartOptions" />
     </div>
+    <div v-else>Chart of Review score is not available</div>
 
 
   </div>
   <div v-else>
-    <p>Loading...</p>
+    <p>inner data not found</p>
   </div>
 
     
@@ -29,10 +27,16 @@ import { inject } from 'vue';
 import chart from '@/components/chartfromvuechart.vue';
 
 export default {
-  props: ['id'],
+
   data() {
     return {
-      parsedChartData: null
+      event: null,
+      chartData: null,
+      check_reviewscore:false,
+      chartOptions: {
+        responsive: true,
+        maintainAspectRatio: true,
+      }
     };
   },
   setup() {
@@ -43,8 +47,8 @@ export default {
     chart
   },
   computed: {
-    event() {
-      return this.GStore.event;
+    id() {
+      return this.$route.params.id;
     }
   },
   created() {
@@ -53,19 +57,39 @@ export default {
   },
   methods: {
     fetchEventData() {
-      // Fetch event data and set this.event
-      // Example:
-      // this.event = { title: 'Sample Product', price: '$123.45' };
-
-      // Parse the price data for the chart
-      if (this.event && this.event.price) {
-        this.parsedChartData = this.parsePriceData(this.event.price);
+      // Fetch event data from GStore or an API
+      const event = this.GStore.events.find(event => event.id === this.id);
+      if (event) {
+        this.event = event;
+        if(event.review_rating){
+          this.check_reviewscore = true
+          this.chartData = this.parseOpinionData(event.review_rating);
+        }
+        else{
+          this.check_reviewscore = false
+        }
+        
+      } else {
+        // Handle the case where the event is not found
+        console.error("Event not found");
       }
     },
-    parsePriceData(price) {
+    parseOpinionData(opinion) {
       // Assuming price is a string like "$123.45"
       // Remove the $ symbol and convert to a number
-      return parseFloat(price.replace('$', ''));
+      const parsedOpinion = parseFloat(opinion);
+      return {
+        labels: ['Opinion'], // You can customize the labels as needed
+        datasets: [
+          {
+            label: '',
+            data: [parsedOpinion],
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+          }
+        ]
+      };
     }
   }
 };

@@ -54,7 +54,7 @@
                                                 
                                                 />
                                                 with our project we will help you decide by provide an information 
-                                                and option to filter product that meet your demand
+                                                and option to filter product that meet your requirement 
                                           </div>
                                     </div>
 
