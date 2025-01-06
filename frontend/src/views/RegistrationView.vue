@@ -66,6 +66,26 @@ export default {
       isloading:false,
     };
   },
+  computed:{
+    UsernameCheck(){
+      return this.username.length > 0;
+    },
+    PasswordCheck(){
+      return this.password.length > 0;
+    },
+    ConfirmPasswordCheck(){
+      return this.confirmPassword.length > 0;
+    },
+    AnswerCheck(){
+      return this.answer_for_reset.length > 0;
+    },
+    InfoCheck(){
+      return this.userinfo.length > 0;
+    },
+    QuestionCheck(){
+      return this.question_for_reset.length > 0;
+    }
+  },
   methods: {
     register() {
       this.isloading = true

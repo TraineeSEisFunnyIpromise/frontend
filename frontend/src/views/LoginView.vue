@@ -52,6 +52,14 @@ export default {
       display_Resetpassword: false,
     };
   },
+  computed: {
+    UsernameCheck() {
+      return this.username.length > 0;
+    },
+    PasswordCheck(){
+      return this.password.length > 0;
+    }
+  },
   methods: {
     login() {
       const path = 'http://localhost:5000/auth/login';

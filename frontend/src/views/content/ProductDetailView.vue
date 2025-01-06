@@ -18,7 +18,7 @@
     <p>inner data not found</p>
   </div>
 
-    
+
 
 </template>
 
@@ -28,9 +28,12 @@ import chart from '@/components/chartfromvuechart.vue';
 
 export default {
 
+
+  prop:['id'],
+
   data() {
+  
     return {
-      event: null,
       chartData: null,
       check_reviewscore:false,
       chartOptions: {
@@ -47,10 +50,10 @@ export default {
     chart
   },
   computed: {
-    id() {
-      return this.$route.params.id;
-    }
+    event() {
+      return this.GStore.event;
   },
+},
   created() {
     console.log("ProductDetailView created with ID:", this.id);
     this.fetchEventData();
