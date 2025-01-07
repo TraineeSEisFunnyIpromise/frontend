@@ -61,8 +61,8 @@ export default {
   methods: {
     fetchEventData() {
       // Fetch event data from GStore or an API
-      const event = this.GStore.events.find(event => event.id === this.id);
-      if (event) {
+      const event = this.GStore.event
+      if (event.review_rating) {
         this.event = event;
         if(event.review_rating){
           this.check_reviewscore = true

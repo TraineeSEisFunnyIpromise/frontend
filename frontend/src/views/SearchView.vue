@@ -15,14 +15,14 @@
   <!-- result section --> 
         <!--         criteria section                       -->
     <div class="colored-box-display" style=" text-align: center;">
-      <div v-if="receiveData == ''">result will display here</div>
+      <div >result will display here</div>
       <div id="loader_criteria" v-if="isLoading_scrape_criteria == true">
               creating criteria...
       </div>
   
   
   
-      <div v-if="badcriteria == true " style="text-emphasis-color: red;"> 
+      <div v-if="badcriteria == true" style="text-emphasis-color: red;"> 
         sorry seem we got an error at creating criteria 
       </div>
   
@@ -270,6 +270,7 @@
             .catch(error => {
             this.isLoading_scrape_criteria = false
             this.userInput= this.selected + this.sendData
+            this.badcriteria = true
   
             console.log(error);
             });
