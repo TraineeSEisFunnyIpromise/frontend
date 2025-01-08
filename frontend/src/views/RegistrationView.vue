@@ -142,33 +142,70 @@ export default {
         if (this.username.trim() === '') {
           this.errorUsername = 'Username is required.';
           this.clearAllErrorMessage();
-        } else if (this.username.length > 20) { 
+        } else if (this.username.length > 255) { 
           this.errorUsername = 'Username exceeds maximum length.';
           this.clearAllErrorMessage();
         } else if (!/^[a-zA-Z0-9_.-]+$/.test(this.username)) { 
           this.errorUsername = 'Invalid characters in username.'; 
           this.clearAllErrorMessage();
         } else {
-          this.errorUsername = ''; 
+          this.errorUsername = null; 
         }
       },
 
       PasswordCheck() {
         if (this.password.trim() === '') {
           this.errorPassword = 'Password is required.';
+          this.clearAllErrorMessage();
         } else if (this.password.length < 8) { 
           this.errorPassword = 'Password must be at least 8 characters long.'; 
-        } else {
-          this.errorPassword = ''; 
+          this.clearAllErrorMessage();
+        }
+        else if (!/^[a-zA-Z0-9_.-]+$/.test(this.password)) { 
+          this.errorPassword = 'Invalid characters in password.'; 
+          this.clearAllErrorMessage();
+        } else if(this.password.length > 255) { 
+          this.errorPassword = 'Exceed character limit.'; 
+          this.clearAllErrorMessage();
+        }
+        else{
+          this.errorPassword = null; 
         }
       },
       AnswerCheck(){
-      const regex = /^[a-zA-Z0-9]+$/;
-      return regex.test(this.answer_for_reset);
+        if (this.answer_for_reset.trim() === '') {
+          this.erroranswer = 'Answer for reset password is required.';
+          this.clearAllErrorMessage();
+        }
+        else if (!/^[a-zA-Z0-9_.-]+$/.test(this.answer_for_reset)) { 
+          this.erroranswer = 'Invalid characters in answer.'; 
+          this.clearAllErrorMessage();
+        } 
+        else if(this.answer_for_reset.length > 255) { 
+          this.errorPassword = 'Exceed character limit.'; 
+          this.clearAllErrorMessage();
+        }
+        else {
+          this.erroranswer = null; 
+        }
     },
     QuestionCheck(){
-      const regex = /^[a-zA-Z0-9]+$/;
-      return regex.test(this.question_for_reset);
+      if (this.question_for_reset.trim() === '') {
+          this.errorquestion = 'Question for reset password is required.';
+          this.clearAllErrorMessage();
+        }
+        else if (!/^[a-zA-Z0-9_.-]+$/.test(this.username)) { 
+          this.erroranswer = 'Invalid characters in question.'; 
+          this.clearAllErrorMessage();
+        } 
+        else if(this.question_for_reset.length > 255) { 
+          this.errorPassword = 'Exceed character limit.'; 
+          this.clearAllErrorMessage();
+        }
+        else {
+          this.errorquestion = null; 
+        }
+        
     },
     clearAllErrorMessage() {
     setTimeout(() => {

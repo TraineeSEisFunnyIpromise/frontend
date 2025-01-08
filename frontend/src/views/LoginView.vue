@@ -55,15 +55,9 @@ export default {
         username: this.username,
         password: this.password
       };
-      if(this.username == '' || this.password == ''){
-        this.errorUsername = 'Please fill in all fields';
-        return;
-      }
-      else{ 
-        const regex = /^[a-zA-Z0-9]+$/;
-        if(regex.test(this.username)){
 
-                axios.post(path, logindata)
+
+        axios.post(path, logindata)
               .then(response => {
                 // Handle successful login (store token?)
                 if(response.status == 202){
@@ -108,12 +102,9 @@ export default {
                 console.log(this.errorMessage)
               }
               }
-            );
-
-        }
-    }
-     
+            );  
     },
+
     redirect_to_resetpage() {
       this.$router.push('resetpassword')
     },
@@ -125,17 +116,27 @@ export default {
         } else if (!/^[a-zA-Z0-9_.-]+$/.test(this.username)) { 
           this.errorUsername = 'Invalid characters in username.'; 
         } else {
-          this.errorUsername = ''; 
+          this.errorUsername = null; 
         }
       },
 
       PasswordCheck() {
         if (this.password.trim() === '') {
           this.errorPassword = 'Password is required.';
+          this.clearAllErrorMessage();
         } else if (this.password.length < 8) { 
           this.errorPassword = 'Password must be at least 8 characters long.'; 
-        } else {
-          this.errorPassword = ''; 
+          this.clearAllErrorMessage();
+        }
+        else if (!/^[a-zA-Z0-9_.-]+$/.test(this.password)) { 
+          this.errorPassword = 'Invalid characters in password.'; 
+          this.clearAllErrorMessage();
+        } else if(this.password.length > 255) { 
+          this.errorPassword = 'Exceed character limit.'; 
+          this.clearAllErrorMessage();
+        }
+        else{
+          this.errorPassword = null; 
         }
       },
     }
