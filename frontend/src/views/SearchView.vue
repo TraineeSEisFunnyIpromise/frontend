@@ -2,7 +2,7 @@
   <!-- search input section --> 
     <form @submit.prevent="executeSearchAndScrape">
       <div class="inputtext" for="search">Search Product</div>
-      <input type="text" id="searchData" v-model="searchData" required>
+      <input type="text" id="searchData" v-model="searchData"  required>
   
       <div class="inputtext" for="groupsearch">Group target</div>
       <input type="text" id="usertargetData" v-model="usertargetData">
@@ -29,7 +29,10 @@
         <div>
   
           <div v-if="receiveData != '' && receiveData != null "> 
-            <div>Selected criteria: {{ selectedItems }}</div>
+            <div>
+              Selected criteria: {{ selectedItems }}
+            </div>
+
             <div v-for="item in receiveData" :key="item">
               <input type="checkbox" :id="item" :value="item" v-model="checkedItems" />
               <a :for="item">{{ item }}</a>
@@ -37,8 +40,9 @@
 
 
             <input type="checkbox" v-model="toggle" true-value="yes" false-value="no" />
-          <a>{{ datastore }}</a>
-
+            <a>
+              {{ datastore }}
+            </a>
           </div>
   
           <!--      a fancy select box            -->
@@ -52,12 +56,13 @@
   
       <!--         search section                       -->
   
-            <div v-if="isLoading_scrape == true">
+          <div v-if="isLoading_scrape == true">
               Scraping Data...
-            </div>
-            <div class="container" v-if="(searchResults == '' || searchResult == null) && badscrape != null" >
+          </div>
+          
+          <div class="container" v-if="(searchResults == '' || searchResult == null) && badscrape != null" >
               error occured in the scrape section
-            </div>
+          </div>
   
             <div class="container" v-if="searchResults != '' && searchResults != null" >
               <div class="row">
@@ -357,6 +362,7 @@
       executeSearchAndScrape() {
         // First, send the search input check input before send 
         this.isLoading_scrape_criteria = true // literally make loader appear
+        this.isLoading_scrape = false
         if(this.searchData!=''){// if no search or first time search
           if(this.searchData == this.oldsearchData ){ // if the search keyword is matched
             console.log("use old data")
@@ -366,7 +372,6 @@
           else{//if the old search keyword is not
           this.oldsearchData = this.searchData
 
-          this.isLoading_scrape = false
           this.send_search_input();
           this.scrape();
           this.getNormaldistribution();

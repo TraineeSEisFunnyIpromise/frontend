@@ -11,34 +11,58 @@
     <div class="register">
       <h2>Registration</h2>
       <form @submit.prevent="register">
-        <div class="input-group">
-          <label for="username">Username:</label>
-          <input type="text" id="username" v-model="username" required>
-        </div>
+          <div class="input-group">
+            <label for="username">Username:</label>
+            <input 
+              type="text" 
+              id="username" 
+              v-model="username" 
+              @input="UsernameCheck" 
+            />
+            <span v-if="errorUsername != null">{{ errorUsername }}</span>
+          </div>
 
         <div class="input-group">
-          <label for="password">Password:</label>
-          <input type="password" id="password" v-model="password" required>
-        </div>
+            <label for="password">Password:</label>
+            <input 
+              type="password" 
+              id="password" 
+              v-model="password" 
+              @input="PasswordCheck" 
+            />
+            <span v-if="errorPassword != null">{{ errorPassword }}</span>
+          </div>
 
         <div class="input-group">
           <label for="info">Information about Yourself:</label>
-          <input type="text" id="info" v-model="userinfo" required>
+          <input type="text" id="info" v-model="userinfo" >
         </div>
 
         <div class="input-group">
           <label for="question">Question when forget password:</label>
-          <input type="text" id="question" v-model="question_for_reset" required>
+          <input 
+              type="text" 
+              id="question" 
+              v-model="question_for_reset" 
+              @input="QuestionCheck" 
+            />
+            <span v-if="errorquestion != null">{{ errorquestion }}</span>
         </div>
 
         <div class="input-group">
           <label for="answer_for_password">Answer of the Question:</label>
-          <input type="text" id="answer_for_password" v-model="answer_for_reset" required>
+          <input 
+              type="text" 
+              id="question" 
+              v-model="answer_for_reset" 
+              @input="AnswerCheck" 
+            />
+            <span v-if="erroranswer != null">{{ erroranswer }}</span>
         </div>
         <div v-if="isloading == true">sending information...</div>
 
         <button type="submit">Register</button>
-        <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+        <p v-if="errorMessage!= null" class="error-message">{{ errorMessage }}</p>
       </form>
 
       <p v-if="successMessage != ''" style="color: green;">{{ successMessage }}</p>
@@ -64,28 +88,13 @@ export default {
       errorMessage: '',
       successMessage: '',
       isloading:false,
+      errorusername:'',
+      errorpassword:'',
+      errorquestion:'',
+      erroranswer:'',
     };
   },
-  computed:{
-    UsernameCheck(){
-      return this.username.length > 0;
-    },
-    PasswordCheck(){
-      return this.password.length > 0;
-    },
-    ConfirmPasswordCheck(){
-      return this.confirmPassword.length > 0;
-    },
-    AnswerCheck(){
-      return this.answer_for_reset.length > 0;
-    },
-    InfoCheck(){
-      return this.userinfo.length > 0;
-    },
-    QuestionCheck(){
-      return this.question_for_reset.length > 0;
-    }
-  },
+
   methods: {
     register() {
       this.isloading = true
@@ -128,7 +137,47 @@ export default {
          }
         }
       );
-    }
+    },
+    UsernameCheck() {
+        if (this.username.trim() === '') {
+          this.errorUsername = 'Username is required.';
+          this.clearAllErrorMessage();
+        } else if (this.username.length > 20) { 
+          this.errorUsername = 'Username exceeds maximum length.';
+          this.clearAllErrorMessage();
+        } else if (!/^[a-zA-Z0-9_.-]+$/.test(this.username)) { 
+          this.errorUsername = 'Invalid characters in username.'; 
+          this.clearAllErrorMessage();
+        } else {
+          this.errorUsername = ''; 
+        }
+      },
+
+      PasswordCheck() {
+        if (this.password.trim() === '') {
+          this.errorPassword = 'Password is required.';
+        } else if (this.password.length < 8) { 
+          this.errorPassword = 'Password must be at least 8 characters long.'; 
+        } else {
+          this.errorPassword = ''; 
+        }
+      },
+      AnswerCheck(){
+      const regex = /^[a-zA-Z0-9]+$/;
+      return regex.test(this.answer_for_reset);
+    },
+    QuestionCheck(){
+      const regex = /^[a-zA-Z0-9]+$/;
+      return regex.test(this.question_for_reset);
+    },
+    clearAllErrorMessage() {
+    setTimeout(() => {
+    this.errorusername = null;
+    this.errorpassword = null; 
+    this.erroranswer = null;
+    this.errorquestion = null; 
+      }, 3000); 
+},
   }
 };
 </script>

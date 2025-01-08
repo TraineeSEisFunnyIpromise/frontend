@@ -1,38 +1,29 @@
 <template>
-  <!-- index.html -->
-  <!DOCTYPE html>
-  <html>
-
-  <head>
-    <title>Login Page</title>
-  </head>
-
-  <body>
-    <div id="app" div class="login">
-      <h2>Login</h2>
-      <form @submit.prevent="login">
-        <div class="input-group">
-          <label for="username">Username:</label>
-          <input type="text" id="username" v-model="username" required>
-        </div>
-        <div class="input-group">
-          <label for="password">Password:</label>
-          <input type="password" id="password" v-model="password" required>
-        </div>
-        <button type="submit">Login</button>
-      </form>
-      <div style=" padding-top:10px ;">
-      <button class="Resetpassword" @click="redirect_to_resetpage">forget password?</button>
-        </div>
+  <form @submit.prevent="login">
+    <div class="input-group">
+      <label for="username">Username:</label>
+      <input 
+        type="text" 
+        id="username" 
+        v-model="username" 
+        @input="UsernameCheck" 
+      />
+      <span v-if="errorUsername != null">{{ errorUsername }}</span>
     </div>
-    <div class="errormessage" v-if="errorMessage != ''">
-      <p>{{ errorMessage }}</p>
+    <div class="input-group">
+      <label for="password">Password:</label>
+      <input 
+        type="password" 
+        id="password" 
+        v-model="password" 
+        @input="PasswordCheck" 
+      />
+      <span v-if="errorPassword != null">{{ errorPassword }}</span>
     </div>
+    <button type="submit" :disabled="!username || !password">Login</button> 
+    </form>
 
-  </body>
-
-  </html>
-</template>
+  </template>
 
 <script>
 import axios from 'axios';
@@ -49,17 +40,14 @@ export default {
       sessionId: null,
       errorMessage: '',
       errorMessage2:'',
+      errorlogin:'',
+      errorlogin2:'',
+      errorUsername:null,
+      errorPassword:null,
       display_Resetpassword: false,
     };
   },
-  computed: {
-    UsernameCheck() {
-      return this.username.length > 0;
-    },
-    PasswordCheck(){
-      return this.password.length > 0;
-    }
-  },
+
   methods: {
     login() {
       const path = 'http://localhost:5000/auth/login';
@@ -67,59 +55,90 @@ export default {
         username: this.username,
         password: this.password
       };
-      axios.post(path, logindata)
-        .then(response => {
-          // Handle successful login (store token?)
-          if(response.status == 202){
-            console.log("redirecting"); 
-            console.log(response)
+      if(this.username == '' || this.password == ''){
+        this.errorUsername = 'Please fill in all fields';
+        return;
+      }
+      else{ 
+        const regex = /^[a-zA-Z0-9]+$/;
+        if(regex.test(this.username)){
 
-            this.session = response.data.username;
-            localStorage.setItem('session_username', this.session);  // Store session ID in local storage
-            console.log(this.session)
-            alert("login success")
-            this.$router.push('userinfo').then(() => {
-              location.reload();
-            });
-            
-          }
-          if(response.data.message == 'Incorrect passwords'){
-            console.log("error1")
-              this.errorMessage = "please enter the correct password";
-            }
-          if(response.data.message == 'user not found'){
-            console.log("error2")
-              this.errorMessage = "please enter the correct username";
-            }
-          
-          // You can store the JWT token in localStorage or Vuex for future requests
-        })
-        .catch(error => {
-          if(error != '' ){
-            console.log("error log")
-            console.log(error.message)
-            if(error.message == 'Network Error'||error.message == 'The server is down'){
-              this.errorMessage = "Sorry for inconvenience seem Server is not response";
-            }
-            if(error.message == "can not connect to database"){
-              this.errorMessage = "Sorry for inconvenience seem database is not response";
-            }
-          }
-          else{
-          this.errorMessage = error;
-          console.log("error log")
-          console.log(error);
-          console.log(this.errorMessage)
-         }
+                axios.post(path, logindata)
+              .then(response => {
+                // Handle successful login (store token?)
+                if(response.status == 202){
+                  console.log("redirecting"); 
+                  console.log(response)
+
+                  this.session = response.data.username;
+                  localStorage.setItem('session_username', this.session);  // Store session ID in local storage
+                  console.log(this.session)
+                  alert("login success")
+                  this.$router.push('userinfo').then(() => {
+                    location.reload();
+                  });
+                  
+                }
+                if(response.data.message == 'Incorrect passwords'){
+                  console.log("error1")
+                    this.errorMessage = "please enter the correct password";
+                  }
+                if(response.data.message == 'user not found'){
+                  console.log("error2")
+                    this.errorMessage = "please enter the correct username";
+                  }
+                
+                // You can store the JWT token in localStorage or Vuex for future requests
+              })
+              .catch(error => {
+                if(error != '' ){
+                  console.log("error log")
+                  console.log(error.message)
+                  if(error.message == 'Network Error'||error.message == 'The server is down'){
+                    this.errorMessage = "Sorry for inconvenience seem Server is not response";
+                  }
+                  if(error.message == "can not connect to database"){
+                    this.errorMessage = "Sorry for inconvenience seem database is not response";
+                  }
+                }
+                else{
+                this.errorMessage = error;
+                console.log("error log")
+                console.log(error);
+                console.log(this.errorMessage)
+              }
+              }
+            );
+
         }
-      );
+    }
+     
     },
     redirect_to_resetpage() {
       this.$router.push('resetpassword')
     },
+    UsernameCheck() {
+        if (this.username.trim() === '') {
+          this.errorUsername = 'Username is required.';
+        } else if (this.username.length > 20) { 
+          this.errorUsername = 'Username exceeds maximum length.'; 
+        } else if (!/^[a-zA-Z0-9_.-]+$/.test(this.username)) { 
+          this.errorUsername = 'Invalid characters in username.'; 
+        } else {
+          this.errorUsername = ''; 
+        }
+      },
 
-    // app.js
-  }
+      PasswordCheck() {
+        if (this.password.trim() === '') {
+          this.errorPassword = 'Password is required.';
+        } else if (this.password.length < 8) { 
+          this.errorPassword = 'Password must be at least 8 characters long.'; 
+        } else {
+          this.errorPassword = ''; 
+        }
+      },
+    }
 };
 </script>
 
