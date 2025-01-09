@@ -1,12 +1,12 @@
 <template>
-  <form @submit.prevent="login">
+  <form @submit.prevent="login" class="login">
     <div class="input-group">
       <label for="username">Username:</label>
       <input 
         type="text" 
         id="username" 
         v-model="username" 
-        @input="UsernameCheck" 
+
       />
       <span v-if="errorUsername != null">{{ errorUsername }}</span>
     </div>
@@ -16,7 +16,7 @@
         type="password" 
         id="password" 
         v-model="password" 
-        @input="PasswordCheck" 
+
       />
       <span v-if="errorPassword != null">{{ errorPassword }}</span>
     </div>
@@ -44,7 +44,7 @@ export default {
       errorlogin2:'',
       errorUsername:null,
       errorPassword:null,
-      display_Resetpassword: false,
+      
     };
   },
 
@@ -55,8 +55,7 @@ export default {
         username: this.username,
         password: this.password
       };
-
-
+      if((this.UsernameCheck() && this.PasswordCheck()) == true){
         axios.post(path, logindata)
               .then(response => {
                 // Handle successful login (store token?)
@@ -85,24 +84,25 @@ export default {
                 // You can store the JWT token in localStorage or Vuex for future requests
               })
               .catch(error => {
-                if(error != '' ){
+                  if(error != '' ){
+                    console.log("error log")
+                    console.log(error.message)
+                    if(error.message == 'Network Error'||error.message == 'The server is down'){
+                      this.errorMessage = "Sorry for inconvenience seem Server is not response";
+                    }
+                    if(error.message == "can not connect to database"){
+                      this.errorMessage = "Sorry for inconvenience seem database is not response";
+                    }
+                  }
+                  else{
+                  this.errorMessage = error;
                   console.log("error log")
-                  console.log(error.message)
-                  if(error.message == 'Network Error'||error.message == 'The server is down'){
-                    this.errorMessage = "Sorry for inconvenience seem Server is not response";
-                  }
-                  if(error.message == "can not connect to database"){
-                    this.errorMessage = "Sorry for inconvenience seem database is not response";
-                  }
+                  console.log(error);
+                  console.log(this.errorMessage)
                 }
-                else{
-                this.errorMessage = error;
-                console.log("error log")
-                console.log(error);
-                console.log(this.errorMessage)
-              }
               }
             );  
+        }
     },
 
     redirect_to_resetpage() {
@@ -111,21 +111,25 @@ export default {
     UsernameCheck() {
         if (this.username.trim() === '') {
           this.errorUsername = 'Username is required.';
+          this.clearAllErrorMessage();
+
         } else if (this.username.length > 20) { 
           this.errorUsername = 'Username exceeds maximum length.'; 
+          this.clearAllErrorMessage();
+
         } else if (!/^[a-zA-Z0-9_.-]+$/.test(this.username)) { 
           this.errorUsername = 'Invalid characters in username.'; 
+          this.clearAllErrorMessage();
+ 
         } else {
           this.errorUsername = null; 
+
         }
       },
 
       PasswordCheck() {
         if (this.password.trim() === '') {
           this.errorPassword = 'Password is required.';
-          this.clearAllErrorMessage();
-        } else if (this.password.length < 8) { 
-          this.errorPassword = 'Password must be at least 8 characters long.'; 
           this.clearAllErrorMessage();
         }
         else if (!/^[a-zA-Z0-9_.-]+$/.test(this.password)) { 
@@ -139,6 +143,13 @@ export default {
           this.errorPassword = null; 
         }
       },
+      clearAllErrorMessage() {
+    setTimeout(() => {
+    this.errorUsername = null;
+    this.errorPassword = null; 
+
+      }, 3000); 
+},
     }
 };
 </script>

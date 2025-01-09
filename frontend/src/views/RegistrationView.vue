@@ -19,7 +19,7 @@
               v-model="username" 
               @input="UsernameCheck" 
             />
-            <span v-if="errorUsername != null">{{ errorUsername }}</span>
+            <span v-if="errorusername != null">{{ errorusername }}</span>
           </div>
 
         <div class="input-group">
@@ -30,7 +30,7 @@
               v-model="password" 
               @input="PasswordCheck" 
             />
-            <span v-if="errorPassword != null">{{ errorPassword }}</span>
+            <span v-if="errorpassword != null">{{ errorpassword }}</span>
           </div>
 
         <div class="input-group">
@@ -39,7 +39,7 @@
         </div>
 
         <div class="input-group">
-          <label for="question">Question when forget password:</label>
+          <label for="question_for_password">Question when forget password:</label>
           <input 
               type="text" 
               id="question" 
@@ -53,7 +53,7 @@
           <label for="answer_for_password">Answer of the Question:</label>
           <input 
               type="text" 
-              id="question" 
+              id="answer" 
               v-model="answer_for_reset" 
               @input="AnswerCheck" 
             />
@@ -84,6 +84,7 @@ export default {
       password: '',
       confirmPassword: '',
       answer_for_reset: '',
+      question_for_reset: '',
       userinfo: '',
       errorMessage: '',
       successMessage: '',
@@ -108,7 +109,9 @@ export default {
       };
       // Perform registration logic
       // Replace the following code with your own registration logic
-      axios.post(path, registerData)
+      if((this.UsernameCheck() && this.PasswordCheck() && this.AnswerCheck() && this.QuestionCheck()) == true)
+      {
+        axios.post(path, registerData)
         .then(response => {
           console.log(response.data);
           console.log(response.data.message);
@@ -137,6 +140,8 @@ export default {
          }
         }
       );
+      }
+
     },
     UsernameCheck() {
         if (this.username.trim() === '') {
@@ -157,7 +162,7 @@ export default {
         if (this.password.trim() === '') {
           this.errorPassword = 'Password is required.';
           this.clearAllErrorMessage();
-        } else if (this.password.length < 8) { 
+        } else if (this.password.length < 4) { 
           this.errorPassword = 'Password must be at least 8 characters long.'; 
           this.clearAllErrorMessage();
         }
