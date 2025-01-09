@@ -117,7 +117,7 @@ export default {
           console.log(response.data.message);
           this.errorMessage = ''; // Clear error message on successful registration
           if( response.data.message == "Username already exists"){
-            this.errorMessage = 'username has already taken'
+            this.errorMessage = 'username has been already taken'
             this.isloading = false
           }
           else{
@@ -145,13 +145,13 @@ export default {
     },
     UsernameCheck() {
         if (this.username.trim() === '') {
-          this.errorUsername = 'Username is required.';
+          this.errorUsername = 'please fill in all the blanks.';
           this.clearAllErrorMessage();
         } else if (this.username.length > 255) { 
-          this.errorUsername = 'Username exceeds maximum length.';
+          this.errorUsername = 'please fill in the correct username format.';
           this.clearAllErrorMessage();
         } else if (!/^[a-zA-Z0-9_.-]+$/.test(this.username)) { 
-          this.errorUsername = 'Invalid characters in username.'; 
+          this.errorUsername = 'please fill in the correct username format.'; 
           this.clearAllErrorMessage();
         } else {
           this.errorUsername = null; 
@@ -160,17 +160,17 @@ export default {
 
       PasswordCheck() {
         if (this.password.trim() === '') {
-          this.errorPassword = 'Password is required.';
+          this.errorPassword = 'please fill in all the blanks.';
           this.clearAllErrorMessage();
         } else if (this.password.length < 4) { 
-          this.errorPassword = 'Password must be at least 8 characters long.'; 
+          this.errorPassword = 'please fill in the correct password format.'; 
           this.clearAllErrorMessage();
         }
         else if (!/^[a-zA-Z0-9_.-]+$/.test(this.password)) { 
-          this.errorPassword = 'Invalid characters in password.'; 
+          this.errorPassword = 'please fill in the correct password format.'; 
           this.clearAllErrorMessage();
         } else if(this.password.length > 255) { 
-          this.errorPassword = 'Exceed character limit.'; 
+          this.errorPassword = 'please fill in the correct password format.'; 
           this.clearAllErrorMessage();
         }
         else{
@@ -179,15 +179,15 @@ export default {
       },
       AnswerCheck(){
         if (this.answer_for_reset.trim() === '') {
-          this.erroranswer = 'Answer for reset password is required.';
+          this.erroranswer = 'please fill in all the blanks.';
           this.clearAllErrorMessage();
         }
         else if (!/^[a-zA-Z0-9_.-]+$/.test(this.answer_for_reset)) { 
-          this.erroranswer = 'Invalid characters in answer.'; 
+          this.erroranswer = 'please fill in the correct password recovery question format.'; 
           this.clearAllErrorMessage();
         } 
         else if(this.answer_for_reset.length > 255) { 
-          this.errorPassword = 'Exceed character limit.'; 
+          this.errorPassword = 'please fill in the correct password recovery question format.'; 
           this.clearAllErrorMessage();
         }
         else {
@@ -196,15 +196,15 @@ export default {
     },
     QuestionCheck(){
       if (this.question_for_reset.trim() === '') {
-          this.errorquestion = 'Question for reset password is required.';
+          this.errorquestion = 'please fill in all the blanks.';
           this.clearAllErrorMessage();
         }
         else if (!/^[a-zA-Z0-9_.-]+$/.test(this.username)) { 
-          this.erroranswer = 'Invalid characters in question.'; 
+          this.erroranswer = 'please fill in the correct password recovery answer format.'; 
           this.clearAllErrorMessage();
         } 
         else if(this.question_for_reset.length > 255) { 
-          this.errorPassword = 'Exceed character limit.'; 
+          this.errorPassword = 'please fill in the correct password recovery answer format.'; 
           this.clearAllErrorMessage();
         }
         else {
