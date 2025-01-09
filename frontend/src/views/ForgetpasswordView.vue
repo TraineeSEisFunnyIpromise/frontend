@@ -103,14 +103,14 @@
 					.then(response => {
 
 					if(response.data == "success"){
-						this.result = "reset password successful"
+						this.result = "Reset password Successfully"
 						
 						setTimeout(() => {
 							this.$router.push("login");
 							}, 5000);
 					}
 					if(response.data == "unsuccess"){
-						this.result = "Please provide correct username and answer"
+						this.result = "Reset password Unsuccessfully"
 					}
 
 					console.log(response.data);
