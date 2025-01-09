@@ -66,7 +66,7 @@ export default {
                   this.session = response.data.username;
                   localStorage.setItem('session_username', this.session);  // Store session ID in local storage
                   console.log(this.session)
-                  alert("login success")
+                  alert("login successful")
                   this.$router.push('userinfo').then(() => {
                     location.reload();
                   });
