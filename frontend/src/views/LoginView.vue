@@ -110,7 +110,7 @@ export default {
     },
     UsernameCheck() {
         if (this.username.trim() === '') {
-          this.errorUsername = 'Username is required.';
+          this.errorUsername = 'please fill in all the blanks.';
           this.clearAllErrorMessage();
 
         } else if (this.username.length > 20) { 
@@ -129,7 +129,7 @@ export default {
 
       PasswordCheck() {
         if (this.password.trim() === '') {
-          this.errorPassword = 'Password is required.';
+          this.errorPassword = 'please fill in all the blanks.';
           this.clearAllErrorMessage();
         }
         else if (!/^[a-zA-Z0-9_.-]+$/.test(this.password)) { 
