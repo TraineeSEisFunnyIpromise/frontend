@@ -93,7 +93,7 @@ export default ({
           console.log(user)
           this.user = null
           //need to update
-          this.errorMessage = "sorry seem we can't fetch current user's information"
+          this.errorMessage = "user not found"
         });
     },
     UpdateUser() {
@@ -118,7 +118,7 @@ export default ({
           this.result = response.data
           this.showUpdate = false;
           if(response.data.message == "update success"){
-            this.result = "aboutme has been successfully Updated"
+            this.result = "account information update is successful"
             this.fetchUserInfo();
             setTimeout(() => {
               this.result = ""
@@ -128,7 +128,7 @@ export default ({
         })
         .catch(error => {
           if(error.data)          {
-            this.result = "aboutme has not been successfully Updated"
+            this.result = "account information update is unsuccessful"
             setTimeout(() => {
               this.result = ""
             }, 3000);
@@ -155,7 +155,7 @@ export default ({
           console.log(response.data);
           this.showUpdatePass = false;
           if(response.data == "Reset password successful"){
-            this.result = "account password has been successfully Updated"
+            this.result = "password changed	successfully"
             this.fetchUserInfo();
             setTimeout(() => {
               this.result = ""
@@ -166,7 +166,7 @@ export default ({
         .catch(error => {
           
           if(error.data)          {
-            this.result = "account password has not been successfully Updated"
+            this.result = "password changed	unsuccessfully"
             setTimeout(() => {
               this.result = ""
             }, 3000);
@@ -212,7 +212,7 @@ export default ({
         });
       }
       else{
-        alert("Delete user must not empty or other")
+        alert("please fill in all the blanks")
       }
     },
 Logout(){
@@ -224,7 +224,7 @@ Logout(){
           
           if(response.data == "log out success"){
             localStorage.clear()
-            this.result = "account has been successfully logout"
+            this.result = "logout successfully"
             setTimeout(() => {
               this.console.log("redirecting");
               this.$router.push('/').then(() => {
