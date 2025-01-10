@@ -130,11 +130,11 @@ export default {
         })
         .catch(error => {
           if(error.message == "server is not response" || error.message == "Network Error"){
-            this.errorMessage = "sorry some problem occured in server";
+            this.errorMessage = "Registration unsuccessful";
             this.isloading = false
           }
           else{
-          this.errorMessage = "sorry some problem occured please try it again"+error.response.data.message;
+          this.errorMessage = "Registration unsuccessful"+error.response.data.message;
           console.error(error);
           this.isloading = false
          }
