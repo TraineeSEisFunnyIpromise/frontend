@@ -1,4 +1,5 @@
 <template>
+  
   <form @submit.prevent="login" class="login">
     <div class="input-group">
       <label for="username">Username:</label>
@@ -20,8 +21,9 @@
       />
       <span v-if="errorPassword != null">{{ errorPassword }}</span>
     </div>
-    <button type="submit"  :disabled="!username || !password">Login</button> 
+    <button type="submit">Login</button> 
     </form>
+    <div v-if="errorMessage != null"> {{ errorMessage }}</div>
 
   </template>
 
@@ -38,10 +40,10 @@ export default {
       username: '',
       password: '',
       sessionId: null,
-      errorMessage: '',
-      errorMessage2:'',
-      errorlogin:'',
-      errorlogin2:'',
+      errorMessage: null,
+      errorMessage2:null,
+      errorlogin:null,
+      errorlogin2:null,
       errorUsername:null,
       errorPassword:null,
       
@@ -55,6 +57,7 @@ export default {
         username: this.username,
         password: this.password
       };
+      console.log("login register")
       if((this.UsernameCheck() && this.PasswordCheck()) === true){
         axios.post(path, logindata)
               .then(response => {
@@ -110,7 +113,7 @@ export default {
       this.$router.push('resetpassword')
     },
     UsernameCheck() {
-        if (this.username.trim() === '') {
+        if (this.username.trim() === '' || this.username === null) {
           console.log("5")
           this.errorUsername = 'please fill in all the blanks.';
           this.clearAllErrorMessage();
@@ -137,7 +140,7 @@ export default {
       },
 
       PasswordCheck() {
-        if (this.password.trim() === '') {
+        if (this.password.trim() === '' || this.password === null) {
           console.log("1")
           this.errorPassword = 'please fill in all the blanks.';
           this.clearAllErrorMessage();
@@ -164,6 +167,7 @@ export default {
     setTimeout(() => {
     this.errorUsername = null;
     this.errorPassword = null; 
+    this.errorMessage = null
 
       }, 3000); 
 },

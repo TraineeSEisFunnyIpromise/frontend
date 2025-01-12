@@ -149,7 +149,7 @@ export default {
 
     },
     UsernameCheck() {
-        if (this.username.trim() === '') {
+        if (this.username.trim() === '' || this.username === null) {
           this.errorUsername = 'please fill in all the blanks.';
           this.clearAllErrorMessage();
           return false
@@ -168,7 +168,7 @@ export default {
       },
 
       PasswordCheck() {
-        if (this.password.trim() === '') {
+        if (this.password.trim() === '' || this.password === null) {
           this.errorPassword = 'please fill in all the blanks.';
           this.clearAllErrorMessage();
           return false
@@ -192,7 +192,7 @@ export default {
         }
       },
       AnswerCheck(){
-        if (this.answer_for_reset.trim() === '') {
+        if (this.answer_for_reset.trim() === '' || this.answer_for_reset === null) {
           this.erroranswer = 'please fill in all the blanks.';
           this.clearAllErrorMessage();
           return false
@@ -213,7 +213,7 @@ export default {
         }
     },
     QuestionCheck(){
-      if (this.question_for_reset.trim() === '') {
+      if (this.question_for_reset.trim() === '' || this.question_for_reset === null ) {
           this.errorquestion = 'please fill in all the blanks.';
           this.clearAllErrorMessage();
         }
