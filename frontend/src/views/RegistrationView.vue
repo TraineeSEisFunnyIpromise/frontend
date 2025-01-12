@@ -109,7 +109,12 @@ export default {
       };
       // Perform registration logic
       // Replace the following code with your own registration logic
-      if((this.UsernameCheck() && this.PasswordCheck() && this.AnswerCheck() && this.QuestionCheck()) == true)
+      console.log(this.UsernameCheck() )
+      console.log(this.PasswordCheck() )
+      console.log(this.AnswerCheck() )
+      console.log(this.QuestionCheck() )
+
+      if((this.UsernameCheck() && this.PasswordCheck() && this.AnswerCheck() && this.QuestionCheck())===true)
       {
         axios.post(path, registerData)
         .then(response => {
@@ -147,14 +152,18 @@ export default {
         if (this.username.trim() === '') {
           this.errorUsername = 'please fill in all the blanks.';
           this.clearAllErrorMessage();
+          return false
         } else if (this.username.length > 255) { 
           this.errorUsername = 'please fill in the correct username format.';
           this.clearAllErrorMessage();
+          return false
         } else if (!/^[a-zA-Z0-9_.-]+$/.test(this.username)) { 
           this.errorUsername = 'please fill in the correct username format.'; 
           this.clearAllErrorMessage();
+          return false
         } else {
           this.errorUsername = null; 
+          return true
         }
       },
 
@@ -162,36 +171,45 @@ export default {
         if (this.password.trim() === '') {
           this.errorPassword = 'please fill in all the blanks.';
           this.clearAllErrorMessage();
+          return false
         } else if (this.password.length < 4) { 
           this.errorPassword = 'please fill in the correct password format.'; 
           this.clearAllErrorMessage();
+          return false
         }
         else if (!/^[a-zA-Z0-9_.-]+$/.test(this.password)) { 
           this.errorPassword = 'please fill in the correct password format.'; 
           this.clearAllErrorMessage();
+          return false
         } else if(this.password.length > 255) { 
           this.errorPassword = 'please fill in the correct password format.'; 
           this.clearAllErrorMessage();
+          return false
         }
         else{
           this.errorPassword = null; 
+          return true
         }
       },
       AnswerCheck(){
         if (this.answer_for_reset.trim() === '') {
           this.erroranswer = 'please fill in all the blanks.';
           this.clearAllErrorMessage();
+          return false
         }
         else if (!/^[a-zA-Z0-9_.-]+$/.test(this.answer_for_reset)) { 
           this.erroranswer = 'please fill in the correct password recovery question format.'; 
           this.clearAllErrorMessage();
+          return false
         } 
         else if(this.answer_for_reset.length > 255) { 
           this.errorPassword = 'please fill in the correct password recovery question format.'; 
           this.clearAllErrorMessage();
+          return false
         }
         else {
           this.erroranswer = null; 
+          return true
         }
     },
     QuestionCheck(){
@@ -209,6 +227,7 @@ export default {
         }
         else {
           this.errorquestion = null; 
+          return true
         }
         
     },

@@ -20,7 +20,7 @@
       />
       <span v-if="errorPassword != null">{{ errorPassword }}</span>
     </div>
-    <button type="submit" :disabled="!username || !password">Login</button> 
+    <button type="submit"  :disabled="!username || !password">Login</button> 
     </form>
 
   </template>
@@ -55,7 +55,7 @@ export default {
         username: this.username,
         password: this.password
       };
-      if((this.UsernameCheck() && this.PasswordCheck()) == true){
+      if((this.UsernameCheck() && this.PasswordCheck()) === true){
         axios.post(path, logindata)
               .then(response => {
                 // Handle successful login (store token?)
@@ -89,6 +89,7 @@ export default {
                     console.log(error.message)
                     if(error.message == 'Network Error'||error.message == 'The server is down'){
                       this.errorMessage = "Sorry for inconvenience seem Server is not response";
+                      
                     }
                     if(error.message == "can not connect to database"){
                       this.errorMessage = "Sorry for inconvenience seem database is not response";
@@ -110,37 +111,53 @@ export default {
     },
     UsernameCheck() {
         if (this.username.trim() === '') {
+          console.log("5")
           this.errorUsername = 'please fill in all the blanks.';
           this.clearAllErrorMessage();
+          return false
 
         } else if (this.username.length > 20) { 
+          console.log("6")
           this.errorUsername = 'Username exceeds maximum length.'; 
           this.clearAllErrorMessage();
+          return false
 
         } else if (!/^[a-zA-Z0-9_.-]+$/.test(this.username)) { 
+          console.log("7")
           this.errorUsername = 'Invalid characters in username.'; 
           this.clearAllErrorMessage();
+          return false
  
         } else {
+          console.log("8")
           this.errorUsername = null; 
+          return true
 
         }
       },
 
       PasswordCheck() {
         if (this.password.trim() === '') {
+          console.log("1")
           this.errorPassword = 'please fill in all the blanks.';
           this.clearAllErrorMessage();
+          return false
         }
-        else if (!/^[a-zA-Z0-9_.-]+$/.test(this.password)) { 
+        else if (!/^[a-zA-Z0-9_.-]+$/.test(this.password)) {
+          console.log("2") 
           this.errorPassword = 'Invalid characters in password.'; 
           this.clearAllErrorMessage();
+          return false
         } else if(this.password.length > 255) { 
+          console.log("3")
           this.errorPassword = 'Exceed character limit.'; 
           this.clearAllErrorMessage();
+          return false
         }
         else{
+          console.log("4")
           this.errorPassword = null; 
+          return true
         }
       },
       clearAllErrorMessage() {
