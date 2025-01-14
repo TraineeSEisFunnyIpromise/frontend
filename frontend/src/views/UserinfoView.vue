@@ -182,23 +182,29 @@ export default ({
       if(this.deleteUser != '' && this.deleteUser != localStorage.getItem('session_username')){
       const path = 'http://localhost:5000/userinfo/Delete';
       const senduser = {
-        username: this.name
+        username: this.name,
       };
       axios.post(path,senduser)
         .then(response => {
           // Handle successful login (store token?)
-          
-          if(response.data == "remove successful"){
+
+          console.log(response)
+          if(response.data.msg == "remove successful"){
             this.result = "account has been successfully deleted"
             localStorage.clear()
             setTimeout(() => {
-              this.console.log("redirecting");
+              console.log("redirecting");
               this.$router.push('/').then(() => {
                 location.reload();
               });
             }, 5000);
           }
-
+          else{
+            this.result = "account has not been successfully deleted"
+            setTimeout(() => {
+              this.result = ""
+            }, 3000);
+          }
           // You can store the JWT token in localStorage or Vuex for future requests
         })
         .catch(error => {
@@ -212,7 +218,7 @@ export default ({
         });
       }
       else{
-        alert("please fill in all the blanks")
+        alert("please fill your username")
       }
     },
 Logout(){
@@ -226,7 +232,7 @@ Logout(){
             localStorage.clear()
             this.result = "logout successfully"
             setTimeout(() => {
-              this.console.log("redirecting");
+              console.log("redirecting");
               this.$router.push('/').then(() => {
                 location.reload();
               });

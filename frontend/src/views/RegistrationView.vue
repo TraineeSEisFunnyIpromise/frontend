@@ -98,7 +98,7 @@ export default {
 
   methods: {
     register() {
-      this.isloading = true
+      
       const path = 'http://localhost:5000/auth/register';
       const registerData = {
         username: this.username,
@@ -116,6 +116,7 @@ export default {
 
       if((this.UsernameCheck() && this.PasswordCheck() && this.AnswerCheck() && this.QuestionCheck())===true)
       {
+        this.isloading = true
         axios.post(path, registerData)
         .then(response => {
           console.log(response.data);
@@ -150,44 +151,44 @@ export default {
     },
     UsernameCheck() {
         if (this.username.trim() === '' || this.username === null) {
-          this.errorUsername = 'please fill in all the blanks.';
+          this.errorusername = 'please fill in all the blanks.';
           this.clearAllErrorMessage();
           return false
         } else if (this.username.length > 255) { 
-          this.errorUsername = 'please fill in the correct username format.';
+          this.errorusername = 'please fill in the correct username format.';
           this.clearAllErrorMessage();
           return false
         } else if (!/^[a-zA-Z0-9_.-]+$/.test(this.username)) { 
-          this.errorUsername = 'please fill in the correct username format.'; 
+          this.errorusername = 'please fill in the correct username format.'; 
           this.clearAllErrorMessage();
           return false
         } else {
-          this.errorUsername = null; 
+          this.errorusername = null; 
           return true
         }
       },
 
       PasswordCheck() {
         if (this.password.trim() === '' || this.password === null) {
-          this.errorPassword = 'please fill in all the blanks.';
+          this.errorpassword = 'please fill in all the blanks.';
           this.clearAllErrorMessage();
           return false
         } else if (this.password.length < 4) { 
-          this.errorPassword = 'please fill in the correct password format.'; 
+          this.errorpassword = 'please fill in the correct password format.'; 
           this.clearAllErrorMessage();
           return false
         }
         else if (!/^[a-zA-Z0-9_.-]+$/.test(this.password)) { 
-          this.errorPassword = 'please fill in the correct password format.'; 
+          this.errorpassword = 'please fill in the correct password format.'; 
           this.clearAllErrorMessage();
           return false
         } else if(this.password.length > 255) { 
-          this.errorPassword = 'please fill in the correct password format.'; 
+          this.errorpassword = 'please fill in the correct password format.'; 
           this.clearAllErrorMessage();
           return false
         }
         else{
-          this.errorPassword = null; 
+          this.errorpassword = null; 
           return true
         }
       },
@@ -216,14 +217,17 @@ export default {
       if (this.question_for_reset.trim() === '' || this.question_for_reset === null ) {
           this.errorquestion = 'please fill in all the blanks.';
           this.clearAllErrorMessage();
+          return false
         }
         else if (!/^[a-zA-Z0-9_.-]+$/.test(this.username)) { 
           this.erroranswer = 'please fill in the correct password recovery answer format.'; 
           this.clearAllErrorMessage();
+          return false
         } 
         else if(this.question_for_reset.length > 255) { 
           this.errorPassword = 'please fill in the correct password recovery answer format.'; 
           this.clearAllErrorMessage();
+          return false
         }
         else {
           this.errorquestion = null; 
