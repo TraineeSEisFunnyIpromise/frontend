@@ -17,9 +17,21 @@
               type="text" 
               id="username" 
               v-model="username" 
+              @focus="showTable = true" 
+            @blur="showTable = false" 
             />
             <span v-if="errorusername != null">{{ errorusername }}</span>
           </div>
+
+          <table v-if="showTable" class="table">
+            <thead>
+              <tr>
+                <th>something something relate to the requirement for username</th>
+                </tr>
+            </thead>
+            <tbody>
+              </tbody>
+          </table>
 
         <div class="input-group">
             <label for="password">Password:</label>
@@ -89,6 +101,7 @@ export default {
       errorpassword:'',
       errorquestion:'',
       erroranswer:'',
+      showTable:false,
     };
   },
 
