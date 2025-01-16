@@ -14,21 +14,26 @@
         <p v-if="userinfo != null">About me: {{ userinfo }}</p>
         <div>
       <div>
-        <input type="Update" v-if="showUpdate == true" ref="aboutInput" v-model="updatedAbout" required/>
+        <input type="Update" v-if="showUpdate == true" ref="aboutInput" v-model="updatedAbout" placeholder="About me update " required/>
       </div>
       <button class="updateUserForm" v-if="!showUpdate == true" @click="showUpdateForm">Update</button>
-      <button class="updateUser" v-if="showUpdate==true" @click="UpdateUser">Save</button>
+      <button class="updateUser" v-if="showUpdate==true" @click="confirmUpdate">Save</button>
+      <button class="confirm" v-if="showConfirmUpdate==true" @click="UpdateUser">Confirm update about me?</button>
+      <button class="confirm" v-if="showConfirmUpdate==true" @click="cancelupdate">Cancel</button>
           
-      <div><input type="Delete" v-if="deleteUser == true" ref="deleteInput" v-model="deletepass" required /></div>
+      <div><input type="Delete" v-if="deleteUser == true" ref="deleteInput" v-model="deletepass" placeholder="Please fill Your password here" required /></div>
       <button class="deleteUserForm" v-if="!deleteUser == true" @click="showDeleteForm">Delete</button>
-      <button class="deleteUser" v-if="deleteUser==true" @click="DeleteUser">Delete user</button>
+      <button class="deleteUser" v-if="deleteUser==true" @click="confirmDelete">Delete user</button>
+      <button class="confirm" v-if="showConfirmDelete==true" @click="DeleteUser">Confirm Delete your account?</button>
+      <button class="confirm" v-if="showConfirmDelete==true" @click="canceldelete">Cancel</button>
+
       
       <div><input type="UpdatePassword" v-if="showUpdatePass == true" ref="ResetPassInput" v-model="updatePassword"  required /></div>
       <button class="UpdatePasswordform" v-if="!showUpdatePass == true" @click="showUpdatePassForm">UpdatePassword</button>
-      <button class="UpdatePassword" v-if="showUpdatePass==true" @click="UpdatePassword">Update Password</button>
+      <button class="UpdatePassword" v-if="showUpdatePass==true" @click="confirmUpdatePass">Update Password</button>
+      <button class="confirm" v-if="showConfirmPass==true" @click="UpdatePassword">Confirm update password?</button>
+      <button class="confirm" v-if="showConfirmPass==true" @click="cancelpass">Cancel</button>
 
-      
-      
 
         </div>
       </div>
@@ -64,7 +69,9 @@ export default ({
       result:"",
       name:'',
       userinfo:'',
-
+      showConfirmDelete: false,
+      showConfirmPass: false,
+      showConfirmUpdate: false,
     }
   },
   created() {
@@ -251,7 +258,7 @@ Logout(){
           }
         });
       
-},
+      },
       showDeleteForm() {
         this.deleteUser = true;
       },
@@ -261,6 +268,29 @@ Logout(){
       showUpdatePassForm() {
         this.showUpdatePass = true;
       },
+
+      canceldelete() {
+        this.showConfirmDelete = false;
+        this.showDelete = false;
+      },
+      cancelupdate() {
+        this.showConfirmUpdate = false;
+        this.showUpdate = false;
+      },
+      cancelpass() {
+        this.showConfirmPass = false;
+        this.showUpdatePass = false;
+      },
+      confirmDelete() {
+        this.showConfirmDelete = true;
+      },
+      confirmUpdate() {
+        this.showConfirmUpdate = true;
+      },
+      confirmUpdatePass() {
+        this.showConfirmPass = true;
+      },
+
   },
 });
 
@@ -271,5 +301,10 @@ Logout(){
   position: fixed;
   top: 10px;
   left: 10px;
+}
+.confirm {
+  position: fixed;
+  top: 10px;
+  left: 40%;
 }
 </style>

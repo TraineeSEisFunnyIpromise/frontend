@@ -17,7 +17,6 @@
               type="text" 
               id="username" 
               v-model="username" 
-              @input="UsernameCheck" 
             />
             <span v-if="errorusername != null">{{ errorusername }}</span>
           </div>
@@ -28,7 +27,6 @@
               type="password" 
               id="password" 
               v-model="password" 
-              @input="PasswordCheck" 
             />
             <span v-if="errorpassword != null">{{ errorpassword }}</span>
           </div>
@@ -44,7 +42,6 @@
               type="text" 
               id="question" 
               v-model="question_for_reset" 
-              @input="QuestionCheck" 
             />
             <span v-if="errorquestion != null">{{ errorquestion }}</span>
         </div>
@@ -55,7 +52,6 @@
               type="text" 
               id="answer" 
               v-model="answer_for_reset" 
-              @input="AnswerCheck" 
             />
             <span v-if="erroranswer != null">{{ erroranswer }}</span>
         </div>

@@ -1,7 +1,11 @@
 <template>
-  
+
+
   <form @submit.prevent="login" class="login">
+    <h2  >Login</h2>
+    
     <div class="input-group">
+      
       <label for="username">Username:</label>
       <input 
         type="text" 
@@ -187,7 +191,7 @@ export default {
   text-align: left;
 }
 
-.login-box h2 {
+.login h2 {
   text-align: center;
   margin-bottom: 20px;
 }
