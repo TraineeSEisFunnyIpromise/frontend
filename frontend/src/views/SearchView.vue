@@ -2,11 +2,30 @@
   <!-- search input section --> 
     <form @submit.prevent="executeSearchAndScrape">
       <div class="inputtext" for="search">Search Product</div>
-      <input type="text" id="searchData" v-model="searchData"  required>
+      <input type="text" id="searchData" 
+      v-model="searchData" 
+      placeholder=""
+      @focus="showTable = true" 
+      @blur="showTable = false"  
+      required>
   
       <div class="inputtext" for="groupsearch">Group target</div>
-      <input type="text" id="usertargetData" v-model="usertargetData">
+      <input type="text" id="usertargetData" 
+      v-model="usertargetData"
+      @focus="showTable = true" 
+      @blur="showTable = false" 
+      >
     </form>
+
+    <table v-if="showTable" class="table">
+            <thead>
+              <tr>
+                <th>something something relate to the requirement for question and answer</th>
+                </tr>
+            </thead>
+            <tbody>
+              </tbody>
+          </table>
   
     <div style="padding-top: 10px;">
       <button type="submit" @click="executeSearchAndScrape" @click.stop="isLoading_scrape != true">Click here to make magic</button>

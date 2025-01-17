@@ -17,13 +17,13 @@
               type="text" 
               id="username" 
               v-model="username" 
-              @focus="showTable = true" 
-            @blur="showTable = false" 
+              @focus="showTableUsername = true" 
+            @blur="showTableUsername = false" 
             />
             <span v-if="errorusername != null">{{ errorusername }}</span>
           </div>
 
-          <table v-if="showTable" class="table">
+          <table v-if="showTableUsername" class="table">
             <thead>
               <tr>
                 <th>something something relate to the requirement for username</th>
@@ -39,14 +39,37 @@
               type="password" 
               id="password" 
               v-model="password" 
+              @focus="showTablePassword = true" 
+              @blur="showTablePassword = false" 
             />
             <span v-if="errorpassword != null">{{ errorpassword }}</span>
           </div>
+
+          <table v-if="showTablePassword" class="table">
+            <thead>
+              <tr>
+                <th>something something relate to the requirement for password</th>
+                </tr>
+            </thead>
+            <tbody>
+              </tbody>
+          </table>
+
 
         <div class="input-group">
           <label for="info">Information about Yourself:</label>
           <input type="text" id="info" v-model="userinfo" >
         </div>
+
+        <table v-if="showTableQA" class="table">
+            <thead>
+              <tr>
+                <th>something something relate to the requirement for question and answer</th>
+                </tr>
+            </thead>
+            <tbody>
+              </tbody>
+          </table>
 
         <div class="input-group">
           <label for="question_for_password">Question when forget password:</label>
@@ -54,6 +77,8 @@
               type="text" 
               id="question" 
               v-model="question_for_reset" 
+              @focus="showTableQA = true" 
+              @blur="showTableQA = false" 
             />
             <span v-if="errorquestion != null">{{ errorquestion }}</span>
         </div>
@@ -64,6 +89,8 @@
               type="text" 
               id="answer" 
               v-model="answer_for_reset" 
+              @focus="showTableQA = true" 
+              @blur="showTableQA = false" 
             />
             <span v-if="erroranswer != null">{{ erroranswer }}</span>
         </div>
@@ -102,6 +129,9 @@ export default {
       errorquestion:'',
       erroranswer:'',
       showTable:false,
+      showTablePassword:false,
+      showTableQA:false,
+      showTableUsername:false,
     };
   },
 
@@ -313,4 +343,19 @@ button:hover {
   margin-top: 10px;
   text-align: center;
 }
+.table {
+  position: absolute; 
+  top: 0; 
+}
+
+.table.left {
+  left: 100%; 
+  margin-left: 10px; 
+}
+
+.table.right {
+  right: 100%; 
+  margin-right: 10px; 
+}
+
 </style>
