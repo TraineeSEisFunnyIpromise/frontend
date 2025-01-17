@@ -344,8 +344,7 @@ button:hover {
   text-align: center;
 }
 .table {
-  position: absolute; 
-  top: 0; 
+  position: relative;  
 }
 
 .table.left {

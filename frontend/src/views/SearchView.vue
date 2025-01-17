@@ -3,21 +3,37 @@
     <form @submit.prevent="executeSearchAndScrape">
       <div class="inputtext" for="search">Search Product</div>
       <input type="text" id="searchData" 
+
       v-model="searchData" 
       placeholder=""
       @focus="showTable = true" 
       @blur="showTable = false"  
+      @hover="showTable = true"
       required>
+
+      <!--table for information-->
+      <table v-if="showTable" class="table">
+            <thead class="table-holder">
+              <tr>
+                <th>this input will receive keyword which related to</th>
+                </tr>
+            </thead>
+            <tbody>
+              </tbody>
+          </table>
+  
   
       <div class="inputtext" for="groupsearch">Group target</div>
       <input type="text" id="usertargetData" 
       v-model="usertargetData"
-      @focus="showTable = true" 
-      @blur="showTable = false" 
+      placeholder=""
+      @focus="showTableGroup = true" 
+      @blur="showTableGroup = false" 
+      @hover="showTableGroup = true"
       >
-    </form>
 
-    <table v-if="showTable" class="table">
+            <!--table for information-->
+            <table v-if="showTableGroup" class="table-right">
             <thead>
               <tr>
                 <th>something something relate to the requirement for question and answer</th>
@@ -27,6 +43,10 @@
               </tbody>
           </table>
   
+
+    </form>
+
+
     <div style="padding-top: 10px;">
       <button type="submit" @click="executeSearchAndScrape" @click.stop="isLoading_scrape != true">Click here to make magic</button>
     </div> 
@@ -111,7 +131,7 @@
                             </div>
                 </div>
             </div>
-            <div v-if="(searchResults != '' || searchResult != null) && badscrape == null">
+            <div v-if="(searchResults != '' || searchResults != null) && badscrape == null">
                 <div v-if="dataprice != '' && dataprice != null" style="text-align: center; padding-top: 10px;">
                 <!--  Math Text -->
                 <div>Standard Diviation of Price(Price Range)</div>
@@ -211,6 +231,8 @@
         oldsearchData:"",
         old_user_target:"",
         badcriteria:false,
+        showTable: false,
+        showTableGroup: false,
         hasScroll: true,// scroallable thingy
         searchData:'',//search input
         usertargetData:'',//group target input
@@ -261,108 +283,89 @@
       }
     },
     methods: {
-      send_search_input() {
-        console.log("searchtringerred")
-        const path = 'http://localhost:5000/search/search_criteria_test'
-  
-        //an entire stuff happen below here also this is might be the worst refactor i have ever done
-        if (this.searchData !== '' || this.usertargetData !== '' ) {
-  
-          //funni stuff CORS and CONTENT thingy
-          console.log("search sent")
-          const sending = [this.searchData,this.usertargetData]
-          axios.post(path, sending,{headers: {
-        'Content-Type': 'application/json'  // Set the correct Content-Type header
-        }
-      })
-            .then(response => {
-              this.isLoading_scrape_criteria = false
-              console.log("criteria listdkjdhkjf")
-              console.log(response)
-              
-              if(response.data != 'invalid' && response.data != null  && response.data != ['Invalid'] &&  response.data != ''){
-                this.receiveData =  response.data
-              }
-              else{
-                console.log("bad criteria")
-                console.log(this.badcriteria)
-                this.badcriteria = true
+      async send_search_input() {
+          console.log("search triggered");
+          const path = 'http://localhost:5000/search/search_criteria';
+
+          if (this.searchData !== '' || this.usertargetData !== '') {
+            console.log("search sent");
+            const sending = [this.searchData, this.usertargetData];
+
+            try {
+              const response = await axios.post(path, sending, {
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              });
+
+              this.isLoading_scrape_criteria = false;
+              console.log("criteria listdkjdhkjf");
+              console.log(response);
+
+              if (
+                response.data !== 'invalid' &&
+                response.data !== null &&
+                response.data !== 'Invalid' &&
+                response.data !== ''
+              ) {
+                this.receiveData = response.data;
+              } else {
+                console.log("bad criteria");
+                console.log(this.badcriteria);
+                this.badcriteria = true;
               }
               console.log("receive data");
-  
-            })
-            .catch(error => {
-            this.isLoading_scrape_criteria = false
-            this.userInput= this.selected + this.sendData
-            this.badcriteria = true
-  
-            console.log(error);
-            });
-          // Successful 
-        } else {
-          // Failed
-          this.isLoading_scrape_criteria = false
-          this.badscrape = ''
-          console.log("please add information");
-          
-        }
-      },
-  
-      scrape() {
-        console.log("scrape tringerred")
-        
-        const sending = [this.searchData,this.usertargetData];
-        // const path = 'http://localhost:5000/search/scrape'
-        const path = 'http://localhost:5000/search/scrape_test'
-        if (this.searchData !== ''){
-          axios.post(path,sending,
-        {
-        //   headers: {
-        // 'Content-Type': 'application/json',  // Set the correct Content-Type header
-        // 'Access-Control-Allow-Origin': '*',
-        // 'Access-Control-Allow-Methods': 'POST',
-        // 'Access-Control-Allow-Headers': 'Content-Type',
-        // } 
-      })
-          .then(response => {
-            console.log("sending to scrape");
-            this.searchResults = JSON.parse(JSON.stringify(response.data));
-            this.isLoading_scrape = false
-            console.log("replaced search result, doing price chart")
-            this.setupPriceData(this.searchResults)
-            console.log("fetch chartdata")
-            this.fetchChartData()
-          })
-          .catch(error => {
-            console.log("scraped error occurred!")
-            console.log(error);
-            this.badscrape = "scrape got problem "+ error
-            if (error == "AxiosError: Network Error") {
-              this.badscrape = "backend server is not working"
+            } catch (error) {
+              this.isLoading_scrape_criteria = false;
+              this.userInput = this.selected + this.sendData;
+              this.badcriteria = true;
+              console.error("Error sending search criteria:", error);
             }
-            alert(this.badscrape)
-            this.oldsearchData = ''
-            this.old_user_target = ''
-          });
-        }
-        else{
-          alert("scrape is not work try again")
-          this.oldsearchData = ''
-        }
-      },
+          } else {
+            // Failed - User Input Required Message
+            this.isLoading_scrape_criteria = false;
+            this.badscrape = '';
+            console.log("please add information");
+          }
+        },
   
+      async scrape() {
+        console.log("scrape triggered");
+
+        if (this.searchData !== '') {
+            const sending = [this.searchData, this.usertargetData];
+            const path = 'http://localhost:5000/search/scrape';
+
+            try {
+                const response = await axios.post(path, sending);
+                console.log("sending to scrape");
+                this.searchResults = JSON.parse(JSON.stringify(response.data));
+                this.isLoading_scrape = false;
+                console.log("replaced search result, doing price chart");
+                this.setupPriceData(this.searchResults);
+                console.log("fetch chartdata");
+                this.fetchChartData();
+              } catch (error) {
+                console.error("Scrape error occurred!", error);
+                this.badscrape = "Scrape got problem: " + error;
+                if (error.message === 'Network Error') {
+                  this.badscrape = "Backend server is not working";
+                }
+                alert(this.badscrape);
+                this.oldsearchData = '';
+                this.old_user_target = '';
+              }
+            } else {
+              alert("Scrape is not working, try again");
+              this.oldsearchData = '';
+            }
+      },
+            
       fetchChartData() {
         this.isLoading = true;
         const path = 'http://localhost:5000/search/critandprod_test';
         const sending = [this.searchData,this.usertargetData]
-        axios.post(path,sending,
-        {headers: {
-        'Content-Type': 'application/json',  // Set the correct Content-Type header
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST',
-        'Access-Control-Allow-Headers': 'Content-Type',
-        }
-      })
+        axios.post(path,sending)
           .then(response => {
             console.log("chart data")
             
@@ -658,5 +661,13 @@
     display: inline-block; 
     padding: 5px;
     margin-right: 10px; 
+  }
+
+  .table{
+    position:relative
+  }
+  .table.right {
+    right: 100%; /* Position the table to the left of the input */
+    margin-right: 10px; /* Add some spacing */
   }
   </style>
