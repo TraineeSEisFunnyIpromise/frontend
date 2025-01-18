@@ -12,10 +12,31 @@
 			<h2>Username target</h2>
 			<form @submit.prevent="finduser">
 			<div class="input-group">
-			<label for="username">Username target:</label>
-			<input type="text" id="username" v-model="username" required>
+			<label for="username">Reset user target:</label>
+			<input type="text" id="username" 
+			v-model="username" 
+			@focus="showtable = true"
+			@blur="showtable = false"
+			placeholder="please put username here"
+			>
 			</div>
+			<table v-if="showtable" class="table">
+            <thead>
+              <tr>
+                <th style="font-size: medium;">this will send your username to our backend system to find the "username"
+					according to the name that you send 
+					you could reset the process by refresh the page
+					<div>you could reset the process by refresh the page</div>
+				</th>
+                </tr>
+            </thead>
+            <tbody>
+              </tbody>
+          </table>
 			<button type="submit">Press here to find</button>
+
+
+
 			</form>
 		</div>
 		</body>
@@ -32,6 +53,9 @@
 			</div>
 			<button type="submit">Press here to find</button>
 			</form>
+
+			<span v-if="errorAnswer != null">{{ errorAnswer }}</span>
+
 		</div>
 		
 		</div>
@@ -55,7 +79,11 @@
 			tabappear:false,
 			findingtarget:null,
 			result:"",
-			question:""
+			question:"",
+			showtable:false,
+			showtable2:false,
+			errorAnswer:null,
+
 		};
 		},
 		methods: {
@@ -65,32 +93,36 @@
 					const userdata = {
 					username: this.username,
 					};
-					axios.post(path, userdata)
-					.then(response => {
-					if(response.message != "database is down"){
-						if(response.message != "user not found"){
-							console.log(response)
-							this.question = response.data
-							this.tabappear = true
-						}
-						else{
-						alert("user not found")
-						this.result = "user not found"
-						}
+					if(this.username!=null && this.username!= ''){
+							axios.post(path, userdata)
+							.then(response => {
+							if(response.message != "database is down"){
+								if(response.message != "user not found"){
+									console.log(response)
+									this.question = response.data
+									this.tabappear = true
+								}
+								else{
+								alert("user not found")
+								this.result = "user not found"
+								}
+							}
+							else{
+							alert("server is down")
+							this.result = "server is down"
+							}
+							
+							})
+							.catch(error => {
+								console.log("error here :")
+							console.log(error)
+							if(error.message == "Network Error"){
+							alert("server is Not available")
+							}
+						});
+					}else{
+						alert("please fill the box")
 					}
-					else{
-					alert("server is down")
-					this.result = "server is down"
-					}
-					
-					})
-					.catch(error => {
-						console.log("error here :")
-					console.log(error)
-					if(error.message == "Network Error"){
-					alert("server is Not available")
-					}
-					});
 				},
 			Resetpassword() {
 					const path = 'http://localhost:5000/auth/reset_password';

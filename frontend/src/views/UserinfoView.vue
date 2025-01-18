@@ -6,38 +6,50 @@
   <title>User Information</title>
 </head>
 <body>
-  <div id="app">
+  <div id="app" class="userinfo">
     <h2>User Information</h2>
     <div v-if="session != false" >
       <div v-if="user != null">
         <p v-if="name != null">Username: {{ name }}</p>
         <p v-if="userinfo != null">About me: {{ userinfo }}</p>
         <div>
-      <div>
-        <input type="Update" v-if="showUpdate == true" ref="aboutInput" v-model="updatedAbout" placeholder="About me update " required/>
-      </div>
-      <button class="updateUserForm" v-if="!showUpdate == true" @click="showUpdateForm">Update</button>
-      <button class="updateUser" v-if="showUpdate==true" @click="confirmUpdate">Save</button>
-      <button class="confirm" v-if="showConfirmUpdate==true" @click="UpdateUser">Confirm update about me?</button>
-      <button class="confirm" v-if="showConfirmUpdate==true" @click="cancelupdate">Cancel</button>
+          <table class="table">
+            <tr>
+              <th>
+                <div>
+                  <input type="Update" v-if="showUpdate == true" ref="aboutInput" v-model="updatedAbout" placeholder="About me update " required/>
+                </div>
+                <button class="updateUserForm" v-if="showUpdate != true" @click="showUpdateForm">Update</button>
+                <button class="updateUser" v-if="(showUpdate==true)&&(showConfirmUpdate != true)" @click="confirmUpdate">Save</button>
+                <button class="confirm" v-if="showConfirmUpdate==true" @click="UpdateUser">Confirm update about me?</button>
+                <button class="confirm" v-if="showConfirmUpdate==true" @click="cancelupdate">Cancel</button>
+              </th>
+              <div><input type="Delete" v-if="deleteUser == true" ref="deleteInput" v-model="password" placeholder="Please fill Your password here" required />
+              </div>
+              <button class="deleteUserForm" v-if="deleteUser != true" @click="showDeleteForm">Delete</button>
+              <button class="deleteUser" v-if="(deleteUser==true)&&(showConfirmDelete != true)" @click="confirmDelete">Delete user</button>
+              <button class="confirm" v-if="showConfirmDelete==true" @click="DeleteUser">Confirm Delete your account?</button>
+              <button class="confirm" v-if="showConfirmDelete==true" @click="canceldelete">Cancel</button>
+
+              <th>
+                <div><input type="UpdatePassword" v-if="showUpdatePass == true" ref="ResetPassInput" v-model="updatePassword"  required />
+                </div>
+                <button class="UpdatePasswordform" v-if="!showUpdatePass == true" @click="showUpdatePassForm">UpdatePassword</button>
+                <button class="UpdatePassword" v-if="(showUpdatePass==true)&&(showConfirmPass!=true)" @click="confirmUpdatePass">Update Password</button>
+                <button class="confirm" v-if="showConfirmPass==true" @click="UpdatePassword">Confirm update password?</button>
+                <button class="confirm" v-if="showConfirmPass==true" @click="cancelpass">Cancel</button>
+              </th>
+
+              <th>
+                <button @click="Logout"> log out</button>
+              </th>
+
+            </tr>
+          </table>
           
-      <div><input type="Delete" v-if="deleteUser == true" ref="deleteInput" v-model="deletepass" placeholder="Please fill Your password here" required /></div>
-      <button class="deleteUserForm" v-if="!deleteUser == true" @click="showDeleteForm">Delete</button>
-      <button class="deleteUser" v-if="deleteUser==true" @click="confirmDelete">Delete user</button>
-      <button class="confirm" v-if="showConfirmDelete==true" @click="DeleteUser">Confirm Delete your account?</button>
-      <button class="confirm" v-if="showConfirmDelete==true" @click="canceldelete">Cancel</button>
-
-      
-      <div><input type="UpdatePassword" v-if="showUpdatePass == true" ref="ResetPassInput" v-model="updatePassword"  required /></div>
-      <button class="UpdatePasswordform" v-if="!showUpdatePass == true" @click="showUpdatePassForm">UpdatePassword</button>
-      <button class="UpdatePassword" v-if="showUpdatePass==true" @click="confirmUpdatePass">Update Password</button>
-      <button class="confirm" v-if="showConfirmPass==true" @click="UpdatePassword">Confirm update password?</button>
-      <button class="confirm" v-if="showConfirmPass==true" @click="cancelpass">Cancel</button>
-
-
         </div>
       </div>
-      <button @click="Logout"> log out</button>
+
     </div>
     <p v-else>No user information available</p>
 
@@ -72,6 +84,7 @@ export default ({
       showConfirmDelete: false,
       showConfirmPass: false,
       showConfirmUpdate: false,
+      password:''
     }
   },
   created() {
@@ -186,10 +199,11 @@ export default ({
       }
     },
     DeleteUser() {
-      if(this.deleteUser != '' && this.deleteUser != localStorage.getItem('session_username')){
+      if((this.password != '' && this.password!=null) && this.deleteUser != localStorage.getItem('session_username')){
       const path = 'http://localhost:5000/userinfo/Delete';
       const senduser = {
         username: this.name,
+        password: this.password,
       };
       axios.post(path,senduser)
         .then(response => {
@@ -225,7 +239,7 @@ export default ({
         });
       }
       else{
-        alert("please fill your username")
+        alert("please fill your password")
       }
     },
 Logout(){
@@ -303,8 +317,22 @@ Logout(){
   left: 10px;
 }
 .confirm {
-  position: fixed;
   top: 10px;
   left: 40%;
+}
+.table{
+  position: absolute;
+  align-content: center;
+  
+}
+.userinfo{
+  max-width: 600px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #22644b;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: left;
 }
 </style>

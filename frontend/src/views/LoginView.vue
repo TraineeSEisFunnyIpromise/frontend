@@ -26,8 +26,13 @@
       <span v-if="errorPassword != null">{{ errorPassword }}</span>
     </div>
     <button type="submit">Login</button> 
+
+    <div style=" padding-top:10px ;">
+      <button class="Resetpassword" @click="redirect_to_resetpage">forget password?</button>
+        </div>
     </form>
     <div v-if="errorMessage != null"> {{ errorMessage }}</div>
+    
 
   </template>
 
