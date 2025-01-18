@@ -5,17 +5,19 @@
       <input type="text" id="searchData" 
 
       v-model="searchData" 
-      placeholder=""
+      placeholder="Put your keyword here"
       @focus="showTable = true" 
       @blur="showTable = false"  
       @hover="showTable = true"
       required>
 
       <!--table for information-->
-      <table v-if="showTable" class="table">
+      <table v-if="showTable == true" class="table">
             <thead class="table-holder">
               <tr>
-                <th>this input will receive keyword which related to</th>
+                <th>this input will receive keyword which related to electric device
+                  if it not related the scrape will return the result as not working
+                </th>
                 </tr>
             </thead>
             <tbody>
@@ -33,7 +35,7 @@
       >
 
             <!--table for information-->
-            <table v-if="showTableGroup" class="table-right">
+            <table v-if="showTableGroup == true" class="table-right">
             <thead>
               <tr>
                 <th>something something relate to the requirement for question and answer</th>
@@ -49,6 +51,15 @@
 
     <div style="padding-top: 10px;">
       <button type="submit" @click="executeSearchAndScrape" @click.stop="isLoading_scrape != true">Click here to make magic</button>
+    </div> 
+
+    <div style="padding-top: 10px;">
+      <button type="submit" 
+      v-if="(receiveData != '' && receiveData != null)||(searchResults!= '' && searchResults != null)"
+        @click="reset_search" 
+        >
+        Reset Result
+      </button>
     </div> 
   
   <!-- result section --> 
