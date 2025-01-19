@@ -12,12 +12,20 @@
       <div v-if="user != null">
         <p v-if="name != null">Username: {{ name }}</p>
         <p v-if="userinfo != null">About me: {{ userinfo }}</p>
+        <p v-if="userinfo != null">About me: {{ userinfo }}</p>
+        <p v-if="userinfo != null">About me: {{ userinfo }}</p>
         <div>
           <table class="table">
             <tr>
               <th>
                 <div>
-                  <input type="Update" v-if="showUpdate == true" ref="aboutInput" v-model="updatedAbout" placeholder="About me update " required/>
+                  <input type="Update" v-if="showUpdate == true" ref="aboutInput" v-model="updateAbout" placeholder="About me update " required/>
+                </div>
+                <div>
+                  <input type="Update" v-if="showUpdate == true" ref="ageInput" v-model="updateAboutEmail" placeholder="About me update " required/>
+                </div>
+                <div>
+                  <input type="Update" v-if="showUpdate == true" ref="emailInput" v-model="updateAboutAge" placeholder="About me update " required/>
                 </div>
                 <button class="updateUserForm" v-if="showUpdate != true" @click="showUpdateForm">Update</button>
                 <button class="updateUser" v-if="(showUpdate==true)&&(showConfirmUpdate != true)" @click="confirmUpdate">Save</button>
@@ -74,7 +82,9 @@ export default ({
       showUpdate: false,
       showUpdatePass: false,
       deleteUser: false,
-      updatedAbout: '',
+      updateAbout: '',
+      updateAboutEmail:null,
+      updateAboutAge:null,
       send:'',
       updatePassword:'',
       errorMessage:'',
@@ -121,7 +131,9 @@ export default ({
         const path = 'http://localhost:5000/userinfo/Update';
       const send_about = {
         username: this.name,
-        aboutme: this.updatedAbout
+        aboutme: this.updatedAbout,
+        email: this.updatedAboutEmail,
+        age: this.updatedAboutAge
       };
       // const senddata: 
       axios.post(path,send_about,
@@ -326,6 +338,12 @@ Logout(){
   
 }
 .userinfo{
+
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  min-height: 100vh;
+
   max-width: 600px;
   margin: 50px auto;
   padding: 20px;

@@ -26,7 +26,10 @@
           <table v-if="showTableUsername" class="table">
             <thead>
               <tr>
-                <th>something something relate to the requirement for username</th>
+                <th>Contain a minimum length of 4 characters.
+                </th>
+                <th>Contain a minimum of one digit.
+                </th>
                 </tr>
             </thead>
             <tbody>
@@ -48,13 +51,27 @@
           <table v-if="showTablePassword" class="table">
             <thead>
               <tr>
-                <th>something something relate to the requirement for password</th>
+                <th>
+                  Contain a minimum length of 4 characters.
+                </th>
+                <th>
+                  Contain a minimum of one digit.
+                </th>
                 </tr>
             </thead>
             <tbody>
               </tbody>
           </table>
 
+          <div class="input-group">
+            <label for="confirmpassword">Confirm Password:</label>
+            <input 
+              type="confirmpassword" 
+              id="confirmpassword" 
+              v-model="confirmpassword" 
+            />
+            <span v-if="errorconfirmpassword != null">the password is not matched</span>
+          </div>
 
         <div class="input-group">
           <label for="info">Information about Yourself:</label>
@@ -64,7 +81,12 @@
         <table v-if="showTableQA" class="table">
             <thead>
               <tr>
-                <th>something something relate to the requirement for question and answer</th>
+                <th>
+                  does not contain a special character.
+                </th>
+                <th>
+                  does not exceed 255 characters length.
+                </th>
                 </tr>
             </thead>
             <tbody>
@@ -115,6 +137,7 @@ export default {
   name: 'RegisterView',
   data() {
     return {
+      confirmpassword:'',
       username: '',
       password: '',
       confirmPassword: '',
