@@ -11,9 +11,9 @@
     <div v-if="session != false" >
       <div v-if="user != null">
         <p v-if="name != null">Username: {{ name }}</p>
-        <p v-if="userinfo != null">About me: {{ userinfo }}</p>
-        <p v-if="userinfo != null">About me: {{ userinfo }}</p>
-        <p v-if="userinfo != null">About me: {{ userinfo }}</p>
+        <p v-if="userinfo != null">About me: {{ userinfo.aboutme }}</p>
+        <p v-if="userinfo != null">Email: {{ userinfo.email }}</p>
+        <p v-if="userinfo != null">Age: {{ userinfo.age }}</p>
         <div>
           <table class="table">
             <tr>
@@ -42,7 +42,7 @@
               <th>
                 <div><input type="UpdatePassword" v-if="showUpdatePass == true" ref="ResetPassInput" v-model="updatePassword"  required />
                 </div>
-                <button class="UpdatePasswordform" v-if="!showUpdatePass == true" @click="showUpdatePassForm">UpdatePassword</button>
+                <button class="UpdatePasswordform" v-if="showUpdatePass != true" @click="showUpdatePassForm">UpdatePassword</button>
                 <button class="UpdatePassword" v-if="(showUpdatePass==true)&&(showConfirmPass!=true)" @click="confirmUpdatePass">Update Password</button>
                 <button class="confirm" v-if="showConfirmPass==true" @click="UpdatePassword">Confirm update password?</button>
                 <button class="confirm" v-if="showConfirmPass==true" @click="cancelpass">Cancel</button>
@@ -316,6 +316,48 @@ Logout(){
       confirmUpdatePass() {
         this.showConfirmPass = true;
       },
+      
+    EmailCheck(){
+      if (this.question_for_reset.trim() === '' || this.question_for_reset === null ) {
+          this.erroremail = 'please fill in all the blanks.';
+          this.clearAllErrorMessage();
+          return false
+        }
+        else if(this.question_for_reset.length > 255) { 
+          this.erroremail = 'please fill in the correct password recovery answer format.'; 
+          this.clearAllErrorMessage();
+          return false
+        }
+        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; 
+        if (!emailRegex.test(this.question_for_reset)) { 
+          this.erroremail = 'Please enter a valid email address.';
+          this.clearAllErrorMessage(); 
+          return false;
+        }
+
+        else {
+          this.erroremail = null; 
+          return true
+        }
+        
+    },
+    BirthCheck(){
+      if (this.question_for_reset.trim() === '' || this.question_for_reset === null ) {
+          this.errorbirth = 'please fill in all the blanks.';
+          this.clearAllErrorMessage();
+          return false
+        }
+        else if(this.question_for_reset.length > 255) { 
+          this.errorbirth = 'please fill in the correct password recovery answer format.'; 
+          this.clearAllErrorMessage();
+          return false
+        }
+        else {
+          this.errorbirth = null; 
+          return true
+        }
+        
+    },
 
   },
 });

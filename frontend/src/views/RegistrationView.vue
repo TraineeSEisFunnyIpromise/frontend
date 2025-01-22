@@ -78,6 +78,49 @@
           <input type="text" id="info" v-model="userinfo" >
         </div>
 
+        <div class="input-group">
+          <label for="Email">Email:</label>
+          <input 
+              type="text" 
+              id="question" 
+              v-model="email" 
+              @focus="showTableEmail = true" 
+              @blur="showTableEmail = false" 
+            />
+            <span v-if="erroremail != null">{{ erroremail }}</span>
+        </div>
+
+        <table v-if="showTableEmail == true" class="table">
+            <thead>
+              <tr>
+                <!-- <th>
+                  does not contain a special character.
+                </th> -->
+                <th>
+                  does not exceed 255 characters length.
+                </th>
+                </tr>
+            </thead>
+            <tbody>
+              </tbody>
+          </table>
+
+        <div class="Age">
+
+            <label for="selectedDate">Select Date:</label>
+            <input 
+              type="month" 
+              id="selectedDate" 
+              v-model="dateOfBirth" 
+            >
+            <p>Selected Date: {{ dateOfBirth }}</p>
+
+            
+            <span v-if="errorquestion != null">{{ errorquestion }}</span>
+
+        </div>
+
+        
         <table v-if="showTableQA" class="table">
             <thead>
               <tr>
@@ -144,6 +187,8 @@ export default {
       answer_for_reset: '',
       question_for_reset: '',
       userinfo: '',
+      email: '',
+      dateOfBirth: null,
       errorMessage: '',
       successMessage: '',
       isloading:false,
@@ -151,10 +196,13 @@ export default {
       errorpassword:'',
       errorquestion:'',
       erroranswer:'',
+      erroremail:'',
+      errorbirth:'',
       showTable:false,
       showTablePassword:false,
       showTableQA:false,
       showTableUsername:false,
+      showTableEmail:false,
     };
   },
 
@@ -168,6 +216,8 @@ export default {
         answer_for_reset: this.answer_for_reset,
         question_for_reset: this.question_for_reset,
         userinfo: this.userinfo,
+        dateOfbirth: this.dateOfBirth,
+        email: this.email,
       };
       // Perform registration logic
       // Replace the following code with your own registration logic
@@ -266,7 +316,7 @@ export default {
           return false
         } 
         else if(this.answer_for_reset.length > 255) { 
-          this.errorPassword = 'please fill in the correct password recovery question format.'; 
+          this.erroranswer = 'please fill in the correct password recovery question format.'; 
           this.clearAllErrorMessage();
           return false
         }
@@ -282,17 +332,58 @@ export default {
           return false
         }
         else if (!/^[a-zA-Z0-9_.-]+$/.test(this.username)) { 
-          this.erroranswer = 'please fill in the correct password recovery answer format.'; 
+          this.errorquestion = 'please fill in the correct password recovery answer format.'; 
           this.clearAllErrorMessage();
           return false
         } 
         else if(this.question_for_reset.length > 255) { 
-          this.errorPassword = 'please fill in the correct password recovery answer format.'; 
+          this.errorquestion = 'please fill in the correct password recovery answer format.'; 
           this.clearAllErrorMessage();
           return false
         }
         else {
           this.errorquestion = null; 
+          return true
+        }
+        
+    },
+    EmailCheck(){
+      if (this.question_for_reset.trim() === '' || this.question_for_reset === null ) {
+          this.erroremail = 'please fill in all the blanks.';
+          this.clearAllErrorMessage();
+          return false
+        }
+        else if(this.question_for_reset.length > 255) { 
+          this.erroremail = 'please fill in the correct password recovery answer format.'; 
+          this.clearAllErrorMessage();
+          return false
+        }
+        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; 
+        if (!emailRegex.test(this.question_for_reset)) { 
+          this.erroremail = 'Please enter a valid email address.';
+          this.clearAllErrorMessage(); 
+          return false;
+        }
+
+        else {
+          this.erroremail = null; 
+          return true
+        }
+        
+    },
+    BirthCheck(){
+      if (this.question_for_reset.trim() === '' || this.question_for_reset === null ) {
+          this.errorbirth = 'please fill in all the blanks.';
+          this.clearAllErrorMessage();
+          return false
+        }
+        else if(this.question_for_reset.length > 255) { 
+          this.errorbirth = 'please fill in the correct password recovery answer format.'; 
+          this.clearAllErrorMessage();
+          return false
+        }
+        else {
+          this.errorbirth = null; 
           return true
         }
         
@@ -303,6 +394,8 @@ export default {
     this.errorpassword = null; 
     this.erroranswer = null;
     this.errorquestion = null; 
+    this.erroremail = null;
+    this.errorbirth = null;
       }, 3000); 
 },
   }

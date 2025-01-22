@@ -142,19 +142,7 @@
                             </div>
                 </div>
             </div>
-            <div v-if="(searchResults != '' || searchResults != null) && badscrape == null">
-                <div v-if="dataprice != '' && dataprice != null" style="text-align: center; padding-top: 10px;">
-                <!--  Math Text -->
-                <div>Standard Diviation of Price(Price Range)</div>
-                <div>{{ dataprice[1] }}</div>
-                <div>Normal Distribution of Price(Most Group up in term of Price)</div>
-                <div>{{ dataprice[3] }}</div>
-                <div>Total Average of price according to scraping data</div>
-                <div>{{ dataprice[2] }}</div>
-                
-              </div>
-            </div>
-            
+
             
             
   
@@ -186,15 +174,32 @@
           <div v-if="isLoading">
           Loading Chart criteria...
           </div>
-          <div class="chart-container" style="overflow-x: auto; width: 100%;"  v-if="chartdata_criteria != null && chartdata_criteria != ''"> 
-          <div v-if="chartdata_criteria != null">
-            <MyBarChart :chartData="chartdata_criteria" />
-          </div>
+
+            <div class="chart-container" style="overflow-x: auto; width: 100%;"  v-if="chartdata_criteria != null && chartdata_criteria != ''"> 
+                <div v-if="chartdata_criteria != null">
+                <MyBarChart :chartData="chartdata_criteria" />
+                </div>
+            </div>
+
+              <!--Math stuff happen here-->
+            
+              <div v-if="(searchResults != '' || searchResults != null) && badscrape == null">
+                <div v-if="dataprice != '' && dataprice != null" style="text-align: center; padding-top: 10px;">
+                <!--  Math Text -->
+                <div>Standard Diviation of Price(Price Range)</div>
+                <div>{{ dataprice[1] }}</div>
+                <div>Normal Distribution of Price(Most Group up in term of Price)</div>
+                <div>{{ dataprice[3] }}</div>
+                <div>Total Average of price according to scraping data</div>
+                <div>{{ dataprice[2] }}</div>
+                
+              </div>
+
+            </div>
+
           </div>
 
-
-          </div>
-    </div>
+        </div>
 
 
   
