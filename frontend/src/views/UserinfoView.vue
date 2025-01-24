@@ -13,26 +13,50 @@
         <p v-if="name != null">Username: {{ name }}</p>
         <p v-if="userinfo != null">About me: {{ userinfo.aboutme }}</p>
         <p v-if="userinfo != null">Email: {{ userinfo.email }}</p>
-        <p v-if="userinfo != null">Age: {{ userinfo.age }}</p>
+        <p v-if="userinfo != null">Date of Birth: {{ userinfo.dateofBirth }}</p>
         <div>
           <table class="table">
             <tr>
               <th>
                 <div>
-                  <input type="Update" v-if="showUpdate == true" ref="aboutInput" v-model="updateAbout" placeholder="About me update " required/>
+                  <span v-if="errorabout != null">{{ errorabout }}</span>
+                  <input type="Update" 
+                  v-if="showUpdate == true" 
+                  ref="aboutInput" 
+                  v-model="updateAbout" 
+                  placeholder="About me update " />
                 </div>
                 <div>
-                  <input type="Update" v-if="showUpdate == true" ref="ageInput" v-model="updateAboutEmail" placeholder="About me update " required/>
+                  <span v-if="erroremail != null">{{ erroremail }}</span>
+                  <input 
+                  type="Update" 
+                  v-if="showUpdate == true" 
+                  ref="ageInput" 
+                  v-model="updateAboutEmail" 
+                  placeholder="About me update " />
                 </div>
                 <div>
-                  <input type="Update" v-if="showUpdate == true" ref="emailInput" v-model="updateAboutAge" placeholder="About me update " required/>
+                  <span v-if="errordateofbirth != null">{{ errordateofbirth }}</span>
+                  <input 
+                  type="month"
+                  id="selectedDate" 
+                  v-if="showUpdate == true" 
+                  ref="emailInput" 
+                  v-model="updateAboutBirthdate" 
+                  placeholder="About me update " 
+                  />
                 </div>
                 <button class="updateUserForm" v-if="showUpdate != true" @click="showUpdateForm">Update</button>
                 <button class="updateUser" v-if="(showUpdate==true)&&(showConfirmUpdate != true)" @click="confirmUpdate">Save</button>
                 <button class="confirm" v-if="showConfirmUpdate==true" @click="UpdateUser">Confirm update about me?</button>
                 <button class="confirm" v-if="showConfirmUpdate==true" @click="cancelupdate">Cancel</button>
               </th>
-              <div><input type="Delete" v-if="deleteUser == true" ref="deleteInput" v-model="password" placeholder="Please fill Your password here" required />
+              <div>
+                <input type="Delete" 
+                v-if="deleteUser == true" 
+                ref="deleteInput" 
+                v-model="password" 
+                placeholder="Please fill Your password here"/>
               </div>
               <button class="deleteUserForm" v-if="deleteUser != true" @click="showDeleteForm">Delete</button>
               <button class="deleteUser" v-if="(deleteUser==true)&&(showConfirmDelete != true)" @click="confirmDelete">Delete user</button>
@@ -40,7 +64,11 @@
               <button class="confirm" v-if="showConfirmDelete==true" @click="canceldelete">Cancel</button>
 
               <th>
-                <div><input type="UpdatePassword" v-if="showUpdatePass == true" ref="ResetPassInput" v-model="updatePassword"  required />
+                <div>
+                  <input type="UpdatePassword" 
+                  v-if="showUpdatePass == true" 
+                  ref="ResetPassInput" 
+                  v-model="updatePassword" />
                 </div>
                 <button class="UpdatePasswordform" v-if="showUpdatePass != true" @click="showUpdatePassForm">UpdatePassword</button>
                 <button class="UpdatePassword" v-if="(showUpdatePass==true)&&(showConfirmPass!=true)" @click="confirmUpdatePass">Update Password</button>
@@ -84,7 +112,7 @@ export default ({
       deleteUser: false,
       updateAbout: '',
       updateAboutEmail:null,
-      updateAboutAge:null,
+      updateAboutBirthdate:null,
       send:'',
       updatePassword:'',
       errorMessage:'',
@@ -94,7 +122,10 @@ export default ({
       showConfirmDelete: false,
       showConfirmPass: false,
       showConfirmUpdate: false,
-      password:''
+      password:'',
+      errorabout:null,
+      erroremail:null,
+      errordateofbirth:null,
     }
   },
   created() {
@@ -127,13 +158,13 @@ export default ({
         });
     },
     UpdateUser() {
-      if(this.updatedAbout != ''){
+      if(this.AboutCheck()&&this.EmailCheck()&&this.BirthCheck){
         const path = 'http://localhost:5000/userinfo/Update';
       const send_about = {
         username: this.name,
         aboutme: this.updatedAbout,
         email: this.updatedAboutEmail,
-        age: this.updatedAboutAge
+        adateOfbirth: this.updatedAboutAge
       };
       // const senddata: 
       axios.post(path,send_about,
@@ -318,18 +349,18 @@ Logout(){
       },
       
     EmailCheck(){
-      if (this.question_for_reset.trim() === '' || this.question_for_reset === null ) {
+      if (this.updateAboutEmail.trim() === '' || this.updateAboutEmail === null ) {
           this.erroremail = 'please fill in all the blanks.';
           this.clearAllErrorMessage();
           return false
         }
-        else if(this.question_for_reset.length > 255) { 
+        else if(this.updateAboutEmail.length > 255) { 
           this.erroremail = 'please fill in the correct password recovery answer format.'; 
           this.clearAllErrorMessage();
           return false
         }
         const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; 
-        if (!emailRegex.test(this.question_for_reset)) { 
+        if (!emailRegex.test(this.updateAboutEmail)) { 
           this.erroremail = 'Please enter a valid email address.';
           this.clearAllErrorMessage(); 
           return false;
@@ -339,16 +370,32 @@ Logout(){
           this.erroremail = null; 
           return true
         }
-        
     },
-    BirthCheck(){
-      if (this.question_for_reset.trim() === '' || this.question_for_reset === null ) {
-          this.errorbirth = 'please fill in all the blanks.';
+    AboutCheck(){
+      if (this.updateAbout.trim() === '' || this.updateAbout === null ) {
+          this.errorabout = 'please fill in all the blanks.';
           this.clearAllErrorMessage();
           return false
         }
-        else if(this.question_for_reset.length > 255) { 
-          this.errorbirth = 'please fill in the correct password recovery answer format.'; 
+        else if(this.updateAbout.length > 255) { 
+          this.errorabout = 'please fill in the correct password recovery answer format.'; 
+          this.clearAllErrorMessage();
+          return false
+        }
+        if (!/^[a-zA-Z0-9_.-]+$/.test(this.updateAbout)) { 
+          this.errorabout = 'Please enter a valid email address.';
+          this.clearAllErrorMessage(); 
+          return false;
+        }
+
+        else {
+          this.errorabout = null; 
+          return true
+        }
+    },
+    BirthCheck(){
+      if (this.updateAboutBirthdate.trim() === '' || this.updateAboutBirthdate === null ) {
+          this.errorbirth = 'please fill in all the blanks.';
           this.clearAllErrorMessage();
           return false
         }
@@ -358,6 +405,13 @@ Logout(){
         }
         
     },
+    clearAllErrorMessage() {
+    setTimeout(() => {
+    this.erroremail = null; 
+    this.erroremail = null;
+    this.errordateofbirth = null;
+      }, 3000); 
+},
 
   },
 });
