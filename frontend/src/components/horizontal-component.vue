@@ -2,7 +2,7 @@
   <div class="horizontal-container">
     <div v-for="item in events" :key="item.id">
       <div>{{ item.title }}</div>
-      <div>
+      <div v-if="item.description">
         <a @click.prevent="navigateToDetail(item)" class="event-link">
           click here for more detail
         </a>
