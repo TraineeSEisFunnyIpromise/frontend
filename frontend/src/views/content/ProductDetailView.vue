@@ -5,6 +5,7 @@
 
     <div>{{ event.title }}</div>
     <div>{{ event.price }}</div>
+    <div>{{ event.details }}</div>
 
     <div class="chart-containera" v-if="check_reviewscore != false">
       Opinion Chart

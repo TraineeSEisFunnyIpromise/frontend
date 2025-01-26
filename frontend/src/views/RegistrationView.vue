@@ -225,8 +225,9 @@ export default {
       console.log(this.PasswordCheck() )
       console.log(this.AnswerCheck() )
       console.log(this.QuestionCheck() )
+      console.log(this.EmailCheck())
 
-      if((this.UsernameCheck() && this.PasswordCheck() && this.AnswerCheck() && this.QuestionCheck())===true)
+      if((this.UsernameCheck() && this.PasswordCheck() && this.AnswerCheck() && this.QuestionCheck()&&this.EmailCheck&&this.BirthCheck)===true)
       {
         this.isloading = true
         axios.post(path, registerData)
@@ -270,7 +271,15 @@ export default {
           this.errorusername = 'please fill in the correct username format.';
           this.clearAllErrorMessage();
           return false
-        } else if (!/^[a-zA-Z0-9_.-]+$/.test(this.username)) { 
+        }else if (!/\d/.test(this.username)) { // Check for at least one number
+          this.errorusername = 'Username must contain at least one number.';
+          this.clearAllErrorMessage();
+          return false;
+        } else if (!/[a-zA-Z]/.test(this.username)) { // Check for at least one character
+          this.errorusername = 'Username must contain at least one character.';
+          this.clearAllErrorMessage();
+          return false;
+        }  else if (!/^[a-zA-Z0-9_.-]+$/.test(this.username)) { 
           this.errorusername = 'please fill in the correct username format.'; 
           this.clearAllErrorMessage();
           return false
@@ -348,20 +357,20 @@ export default {
         
     },
     EmailCheck(){
-      if (this.question_for_reset.trim() === '' || this.question_for_reset === null ) {
+      if (this.email.trim() === '' || this.email === null ) {
           this.erroremail = 'please fill in all the blanks.';
           this.clearAllErrorMessage();
           return false
         }
-        else if(this.question_for_reset.length > 255) { 
+        else if(this.email.length > 255) { 
           this.erroremail = 'please fill in the correct password recovery answer format.'; 
           this.clearAllErrorMessage();
           return false
         }
-        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/; 
-        if (!emailRegex.test(this.question_for_reset)) { 
+        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!emailRegex.test(this.email)) { // Corrected condition
           this.erroremail = 'Please enter a valid email address.';
-          this.clearAllErrorMessage(); 
+          this.clearAllErrorMessage();
           return false;
         }
 
@@ -372,12 +381,12 @@ export default {
         
     },
     BirthCheck(){
-      if (this.question_for_reset.trim() === '' || this.question_for_reset === null ) {
+      if (this.dateOfBirth.trim() === '' || this.dateofBirth === null ) {
           this.errorbirth = 'please fill in all the blanks.';
           this.clearAllErrorMessage();
           return false
         }
-        else if(this.question_for_reset.length > 255) { 
+        else if(this.dateofBirth.length > 255) { 
           this.errorbirth = 'please fill in the correct password recovery answer format.'; 
           this.clearAllErrorMessage();
           return false
@@ -396,7 +405,7 @@ export default {
     this.errorquestion = null; 
     this.erroremail = null;
     this.errorbirth = null;
-      }, 3000); 
+      }, 5000); 
 },
   }
 };

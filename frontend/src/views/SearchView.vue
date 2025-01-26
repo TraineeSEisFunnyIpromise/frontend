@@ -361,6 +361,7 @@
                 this.setupPriceData(this.searchResults);
                 console.log("fetch chartdata");
                 this.fetchChartData();
+                this.getNormaldistribution();
               } catch (error) {
                 console.error("Scrape error occurred!", error);
                 this.badscrape = "Scrape got problem: " + error;
@@ -379,8 +380,9 @@
             
       fetchChartData() {
         this.isLoading = true;
-        const path = 'http://localhost:5000/search/critandprod_test';
-        const sending = [this.searchData,this.usertargetData]
+        if(((this.searchData!=''&&this.searchData!=null) && (this.searchResults!='' &&this.searchResults!= null))===true){
+        const path = 'http://localhost:5000/search/critandprod';
+        const sending = [this.searchData,this.searchResults]
         axios.post(path,sending)
           .then(response => {
             console.log("chart data")
@@ -395,6 +397,11 @@
             console.error('Error fetching chart data:', error);
             this.isLoading = false;
           });
+        }
+        else(
+          console.log("chart condtion is not fulfil")
+        )
+        
       },
           // Control Method
       executeSearchAndScrape() {
@@ -402,7 +409,7 @@
         this.isLoading_scrape_criteria = true // literally make loader appear
         this.isLoading_scrape = false
         if(this.searchData!=''){// if no search or first time search
-          if(this.searchData == this.oldsearchData ){ // if the search keyword is matched
+          if(this.searchData == this.oldsearchData &&(this.searchResults!=null && this.searchResults!='')){ // if the search keyword is matched
             console.log("use old data")
               this.send_search_input()
   
@@ -412,7 +419,7 @@
 
           this.send_search_input();
           this.scrape();
-          this.getNormaldistribution();
+          
           }
         }
         else{
@@ -511,7 +518,7 @@
       getNormaldistribution() {
         console.log("Math tringerred")
 
-        const path = 'http://localhost:5000/search/nd_test'
+        const path = 'http://localhost:5000/search/nd'
           axios.post(path,
         {
       })
