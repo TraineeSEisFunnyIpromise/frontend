@@ -6,14 +6,14 @@
   <title>User Information</title>
 </head>
 <body>
+  <h2>User Information</h2>
   <div id="app" class="userinfo">
-    <h2>User Information</h2>
     <div v-if="session != false" >
       <div v-if="user != null">
         <p v-if="name != null">Username: {{ name }}</p>
-        <p v-if="userinfo != null">About me: {{ userinfo.aboutme }}</p>
-        <p v-if="userinfo != null">Email: {{ userinfo.email }}</p>
-        <p v-if="userinfo != null">Date of Birth: {{ userinfo.dateofBirth }}</p>
+        <p v-if="userinfo != null">About me: {{ userinfo }}</p>
+        <p v-if="userinfo != null">Email: {{ email }}</p>
+        <p v-if="userinfo != null">Date of Birth: {{ dateofBirth }}</p>
         <div>
           <table class="table">
             <tr>
@@ -24,7 +24,7 @@
                   v-if="showUpdate == true" 
                   ref="aboutInput" 
                   v-model="updateAbout" 
-                  placeholder="About me update " />
+                  placeholder="Update about yourself here!" />
                 </div>
                 <div>
                   <span v-if="erroremail != null">{{ erroremail }}</span>
@@ -33,7 +33,7 @@
                   v-if="showUpdate == true" 
                   ref="ageInput" 
                   v-model="updateAboutEmail" 
-                  placeholder="About me update " />
+                  placeholder="Update Email Here! " />
                 </div>
                 <div>
                   <span v-if="errordateofbirth != null">{{ errordateofbirth }}</span>
@@ -43,13 +43,13 @@
                   v-if="showUpdate == true" 
                   ref="emailInput" 
                   v-model="updateAboutBirthdate" 
-                  placeholder="About me update " 
+                  placeholder="Update Date of birth Here! " 
                   />
                 </div>
                 <button class="updateUserForm" v-if="showUpdate != true" @click="showUpdateForm">Update</button>
                 <button class="updateUser" v-if="(showUpdate==true)&&(showConfirmUpdate != true)" @click="confirmUpdate">Save</button>
                 <button class="confirm" v-if="showConfirmUpdate==true" @click="UpdateUser">Confirm update about me?</button>
-                <button class="confirm" v-if="showConfirmUpdate==true" @click="cancelupdate">Cancel</button>
+                <button class="confirm" v-if="(showUpdate==true)||(showConfirmUpdate == true)" @click="cancelupdate">Cancel</button>
               </th>
               <div>
                 <input type="Delete" 
@@ -61,19 +61,20 @@
               <button class="deleteUserForm" v-if="deleteUser != true" @click="showDeleteForm">Delete</button>
               <button class="deleteUser" v-if="(deleteUser==true)&&(showConfirmDelete != true)" @click="confirmDelete">Delete user</button>
               <button class="confirm" v-if="showConfirmDelete==true" @click="DeleteUser">Confirm Delete your account?</button>
-              <button class="confirm" v-if="showConfirmDelete==true" @click="canceldelete">Cancel</button>
+              <button class="confirm" v-if="(deleteUser==true)||(showConfirmDelete == true)" @click="canceldelete">Cancel</button>
 
               <th>
                 <div>
                   <input type="UpdatePassword" 
                   v-if="showUpdatePass == true" 
                   ref="ResetPassInput" 
-                  v-model="updatePassword" />
+                  v-model="updatePassword" 
+                  placeholder="Update your password here!"/>
                 </div>
                 <button class="UpdatePasswordform" v-if="showUpdatePass != true" @click="showUpdatePassForm">UpdatePassword</button>
                 <button class="UpdatePassword" v-if="(showUpdatePass==true)&&(showConfirmPass!=true)" @click="confirmUpdatePass">Update Password</button>
                 <button class="confirm" v-if="showConfirmPass==true" @click="UpdatePassword">Confirm update password?</button>
-                <button class="confirm" v-if="showConfirmPass==true" @click="cancelpass">Cancel</button>
+                <button class="confirm" v-if="(showUpdatePass==true)||(showConfirmPass==true)" @click="cancelpass">Cancel</button>
               </th>
 
               <th>
@@ -107,6 +108,9 @@ export default ({
   data() {
     return {
       user:null,
+      aboutme:null,
+      email:null,
+      dateofBirth:null,
       showUpdate: false,
       showUpdatePass: false,
       deleteUser: false,
@@ -141,10 +145,12 @@ export default ({
         .then(response => {
           // Handle successful login (store token?)
           console.log("getting user info")
-          console.log(response.data);
+          console.log(response.data[1]);
           console.log(user)
           this.name = response.data[0];
           this.userinfo = response.data[1];
+          this.email = response.data[2];
+          this.dateofBirth = response.data[3];
           this.user = true
           // You can store the JWT token in localStorage or Vuex for future requests
         })
@@ -327,6 +333,7 @@ Logout(){
       },
 
       canceldelete() {
+        this.deleteUser = false;
         this.showConfirmDelete = false;
         this.showDelete = false;
       },
@@ -438,9 +445,9 @@ Logout(){
   display: flex;
   justify-content: center; 
   align-items: center; 
-  min-height: 100vh;
+  min-height: 100px;
 
-  max-width: 600px;
+  max-width: 300px;
   margin: 50px auto;
   padding: 20px;
   border: 1px solid #ddd;
