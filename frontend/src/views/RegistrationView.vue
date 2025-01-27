@@ -28,8 +28,9 @@
               <tr>
                 <th>Contain a minimum length of 4 characters.
                 </th>
-                <th>Contain a minimum of one digit.
-                </th>
+                </tr>
+                <tr>
+                  Contain a minimum of one digit.
                 </tr>
             </thead>
             <tbody>
@@ -54,9 +55,6 @@
                 <th>
                   Contain a minimum length of 4 characters.
                 </th>
-                <th>
-                  Contain a minimum of one digit.
-                </th>
                 </tr>
             </thead>
             <tbody>
@@ -66,11 +64,11 @@
           <div class="input-group">
             <label for="confirmpassword">Confirm Password:</label>
             <input 
-              type="confirmpassword" 
+              type="password" 
               id="confirmpassword" 
               v-model="confirmpassword" 
             />
-            <span v-if="errorconfirmpassword != null">the password is not matched</span>
+            <span v-if="errorconfirmpassword != false">the password is not matched</span>
           </div>
 
         <div class="input-group">
@@ -100,6 +98,8 @@
                   does not exceed 255 characters length.
                 </th>
                 </tr>
+                <tr>Follow the Default Email format</tr>
+                <tr>The default format [name]@[sub domain].[top domain]</tr>
             </thead>
             <tbody>
               </tbody>
@@ -194,6 +194,7 @@ export default {
       isloading:false,
       errorusername:'',
       errorpassword:'',
+      errorconfirmpassword:'',
       errorquestion:'',
       erroranswer:'',
       erroremail:'',
@@ -221,13 +222,21 @@ export default {
       };
       // Perform registration logic
       // Replace the following code with your own registration logic
+      console.log("username")
       console.log(this.UsernameCheck() )
+      console.log("password")
       console.log(this.PasswordCheck() )
+      console.log("answer")
       console.log(this.AnswerCheck() )
+      console.log("question")
       console.log(this.QuestionCheck() )
+      console.log("email")
       console.log(this.EmailCheck())
+      console.log("birth")
+      console.log(this.BirthCheck())
+      console.log("end")
 
-      if((this.UsernameCheck() && this.PasswordCheck() && this.AnswerCheck() && this.QuestionCheck()&&this.EmailCheck&&this.BirthCheck)===true)
+      if(this.UsernameCheck() && this.PasswordCheck() && this.AnswerCheck() && this.QuestionCheck()&&this.EmailCheck&&this.BirthCheck)
       {
         this.isloading = true
         axios.post(path, registerData)
@@ -299,6 +308,11 @@ export default {
           this.clearAllErrorMessage();
           return false
         }
+        else if (this.password != this.confirmpassword) { 
+          this.errorconfirmpassword = true
+          this.clearAllErrorMessage();
+          return false
+        }
         else if (!/^[a-zA-Z0-9_.-]+$/.test(this.password)) { 
           this.errorpassword = 'please fill in the correct password format.'; 
           this.clearAllErrorMessage();
@@ -357,7 +371,7 @@ export default {
         
     },
     EmailCheck(){
-      if (this.email.trim() === '' || this.email === null ) {
+      if (this.email.trim() == '' || this.email == null ) {
           this.erroremail = 'please fill in all the blanks.';
           this.clearAllErrorMessage();
           return false
@@ -381,13 +395,8 @@ export default {
         
     },
     BirthCheck(){
-      if (this.dateOfBirth.trim() === '' || this.dateofBirth === null ) {
+      if (this.dateOfBirth === '' || this.dateofBirth === null ) {
           this.errorbirth = 'please fill in all the blanks.';
-          this.clearAllErrorMessage();
-          return false
-        }
-        else if(this.dateofBirth.length > 255) { 
-          this.errorbirth = 'please fill in the correct password recovery answer format.'; 
           this.clearAllErrorMessage();
           return false
         }
@@ -405,6 +414,7 @@ export default {
     this.errorquestion = null; 
     this.erroremail = null;
     this.errorbirth = null;
+    this.errorconfirmpassword = false;
       }, 5000); 
 },
   }

@@ -90,12 +90,13 @@
     </div>
     <p v-else>No user information available</p>
 
-    <div class="errormessage" v-if="errorMessage">
+
+  </div>
+  <div class="errormessage" v-if="errorMessage">
       <p> {{ errorMessage }}</p>
     </div>
 
     <div>{{ result }}</div>
-  </div>
 
 </body>
 </html>

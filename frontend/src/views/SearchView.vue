@@ -166,6 +166,17 @@
           <div v-if="isLoadingprice == false">
             <div class="chart-container" style="overflow-x: auto; width: 100%; height: 400px;" v-if="chartdata_pricerange != null && chartdata_pricerange != ''">
           <MyBarChart :chartData="chartdata_pricerange"  />
+
+          <div v-if="dataprice != '' && dataprice != null" style="text-align: center; padding-top: 10px;">
+                <!--  Math Text -->
+                <div>Standard Diviation of Price(Price Range)</div>
+                <div>{{ dataprice[1] }}</div>
+                <div>Normal Distribution of Price(Most Group up in term of Price)</div>
+                <div>{{ dataprice[3] }}</div>
+                <div>Total Average of price according to scraping data</div>
+                <div>{{ dataprice[2] }}</div>
+                
+              </div>
           </div>
           </div>
 
@@ -180,20 +191,12 @@
                 <MyBarChart :chartData="chartdata_criteria" />
                 </div>
             </div>
+            <div v-if="chartError == true">the error occured in criteria</div>
 
               <!--Math stuff happen here-->
             
               <div v-if="(searchResults != '' || searchResults != null) && badscrape == null">
-                <div v-if="dataprice != '' && dataprice != null" style="text-align: center; padding-top: 10px;">
-                <!--  Math Text -->
-                <div>Standard Diviation of Price(Price Range)</div>
-                <div>{{ dataprice[1] }}</div>
-                <div>Normal Distribution of Price(Most Group up in term of Price)</div>
-                <div>{{ dataprice[3] }}</div>
-                <div>Total Average of price according to scraping data</div>
-                <div>{{ dataprice[2] }}</div>
-                
-              </div>
+
 
             </div>
 
@@ -261,6 +264,7 @@
         checkedItems: [],//????
         selectedItems:[],//what?
         badscrape:null,
+        chartError:false,
         userInput:'',// before send to backend input   
         chartdata_criteria : null  //chart data for criteria score
           ,
@@ -301,7 +305,7 @@
     methods: {
       async send_search_input() {
           console.log("search triggered");
-          const path = 'http://localhost:5000/search/search_criteria';
+          const path = 'http://localhost:5000/search/search_criteria_test';
 
           if (this.searchData !== '' || this.usertargetData !== '') {
             console.log("search sent");
@@ -347,10 +351,11 @@
   
       async scrape() {
         console.log("scrape triggered");
+        this.isLoading_scrape = true;
 
         if (this.searchData !== '') {
             const sending = [this.searchData, this.usertargetData];
-            const path = 'http://localhost:5000/search/scrape';
+            const path = 'http://localhost:5000/search/scrape_test';
 
             try {
                 const response = await axios.post(path, sending);
@@ -364,25 +369,36 @@
                 this.getNormaldistribution();
               } catch (error) {
                 console.error("Scrape error occurred!", error);
+                this.isLoading_scrape = false;
                 this.badscrape = "Scrape got problem: " + error;
                 if (error.message === 'Network Error') {
                   this.badscrape = "Backend server is not working";
                 }
                 alert(this.badscrape);
+                this.isLoading_scrape = false;
                 this.oldsearchData = '';
                 this.old_user_target = '';
               }
             } else {
               alert("Scrape is not working, try again");
+              this.isLoading_scrape = false
               this.oldsearchData = '';
             }
       },
             
       fetchChartData() {
         this.isLoading = true;
-        if(((this.searchData!=''&&this.searchData!=null) && (this.searchResults!='' &&this.searchResults!= null))===true){
+        console.log(this.searchResults.title)
+        console.log(this.searchResults[0].reviews)
+
+        if(((this.receiveData!=''&&this.receiveData!=null) && (this.searchResults!='' &&this.searchResults!= null))===true){
+
+        const filteredResults = JSON.parse(JSON.stringify(this.searchResults));
+      // Extract labels and scores using map
+        const reviews = filteredResults.map(item => item.reviews);
+        console.log(reviews)
         const path = 'http://localhost:5000/search/critandprod';
-        const sending = [this.searchData,this.searchResults]
+        const sending = [this.receiveData,reviews]
         axios.post(path,sending)
           .then(response => {
             console.log("chart data")
@@ -399,7 +415,10 @@
           });
         }
         else(
-          console.log("chart condtion is not fulfil")
+          console.log("chart condtion is not fulfil"),
+          this.chartError = true,
+          this.isLoading = false
+
         )
         
       },
@@ -524,8 +543,8 @@
       })
           .then(response => {
             console.log("sending to sND");
-            console.log(response.data.data)
-            this.dataprice = response.data.data;
+            console.log(response.data)
+            this.dataprice = response.data;
           })
           .catch(error => {
             console.log("math error occurred!")
@@ -533,6 +552,17 @@
           });
 
       },
+      reset_search(){
+        this.searchData = null;
+        this.searchResults = null;
+        this.receiveData = null
+        this.chartError = false
+        this.dataprice = null
+        this.chartdata_pricerange = null
+        this.chartdata_criteria = null
+        this.oldsearchData = null
+        this.old_user_target = null
+      }
   
     },
 
